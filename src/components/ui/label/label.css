@@ -1,0 +1,10 @@
+/* Label.css */
+.label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #666666;
+    display: block;
+    margin-bottom: 4px;
+    text-align: left;
+  }
+  

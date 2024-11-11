@@ -1,21 +1,26 @@
-import axios from 'axios';
-
-const API_URL = import.meta.env.VITE_API_URL ; // URL de tu API
-
+const API_URL = import.meta.env.VITE_API_URL; 
 
 export const login = async (credentials) => {
   try {
-    const response = await axios.post(`${API_URL}/api/login/`, credentials, {
+    const response = await fetch(`${API_URL}/api/login/`, {
+      method: 'POST',
       headers: {
-        'accept': 'application/json',
+        'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
+      body: JSON.stringify(credentials),
     });
-    return response.data;  // Devolver solo los datos de la respuesta
+
+    if (!response.ok) {
+      throw new Error('Error en la autenticación'); 
+    }
+
+    const data = await response.json(); 
+    return data;
   } catch (error) {
     console.error('Error en el login:', error);
-    throw error; // Lanza el error para que el componente lo maneje
+    throw error; 
   }
 };
-export default login;
 
+export default login;

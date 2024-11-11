@@ -1,0 +1,62 @@
+/* Estilo del contenedor de la lista de clientes */
+.lista-clientes {
+    padding: 20px;
+  }
+  
+  /* Estilo del título */
+  .lista-clientes h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+    text-align: center;
+  }
+  
+  /* Estilo de la tabla de clientes */
+  .clients-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .clients-table th, .clients-table td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: left;
+  }
+  
+  .clients-table th {
+    background-color: #18bc9c;
+    color: white;
+    font-weight: bold;
+  }
+  
+  .clients-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  
+  .message {
+    text-align: center;
+    font-size: 16px;
+    margin-top: 10px;
+    padding: 8px;
+    border-radius: 5px;
+  }
+  
+  .message.success {
+    color: #28a745;
+    background-color: #eafaf1;
+    border: 1px solid #28a745;
+  }
+  
+  .message.error {
+    color: #dc3545;
+    background-color: #fce4e6;
+    border: 1px solid #dc3545;
+  }
+  
+  .message.info {
+    color: #333;
+    background-color: #f7f7f7;
+    border: 1px solid #ddd;
+  }
+
+  
