@@ -1,4 +1,4 @@
-.welcome-screen {
+/* .welcome-screen {
   display: flex;
   height: 100vh;
   width: 100vw;
@@ -69,6 +69,57 @@
   margin-top: 10px;
   padding: 10px;
   border-radius: 5px;
+}
+
+.message.success {
+  color: #28a745;
+  background-color: #e6ffed;
+  border: 1px solid #28a745;
+}
+
+.message.error {
+  color: #dc3545;
+  background-color: #ffebeb;
+  border: 1px solid #dc3545;
+} */
+.welcome-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.welcome-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.welcome-header h1 {
+  font-size: 2em;
+  color: #2c3e50;
+}
+
+.welcome-content {
+  width: 100%;
+  max-width: 1200px;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.welcome-message {
+  text-align: center;
+  font-size: 1.2em;
+  color: #555555;
+}
+
+.message {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 16px;
 }
 
 .message.success {

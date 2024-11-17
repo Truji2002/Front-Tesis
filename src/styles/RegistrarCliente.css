@@ -101,3 +101,8 @@
 .btn-secondary:hover {
     background-color: #c0392b;
 }
+.btn-primary:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  

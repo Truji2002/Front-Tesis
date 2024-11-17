@@ -1,11 +1,12 @@
 
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useOutletContext } from 'react-router-dom';
 import '../styles/ListaClientes.css';
 
-const ListaClientes = ({ setMessage }) => {
+const ListaClientes = ({  }) => {
   const [clients, setClients] = useState([]);
   const [loadingClients, setLoadingClients] = useState(false);
+  const { setMessage } = useOutletContext();
   const [filter, setFilter] = useState('activos'); // Estado para el filtro (activos o inactivos)
   const navigate = useNavigate();
 
