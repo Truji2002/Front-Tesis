@@ -9,7 +9,7 @@
 }
 
 main.content {
-  width: 100%;
+  width: 120%;
   max-width: 100%;
   padding: 10px;
   box-sizing: border-box;
@@ -52,7 +52,7 @@ main.content {
   color: #888;
 }
 .form-container {
-  width: 100%; /* Ajusta este valor según el espacio que quieras darle */
+  width: 200%; /* Ajusta este valor según el espacio que quieras darle */
   max-width: 100%; /* Permite que el contenedor ocupe el 100% del espacio disponible */
   padding: 10px;
   background-color: #ffffff;

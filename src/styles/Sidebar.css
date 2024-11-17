@@ -110,3 +110,12 @@
   color: white;
   font-weight: bold;
 }
+
+.sidebar.disabled {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.menu-button[disabled] {
+  cursor: not-allowed;
+}

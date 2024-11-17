@@ -59,4 +59,46 @@
     border: 1px solid #ddd;
   }
 
+  .icon {
+    cursor: pointer;
+    margin: 0 5px;
+    font-size: 1.2em;
+  }
   
+  .edit-icon {
+    color: #4CAF50; /* Verde para el botón de editar */
+  }
+  
+  .delete-icon {
+    color: #F44336; /* Rojo para el botón de eliminar */
+  }
+  
+  .icon:hover {
+    opacity: 0.8; /* Efecto de opacidad al pasar el ratón por encima */
+  }
+
+  .filters {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 20px; /* Espacio antes de la tabla */
+  }
+  
+  .filters button {
+    padding: 10px 20px;
+    margin-right: 10px;
+    font-size: 14px;
+    color: white;
+    background-color: #18bc9c;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .filters button:hover {
+    background-color: #16a085;
+  }
+  
+  .filters button.active-filter {
+    background-color: #0e7b68;
+  }
