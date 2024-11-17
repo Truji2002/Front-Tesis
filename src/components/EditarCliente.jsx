@@ -165,7 +165,7 @@
 // export default EditarCliente;
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import '../styles/EditarCliente.css';
+import '../styles/RegistrarCliente.css';
 
 const EditarCliente = ({ setMessage }) => {
   const location = useLocation();
@@ -194,7 +194,7 @@ const EditarCliente = ({ setMessage }) => {
   };
 
   const handleCancel = () => {
-    navigate(-1); // Vuelve a la pantalla principal
+    navigate(-1); // Navega hacia atrás
   };
 
   const handleSubmit = async (e) => {
@@ -247,72 +247,78 @@ const EditarCliente = ({ setMessage }) => {
   return (
     <div className="form-container">
       <h2>Editar Cliente</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="first_name">Nombre:</label>
-          <input
-            type="text"
-            id="first_name"
-            name="first_name"
-            value={formData.first_name}
-            onChange={handleChange}
-            required
-          />
+      <form onSubmit={handleSubmit} className="client-form">
+        <div className="form-row">
+          <div className="form-group">
+            <label htmlFor="first_name">Nombre:</label>
+            <input
+              type="text"
+              id="first_name"
+              name="first_name"
+              value={formData.first_name}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="last_name">Apellido:</label>
+            <input
+              type="text"
+              id="last_name"
+              name="last_name"
+              value={formData.last_name}
+              onChange={handleChange}
+              required
+            />
+          </div>
         </div>
-        <div className="form-group">
-          <label htmlFor="last_name">Apellido:</label>
-          <input
-            type="text"
-            id="last_name"
-            name="last_name"
-            value={formData.last_name}
-            onChange={handleChange}
-            required
-          />
+        <div className="form-row">
+          <div className="form-group">
+            <label htmlFor="email">Email:</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="area">Área:</label>
+            <input
+              type="text"
+              id="area"
+              name="area"
+              value={formData.area}
+              onChange={handleChange}
+              required
+            />
+          </div>
         </div>
-        <div className="form-group">
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="area">Área:</label>
-          <input
-            type="text"
-            id="area"
-            name="area"
-            value={formData.area}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="fechaInicioContrato">Fecha Inicio Contrato:</label>
-          <input
-            type="date"
-            id="fechaInicioContrato"
-            name="fechaInicioContrato"
-            value={formData.fechaInicioContrato}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="fechaFinContrato">Fecha Fin Contrato:</label>
-          <input
-            type="date"
-            id="fechaFinContrato"
-            name="fechaFinContrato"
-            value={formData.fechaFinContrato}
-            onChange={handleChange}
-            required
-          />
+        <div className="form-row">
+          <div className="form-group">
+            <label htmlFor="fechaInicioContrato">Fecha Inicio Contrato:</label>
+            <input
+              type="date"
+              id="fechaInicioContrato"
+              name="fechaInicioContrato"
+              value={formData.fechaInicioContrato}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="fechaFinContrato">Fecha Fin Contrato:</label>
+            <input
+              type="date"
+              id="fechaFinContrato"
+              name="fechaFinContrato"
+              value={formData.fechaFinContrato}
+              onChange={handleChange}
+              required
+            />
+          </div>
         </div>
         <div className="form-group">
           <label htmlFor="empresa">Empresa:</label>
@@ -340,3 +346,4 @@ const EditarCliente = ({ setMessage }) => {
 };
 
 export default EditarCliente;
+
