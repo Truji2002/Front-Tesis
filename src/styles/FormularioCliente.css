@@ -1,0 +1,157 @@
+/* Contenedor principal del formulario */
+.form-container {
+    max-width: 800px;
+    margin: 0 auto; /* Centra horizontalmente */
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Título del formulario */
+  .form-container h2 {
+    text-align: center;
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  /* Fila del formulario */
+  .form-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+  }
+  
+  /* Estilo para agrupar cada input y su etiqueta */
+  .form-group {
+    flex: 1; /* Ocupa igual espacio */
+    display: flex;
+    flex-direction: column;
+    margin-right: 15px; /* Espacio entre los inputs */
+  }
+  
+  /* Elimina el margen derecho para el último elemento de la fila */
+  .form-row .form-group:last-child {
+    margin-right: 0;
+  }
+  
+  /* Etiquetas */
+  .form-group label {
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #555;
+    font-size: 14px;
+  }
+  
+  /* Inputs */
+  .form-group input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    outline: none;
+    box-sizing: border-box;
+  }
+  
+  /* Efecto al seleccionar un input */
+  .form-group input:focus {
+    border-color: #18bc9c;
+    box-shadow: 0 0 4px rgba(24, 188, 156, 0.3);
+  }
+  
+  /* Botones */
+  .btn-primary,
+  .btn-secondary {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 48%; /* Ambos botones ocupan la misma anchura */
+  }
+  
+  .btn-primary {
+    background-color: #18bc9c;
+    color: white;
+  }
+  
+  .btn-primary:hover {
+    background-color: #16a085;
+  }
+  
+  .btn-secondary {
+    background-color: #f44336;
+    color: white;
+  }
+  
+  .btn-secondary:hover {
+    background-color: #d32f2f;
+  }
+  
+  /* Contenedor para las acciones */
+  .form-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  /* Mensajes de éxito y error */
+  .message {
+    text-align: center;
+    font-size: 14px;
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 4px;
+  }
+  
+  .message.success {
+    color: #28a745;
+    background-color: #eafaf1;
+    border: 1px solid #28a745;
+  }
+  
+  .message.error {
+    color: #dc3545;
+    background-color: #fce4e6;
+    border: 1px solid #dc3545;
+  }
+  
+  .message.info {
+    color: #333;
+    background-color: #f7f7f7;
+    border: 1px solid #ddd;
+  }
+  
+  /* Adaptación para pantallas pequeñas */
+  @media (max-width: 768px) {
+    .form-row {
+      flex-direction: column;
+    }
+  
+    .form-group {
+      margin-right: 0;
+      margin-bottom: 15px;
+    }
+  
+    .form-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  
+    .btn-primary,
+    .btn-secondary {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+  
+    .btn-secondary {
+      margin-bottom: 0;
+    }
+  }
+  .btn-center {
+    display: block; /* Asegúrate de que el botón sea tratado como un bloque */
+    margin: 20px auto; /* Centra el botón horizontalmente */
+  }
