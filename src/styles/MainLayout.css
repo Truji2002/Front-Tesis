@@ -1,23 +1,41 @@
+/* Layout principal */
 .main-layout {
-    display: flex;
-    min-height: 100vh;
+    display: flex; /* Layout flexible con menú lateral */
+    min-height: 100vh; /* Asegura que cubra toda la pantalla */
   }
   
+  /* Sidebar */
   .sidebar {
-    width: 250px;
-    background-color: #2c3e50;
-    color: #ffffff;
+    width: 250px; /* Ancho fijo del menú lateral */
+    background-color: var(--secondary-color, #2c3e50); /* Variable de color */
+    color: white;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   }
   
+  /* Contenido principal */
   .main-content {
+    margin-left: 250px; /* Asegura espacio para el sidebar */
+    padding: 20px;
+    width: calc(100% - 250px); /* Ancho dinámico */
+    box-sizing: border-box; /* Incluye padding y border */
+    background-color: var(--background-color, white);
+    overflow-y: auto; /* Scroll en caso de contenido largo */
+    display: flex;
+    flex-direction: column;
     flex: 1;
-    padding: 20px;
-    background-color: #f5f5f5;
-    overflow-y: auto;
   }
-  .main-content {
-    margin-left: 250px; /* El ancho del sidebar */
+  
+  /* Footer */
+  .footer {
+    text-align: center;
     padding: 20px;
-    width: calc(100% - 250px); /* Ajusta el ancho restante */
+    margin-top: auto; /* Empuja al final */
+    color: var(--text-color, black);
+    background-color: var(--background-color, #f8f9fa);
   }
   

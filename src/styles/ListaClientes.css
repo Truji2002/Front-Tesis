@@ -1,104 +1,140 @@
-/* Estilo del contenedor de la lista de clientes */
+/* Contenedor principal */
 .lista-clientes {
-    padding: 20px;
-  }
-  
-  /* Estilo del título */
-  .lista-clientes h2 {
-    margin-bottom: 20px;
-    font-size: 24px;
-    color: #333;
-    text-align: center;
-  }
-  
-  /* Estilo de la tabla de clientes */
-  .clients-table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  .clients-table th, .clients-table td {
-    padding: 10px;
-    border: 1px solid #ccc;
-    text-align: left;
-  }
-  
-  .clients-table th {
-    background-color: #18bc9c;
-    color: white;
-    font-weight: bold;
-  }
-  
-  .clients-table tr:nth-child(even) {
-    background-color: #f2f2f2;
-  }
-  
-  .message {
-    text-align: center;
-    font-size: 16px;
-    margin-top: 10px;
-    padding: 8px;
-    border-radius: 5px;
-  }
-  
-  .message.success {
-    color: #28a745;
-    background-color: #eafaf1;
-    border: 1px solid #28a745;
-  }
-  
-  .message.error {
-    color: #dc3545;
-    background-color: #fce4e6;
-    border: 1px solid #dc3545;
-  }
-  
-  .message.info {
-    color: #333;
-    background-color: #f7f7f7;
-    border: 1px solid #ddd;
-  }
+  padding: 20px;
+  max-width: 1200px; /* Asegura un ancho máximo consistente */
+  margin: 0 auto; /* Centra el contenido */
+}
 
-  .icon {
-    cursor: pointer;
-    margin: 0 5px;
-    font-size: 1.2em;
-  }
-  
-  .edit-icon {
-    color: #4CAF50; /* Verde para el botón de editar */
-  }
-  
-  .delete-icon {
-    color: #F44336; /* Rojo para el botón de eliminar */
-  }
-  
-  .icon:hover {
-    opacity: 0.8; /* Efecto de opacidad al pasar el ratón por encima */
-  }
+/* Título */
+.lista-clientes h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+  text-align: center;
+}
 
-  .filters {
-    display: flex;
-    justify-content: flex-start;
-    margin-bottom: 20px; /* Espacio antes de la tabla */
-  }
+/* Tabla */
+.table-container {
+  overflow-x: auto; /* Maneja tablas más anchas */
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.clients-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 10px 0;
+}
+
+.clients-table th,
+.clients-table td {
+  padding: 10px;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+
+.clients-table th {
+  background-color: #18bc9c;
+  color: white;
+  font-weight: bold;
+}
+
+.clients-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Botones */
+.filters {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 20px;
+}
+
+.filters button {
+  padding: 10px 20px;
+  margin-right: 10px;
+  font-size: 14px;
+  color: white;
+  background-color: #18bc9c;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.filters button:hover {
+  background-color: #16a085;
+}
+
+.filters button.active-filter {
+  background-color: #0e7b68;
+}
+
+/* Iconos */
+.icon {
+  cursor: pointer;
+  margin: 0 5px;
+  font-size: 1.2em;
+}
+
+.edit-icon {
+
+  color: #FFC107; /* Amarillo para activar */
+  background-color: #FFF3CD; /* Fondo amarillo claro */
+  border-radius: 4px; /* Bordes redondeados */
+  padding: 4px; /* Espaciado interno */
+}
+
+.delete-icon {
+  color: #F44336; /* Rojo para el botón de desactivar */
+  background-color: #FFEBEE; /* Fondo rojo claro */
+  border-radius: 4px;
+  padding: 4px;
+}
+
+.activate-icon {
+  color: #4CAF50; /* Verde para el botón de editar */
+  background-color: #E8F5E9; /* Fondo verde claro */
+  border-radius: 4px;
+  padding: 4px;
+}
+
+.icon:hover {
+  opacity: 0.9; /* Efecto de hover */
+  transform: scale(1.1); /* Aumenta ligeramente el tamaño al pasar el mouse */
   
-  .filters button {
-    padding: 10px 20px;
-    margin-right: 10px;
-    font-size: 14px;
-    color: white;
-    background-color: #18bc9c;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
+}
+.edit-icon:focus,
+.edit-icon:active {
+  background-color: #FFF9C4; /* Amarillo claro */
+  outline: none;
+  box-shadow: 0 0 5px #FFC107; /* Agrega un efecto visual amarillo */
+}
+
+.delete-icon:focus,
+.delete-icon:active {
+  background-color: #FFCDD2; /* Rojo claro */
+  outline: none;
+  box-shadow: 0 0 5px #F44336; /* Agrega un efecto visual rojo */
+}
+
+.activate-icon:focus,
+.activate-icon:active {
+
+  background-color: #C8E6C9; /* Verde claro */
+  outline: none; /* Elimina el borde predeterminado azul */
+  box-shadow: 0 0 5px #4CAF50; /* Agrega un efecto visual verde */
+}
+.edit-icon:hover {
   
-  .filters button:hover {
-    background-color: #16a085;
-  }
-  
-  .filters button.active-filter {
-    background-color: #0e7b68;
-  }
+  background-color: #FFF59D;
+}
+
+.delete-icon:hover {
+  background-color: #EF9A9A; /* Rojo más claro al pasar el mouse */
+}
+
+.activate-icon:hover {
+  background-color: #A5D6A7;  /* Amarillo más claro al pasar el mouse */
+}
