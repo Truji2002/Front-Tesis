@@ -1,96 +1,135 @@
-/* src/styles/Registro.css */
-
+/* Contenedor principal del formulario de registro */
 .registro-container {
-    width: 400px;
+    width: 100%;
+    max-width: 400px; /* Ancho máximo del formulario */
     margin: 50px auto;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
-}
-
-.registro-form {
+    padding: var(--spacing-medium);
+    border: 1px solid var(--secondary-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-light);
+    background-color: var(--form-bg-color);
     display: flex;
     flex-direction: column;
-}
-
-h2 {
+    align-items: center;
+    transition: box-shadow 0.3s ease, transform 0.2s ease; /* Animación */
+  }
+  
+  .registro-container:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-3px); /* Elevación suave al pasar el mouse */
+  }
+  
+  /* Formulario de registro */
+  .registro-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Título del formulario */
+  .registro-form h2 {
     text-align: center;
-    color: #333;
-    margin-bottom: 20px;
-}
-
-.form-group {
-    margin-bottom: 15px;
-}
-
-.form-group label {
+    font-size: 1.8rem;
+    color: var(--secondary-color);
+    margin-bottom: var(--spacing-medium);
+  }
+  
+  /* Grupos de formulario */
+  .form-group {
+    margin-bottom: var(--spacing-small);
+  }
+  
+  .form-group label {
     font-weight: bold;
-    color: #555;
+    color: var(--primary-color);
     margin-bottom: 5px;
-}
-
-.form-group input {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-    width: 100%;
-}
-
-.message {
-    color: green;
-    text-align: center;
-    margin-bottom: 10px;
-}
-
-.error {
-    color: red;
-    text-align: center;
-    margin-bottom: 10px;
-}
-
-button {
+    display: block;
+  }
+  
+  .form-group input {
     padding: 10px;
-    background-color: #4caf50;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-    margin-top: 10px;
+    font-size: 14px;
+    border: 1px solid var(--primary-color);
+    border-radius: var(--border-radius);
     width: 100%;
-}
-
-button:hover {
-    background-color: #45a049;
-}
-
-button.w-full {
-    width: 100%;
-    font-weight: bold;
-}
-
-button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-}
-
-.return-button {
-    background-color: #d3d3d3;
-    color: #333;
-}
-
-.return-button:hover {
-    background-color: #bbb;
-}
-.message.success {
-    color: green;
+    box-sizing: border-box;
+    background-color: var(--form-bg-color);
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+  }
+  
+  .form-group input:focus {
+    border-color: var(--primary-hover-color);
+    background-color: rgba(0, 120, 212, 0.1); /* Azul claro translúcido */
+    outline: none; /* Elimina el borde del navegador */
+  }
+  
+  /* Mensajes de éxito y error */
+  .message {
+    text-align: center; /* Alinea el texto al centro */
+    margin: 0 auto; /* Centra el mensaje dentro del contenedor */
+    margin-bottom: var(--spacing-small);
+    padding: 10px;
+    border-radius: var(--border-radius);
+    width: 100%; /* Asegura que el mensaje ocupe todo el ancho disponible */
+    box-sizing: border-box; /* Incluye el padding y el borde en el ancho total */
+  }
+  
+  
+  .message.success {
+    color: var(--primary-color);
+    background-color: rgba(0, 120, 212, 0.1); /* Fondo azul claro */
+    border: 1px solid var(--primary-color);
   }
   
   .message.error {
-    color: red;
+    color: var(--error-text-color);
+    background-color: var(--error-bg-color);
+    border: 1px solid var(--error-border-color);
+  }
+  
+  /* Botones */
+  button {
+    padding: var(--spacing-small);
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: var(--spacing-small);
+    width: 100%;
+  }
+  
+  button:hover {
+    background-color: var(--primary-hover-color);
+    transform: translateY(-2px); /* Elevación al pasar el mouse */
+  }
+  
+  button.return-button {
+    background-color: var(--secondary-color);
+    color: white;
+  }
+  
+  button.return-button:hover {
+    background-color: var(--primary-hover-color);
+  }
+  
+  button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  /* Diseño responsivo */
+  @media (max-width: 768px) {
+    .registro-container {
+      padding: var(--spacing-small);
+      margin: 20px auto;
+    }
+  
+    .registro-form h2 {
+      font-size: 1.5rem;
+    }
   }
   

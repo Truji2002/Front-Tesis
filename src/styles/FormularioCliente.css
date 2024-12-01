@@ -1,17 +1,19 @@
 /* Contenedor principal del formulario */
 .form-container {
-    max-width: 800px;
-    margin: 0 auto; /* Centra horizontalmente */
+    max-width: 100%; /* Asegura que ocupe todo el ancho disponible */
+    width: 70%; /* Ajusta el ancho relativo al contenedor principal */
+    margin: 20px auto; /* Centra horizontalmente, pero con un margen superior e inferior */
     padding: 20px;
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
   
+  
   /* Título del formulario */
   .form-container h2 {
     text-align: center;
-    font-size: 24px;
+    font-size: 28px; /* Tamaño ligeramente más grande */
     color: #333;
     margin-bottom: 20px;
   }
@@ -23,15 +25,15 @@
     margin-bottom: 15px;
   }
   
-  /* Estilo para agrupar cada input y su etiqueta */
+  /* Agrupar inputs y etiquetas */
   .form-group {
-    flex: 1; /* Ocupa igual espacio */
+    flex: 1; /* Igual espacio para los campos */
     display: flex;
     flex-direction: column;
-    margin-right: 15px; /* Espacio entre los inputs */
+    margin-right: 20px; /* Espacio entre inputs */
   }
   
-  /* Elimina el margen derecho para el último elemento de la fila */
+  /* Elimina el margen derecho en el último elemento de cada fila */
   .form-row .form-group:last-child {
     margin-right: 0;
   }
@@ -46,11 +48,12 @@
   
   /* Inputs */
   .form-group input {
-    padding: 10px;
+    padding: 12px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    font-size: 14px;
+    font-size: 16px; /* Tamaño de fuente adecuado */
     outline: none;
+    width: 100%;
     box-sizing: border-box;
   }
   
@@ -63,14 +66,14 @@
   /* Botones */
   .btn-primary,
   .btn-secondary {
-    padding: 10px 20px;
+    padding: 12px 20px;
     font-size: 16px;
     font-weight: bold;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    width: 48%; /* Ambos botones ocupan la misma anchura */
+    width: 48%; /* Ambos botones ocupan igual espacio */
   }
   
   .btn-primary {
@@ -91,7 +94,14 @@
     background-color: #d32f2f;
   }
   
-  /* Contenedor para las acciones */
+  /* Botón centrado */
+  .btn-center {
+    display: block;
+    margin: 20px auto; /* Centra horizontalmente */
+    width: 50%; /* Ajustar ancho */
+  }
+  
+  /* Contenedor de botones de acciones */
   .form-actions {
     display: flex;
     justify-content: space-between;
@@ -143,7 +153,7 @@
   
     .btn-primary,
     .btn-secondary {
-      width: 100%;
+      width: 100%; /* Ocupa todo el ancho */
       margin-bottom: 10px;
     }
   
@@ -151,7 +161,4 @@
       margin-bottom: 0;
     }
   }
-  .btn-center {
-    display: block; /* Asegúrate de que el botón sea tratado como un bloque */
-    margin: 20px auto; /* Centra el botón horizontalmente */
-  }
+  

@@ -362,7 +362,7 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/CrearCurso.css';
 
-const CrearCurso = ({ setMessage }) => {
+const CrearCurso = ({}) => {
   const [titulo, setTitulo] = useState('');
   const [descripcion, setDescripcion] = useState('');
   const [imagen, setImagen] = useState(null); // Estado para la nueva imagen

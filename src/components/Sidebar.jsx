@@ -2,12 +2,12 @@
 // import { useNavigate } from 'react-router-dom';
 // import '../styles/Sidebar.css';
 
-// const Sidebar = ({ setSelectedOption, selectedOption, onLogout }) => {
+// const Sidebar = ({ onLogout }) => {
 //   const navigate = useNavigate();
-  
-//   const [openClients, setOpenClients] = useState(false);
+
+//   const [openEmpresas, setOpenEmpresas] = useState(false); // Nuevo estado para empresas
 //   const [openCourses, setOpenCourses] = useState(false);
-//   const [openMetrics,setOpenMetrics] = useState(false);
+//   const [openMetrics, setOpenMetrics] = useState(false);
 
 //   const handleLogout = () => {
 //     onLogout(); // Llama a la función para desautenticar
@@ -18,31 +18,23 @@
 //     <aside className="sidebar">
 //       <h2>Menú</h2>
 //       <ul>
-//         {/* Administrar Clientes */}
+//         {/* Administrar Empresas */}
 //         <li>
-//           <button onClick={() => setOpenClients(!openClients)} className="menu-button">
-//             Administrar Clientes
-//           </button>
-//           {openClients && (
-//             <ul className="submenu">
-//               <li
-               
-             
-//                 onClick={() => setSelectedOption('Registrar Cliente')}
-//                 className={selectedOption === 'Registrar Cliente' ? 'selected' : ''}
-//               >
-//                 Registrar Cliente
-               
-//               </li>
-//               <li
-//                 onClick={() => setSelectedOption('Clientes')}
-//                 className={selectedOption === 'Clientes' ? 'selected' : ''}
-//               >
-//                 Clientes
-//               </li>
-//             </ul>
-//           )}
-//         </li>
+//       <button onClick={() => setOpenEmpresas(!openEmpresas)} className="menu-button">
+//         Administrar Empresas
+//       </button>
+//       {openEmpresas && (
+//         <ul className="submenu">
+//           <li
+//             onClick={() => {
+//               navigate('/empresas');
+//             }}
+//           >
+//             Empresas
+//           </li>
+//         </ul>
+//       )}
+//     </li>
 
 //         {/* Administrar Cursos */}
 //         <li>
@@ -52,26 +44,30 @@
 //           {openCourses && (
 //             <ul className="submenu">
 //               <li
-//                 onClick={() => setSelectedOption('Crear Curso')}
-//                 className={selectedOption === 'Crear Curso' ? 'selected' : ''}
+//                 onClick={() => {
+//                   navigate('/courses/create');
+//                 }}
 //               >
 //                 Crear Curso
 //               </li>
 //               <li
-//                 onClick={() => setSelectedOption('Administrar Subcursos')}
-//                 className={selectedOption === 'Administrar Subcursos' ? 'selected' : ''}
+//                 onClick={() => {
+//                   navigate('/courses/subcourses');
+//                 }}
 //               >
 //                 Administrar Subcursos
 //               </li>
 //               <li
-//                 onClick={() => setSelectedOption('Administrar Módulos')}
-//                 className={selectedOption === 'Administrar Módulos' ? 'selected' : ''}
+//                 onClick={() => {
+//                   navigate('/courses/modules');
+//                 }}
 //               >
 //                 Administrar Módulos
 //               </li>
 //               <li
-//                 onClick={() => setSelectedOption('Administrar Prueba')}
-//                 className={selectedOption === 'Administrar Prueba' ? 'selected' : ''}
+//                 onClick={() => {
+//                   navigate('/courses/tests');
+//                 }}
 //               >
 //                 Administrar Prueba
 //               </li>
@@ -79,15 +75,11 @@
 //           )}
 //         </li>
 
-//         {/* Métricas como opción independiente */}
+//         {/* Métricas */}
 //         <li>
-//           <button 
-//              onClick={() => setOpenMetrics(!openMetrics)} className="menu-button"
-          
-//           >
+//           <button onClick={() => setOpenMetrics(!openMetrics)} className="menu-button">
 //             Métricas
 //           </button>
-          
 //         </li>
 //       </ul>
 //       <button className="logout-button" onClick={handleLogout}>
@@ -105,39 +97,33 @@ import '../styles/Sidebar.css';
 const Sidebar = ({ onLogout }) => {
   const navigate = useNavigate();
 
-  const [openClients, setOpenClients] = useState(false);
+  const [openEmpresas, setOpenEmpresas] = useState(false);
   const [openCourses, setOpenCourses] = useState(false);
   const [openMetrics, setOpenMetrics] = useState(false);
+  const [openInstructors, setOpenInstructors] = useState(false); // Nuevo estado para instructores
 
   const handleLogout = () => {
-    onLogout(); // Llama a la función para desautenticar
-    navigate('/login'); // Redirige a la página de login
+    onLogout();
+    navigate('/login');
   };
 
   return (
     <aside className="sidebar">
       <h2>Menú</h2>
       <ul>
-        {/* Administrar Clientes */}
+        {/* Administrar Empresas */}
         <li>
-          <button onClick={() => setOpenClients(!openClients)} className="menu-button">
-            Administrar Clientes
+          <button onClick={() => setOpenEmpresas(!openEmpresas)} className="menu-button">
+            Administrar Empresas
           </button>
-          {openClients && (
+          {openEmpresas && (
             <ul className="submenu">
               <li
                 onClick={() => {
-                  navigate('/clients/register');
+                  navigate('/empresas');
                 }}
               >
-                Registrar Cliente
-              </li>
-              <li
-                onClick={() => {
-                  navigate('/clients');
-                }}
-              >
-                Clientes
+                Empresas
               </li>
             </ul>
           )}
@@ -177,6 +163,38 @@ const Sidebar = ({ onLogout }) => {
                 }}
               >
                 Administrar Prueba
+              </li>
+            </ul>
+          )}
+        </li>
+
+        {/* Administrar Instructores */}
+        <li>
+          <button onClick={() => setOpenInstructors(!openInstructors)} className="menu-button">
+            Administrar Instructores
+          </button>
+          {openInstructors && (
+            <ul className="submenu">
+              <li
+                onClick={() => {
+                  navigate('/instructors/create');
+                }}
+              >
+                Crear Instructor
+              </li>
+              <li
+                onClick={() => {
+                  navigate('/instructors');
+                }}
+              >
+                Ver Instructores
+              </li>
+              <li
+                onClick={() => {
+                  navigate('/instructors/change');
+                }}
+              >
+                Cambiar Instructor
               </li>
             </ul>
           )}

@@ -1,70 +1,131 @@
 .sidebar {
-  position: fixed; /* Fija el sidebar al lado izquierdo */
+  position: fixed; /* Fijo en la pantalla */
   top: 0;
   left: 0;
-  height: 100%; /* Asegura que ocupe toda la altura de la ventana */
-  width: 250px; /* Define un ancho fijo para el sidebar */
-  background-color: #2c3e50; /* Color de fondo del sidebar */
-  padding: 20px;
-  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1); /* Añade sombra al borde derecho */
-  justify-content: space-between; 
-  min-height: 100vh;
+  height: 100%; /* Ocupa toda la altura */
+  width: 250px; /* Ancho fijo */
+  background-color: var(--secondary-color); /* Fondo gris oscuro */
+  padding: var(--spacing-medium);
+  box-shadow: var(--shadow-light); /* Sombra ligera */
+  display: flex;
+  flex-direction: column; /* Acomoda elementos en columna */
+  justify-content: space-between; /* Espaciado entre contenido principal y "Cerrar sesión" */
+  font-family: var(--font-family);
+  z-index: 10; /* Asegura que esté siempre visible */
+  overflow-y: auto; /* Scroll si hay mucho contenido */
 }
 
+/* Scroll personalizado para el Sidebar */
+.sidebar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: var(--primary-color); /* Color del scroll */
+  border-radius: 4px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background-color: rgba(255, 255, 255, 0.1); /* Fondo del track */
+}
+
+/* Título del Sidebar */
 .sidebar h2 {
-  color: white;
+  font-size: 1.5rem;
+  color: var(--form-bg-color); /* Texto blanco */
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: var(--spacing-medium);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Línea divisoria */
+  padding-bottom: var(--spacing-small);
 }
 
+/* Lista principal del menú */
 .sidebar ul {
   list-style: none;
   padding: 0;
+  margin: 0;
+  flex-grow: 1; /* Ocupa todo el espacio disponible */
 }
 
 .sidebar ul li {
-  margin-bottom: 15px;
+  margin-bottom: var(--spacing-small);
 }
 
 .sidebar ul li .menu-button {
   background: none;
-  color: white;
+  color: var(--form-bg-color); /* Texto blanco */
   border: none;
   font-size: 16px;
   text-align: left;
   width: 100%;
   cursor: pointer;
+  padding: var(--spacing-small);
+  border-radius: var(--border-radius);
+  transition: color 0.3s ease, background-color 0.3s ease, transform 0.2s ease;
 }
 
 .sidebar ul li .menu-button:hover {
-  color: #18bc9c; /* Cambia el color al pasar el mouse */
+  color: var(--primary-color); /* Azul principal al pasar el mouse */
+  background-color: rgba(255, 255, 255, 0.1); /* Fondo translúcido */
+  transform: translateX(5px); /* Desplazamiento sutil */
 }
 
+/* Submenú */
 .submenu {
-  margin-left: 10px;
-  margin-top: 10px;
+  margin-left: var(--spacing-small);
 }
 
 .submenu li {
-  color: white;
+  color: var(--form-bg-color); /* Texto blanco */
   cursor: pointer;
+  padding: var(--spacing-small);
+  transition: color 0.3s ease, background-color 0.3s ease;
 }
 
 .submenu li:hover {
-  color: #18bc9c;
+  color: var(--primary-color); /* Azul al pasar el mouse */
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: var(--border-radius);
 }
 
+/* Botón de cerrar sesión */
 .logout-button {
-  margin-top: 20px; /* Agrega espacio entre el último elemento y el botón */
-  padding: 12px;
-  background-color: #e74c3c;
+  margin-top: auto; /* Posición al final del Sidebar */
+  padding: var(--spacing-small);
+  background-color: var(--logout-bg-color); /* Fondo rojo */
+  color: white; /* Texto blanco */
+  font-size: 16px;
+  font-weight: bold;
   border: none;
-  border-radius: 4px;
-  color: white;
+  border-radius: var(--border-radius);
   cursor: pointer;
   text-align: center;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
 }
 
 .logout-button:hover {
-  background-color: #c0392b;
+  background-color: var(--logout-hover-color); /* Rojo más oscuro */
+  box-shadow: 0px 4px 10px rgba(255, 0, 0, 0.4); /* Sombra roja */
+  transform: translateY(-2px); /* Elevación al pasar el mouse */
+}
+
+/* Diseño responsivo */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 200px; /* Sidebar más estrecho */
+  }
+
+  .main-content {
+    margin-left: 200px; /* Ajusta el margen según el ancho del sidebar */
+  }
+}
+.logout-button {
+  margin-bottom: 20px;
+
+  
+}
+
+.sidebar ul li {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding-bottom: 10px;
 }

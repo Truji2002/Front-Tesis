@@ -31,32 +31,39 @@ const Registro = () => {
     e.preventDefault();
     setMessage('');
     setPasswordError('');
-    setIsError(false); // Restablecer el estado de error al intentar registrar nuevamente
-  
+    setIsError(false);
+
     // Verificar que las contraseñas coincidan
     if (formData.password !== formData.confirmPassword) {
       setPasswordError('Las contraseñas no coinciden');
-      setIsError(true); // Mostrar en rojo si las contraseñas no coinciden
+      setIsError(true);
+
+      // Eliminar automáticamente el mensaje después de 5 segundos
+      setTimeout(() => setPasswordError(''), 5000);
       return;
     }
-  
+
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/registroCliente/', {
+      const response = await fetch('http://127.0.0.1:8000/api/registroEstudiante/', {
         method: 'POST',
         headers: {
-          'Accept': 'application/json',
+          Accept: 'application/json',
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          ...formData,
-          confirmPassword: undefined, // No enviar confirmPassword al servidor
+          first_name: formData.first_name,
+          last_name: formData.last_name,
+          email: formData.email,
+          password: formData.password,
+          codigoOrganizacion: formData.codigoOrganizacion,
+          asignadoSimulacion: formData.asignadoSimulacion,
         }),
       });
-  
+
       if (response.ok) {
         setMessage('Registro exitoso.');
-        setIsError(false); // Establece `isError` en `false` para mensaje de éxito
-        setTimeout(() => navigate('/login'), 2000); // Redirigir al login después de 2 segundos
+        setIsError(false);
+        setTimeout(() => navigate('/login'), 2000);
         setFormData({
           first_name: '',
           last_name: '',
@@ -68,35 +75,45 @@ const Registro = () => {
         });
       } else {
         const errorData = await response.json();
-        
-        // Extraer errores específicos del email, código de organización, u otros campos
+
+        // Manejo de errores: Formatea el mensaje correctamente
         if (errorData.email) {
           setMessage(`Error: ${errorData.email[0]}`);
         } else if (errorData.error) {
-          setMessage(`Error: ${errorData.error}`); // Captura el error específico de código de organización
+          setMessage(`Error: ${errorData.error}`);
+        } else if (typeof errorData === 'object') {
+          const errorMessage = Object.values(errorData)
+            .flat()
+            .join(' ');
+          setMessage(`Error: ${errorMessage}`);
         } else {
-          setMessage(`Error al registrar: ${errorData.detail || 'Problema desconocido'}`);
+          setMessage('Error desconocido al registrar.');
         }
-        setIsError(true); // Mostrar en rojo si hay un error en el registro
+        setIsError(true);
+
+        // Eliminar automáticamente el mensaje después de 5 segundos
+        setTimeout(() => setMessage(''), 5000);
       }
     } catch (error) {
       console.error('Error durante el registro:', error);
       setMessage('Error al intentar registrar. Inténtalo de nuevo más tarde.');
-      setIsError(true); // Mostrar en rojo si hay un error de conexión
+      setIsError(true);
+
+      // Eliminar automáticamente el mensaje después de 5 segundos
+      setTimeout(() => setMessage(''), 5000);
     }
   };
 
   return (
     <div className="registro-container">
       <form onSubmit={handleSubmit} className="registro-form">
-        <h2>Registro de Cliente</h2>
+        <h2>Registro</h2>
         {message && (
           <p className={`message ${isError ? 'error' : 'success'}`}>
             {message}
           </p>
         )}
         {passwordError && <p className="error">{passwordError}</p>}
-        
         <div className="form-group">
           <Label htmlFor="first_name">Nombre</Label>
           <Input
@@ -108,7 +125,6 @@ const Registro = () => {
             required
           />
         </div>
-        
         <div className="form-group">
           <Label htmlFor="last_name">Apellido</Label>
           <Input
@@ -120,7 +136,6 @@ const Registro = () => {
             required
           />
         </div>
-        
         <div className="form-group">
           <Label htmlFor="email">Email</Label>
           <Input
@@ -132,7 +147,6 @@ const Registro = () => {
             required
           />
         </div>
-        
         <div className="form-group">
           <Label htmlFor="password">Contraseña</Label>
           <Input
@@ -144,7 +158,6 @@ const Registro = () => {
             required
           />
         </div>
-        
         <div className="form-group">
           <Label htmlFor="confirmPassword">Confirmar Contraseña</Label>
           <Input
@@ -156,7 +169,6 @@ const Registro = () => {
             required
           />
         </div>
-        
         <div className="form-group">
           <Label htmlFor="codigoOrganizacion">Código de Organización</Label>
           <Input
@@ -168,11 +180,10 @@ const Registro = () => {
             required
           />
         </div>
-
         <Button type="submit" className="w-full">
-          Registrar
+          Registrarse
         </Button>
-        <Button type="button" className="w-full" onClick={() => navigate('/login')}>
+        <Button type="button" className="w-full return-button" onClick={() => navigate('/login')}>
           Volver al Login
         </Button>
       </form>

@@ -1,135 +1,62 @@
-/* .welcome-screen {
-  display: flex;
-  height: 100vh;
-  width: 100vw;
-}
-
-.sidebar {
-  width: 250px;
-  background-color: #2C3E50;
-  color: #ecf0f1;
-  padding: 20px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.sidebar h2 {
-  font-size: 20px;
-  margin-bottom: 20px;
-  color: #ffffff;
-}
-
-.logout-button {
-  width: 100%;
-  padding: 10px;
-  background-color: #e74c3c;
-  color: white;
-  font-weight: bold;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
-  margin-top: 20px;
-}
-
-.logout-button:hover {
-  background-color: #c0392b;
-}
-
-.content {
-  flex: 1;
-  padding: 30px;
-  background-color: #ecf0f1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  box-sizing: border-box;
-  overflow-y: auto;
-}
-
-.content h1 {
-  font-size: 28px;
-  color: #2c3e50;
-  margin-bottom: 20px;
-}
-
- .form-container {
-  max-width: 1000px;
-  width: 150%;
-  padding: 20px;
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-} 
-
-.message {
-  text-align: center;
-  font-size: 16px;
-  margin-top: 10px;
-  padding: 10px;
-  border-radius: 5px;
-}
-
-.message.success {
-  color: #28a745;
-  background-color: #e6ffed;
-  border: 1px solid #28a745;
-}
-
-.message.error {
-  color: #dc3545;
-  background-color: #ffebeb;
-  border: 1px solid #dc3545;
-} */
 .welcome-screen {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
+  justify-content: center; /* Centra el contenido verticalmente */
+  padding: var(--spacing-medium);
+  background-color: var(--background-color); /* Fondo general */
+  height: 100vh; /* Ocupa toda la altura de la pantalla */
+  margin: 0; /* Elimina márgenes adicionales */
+  box-sizing: border-box;
 }
 
 .welcome-header {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: var(--spacing-medium);
 }
 
 .welcome-header h1 {
-  font-size: 2em;
-  color: #2c3e50;
+  font-size: 2rem; /* Tamaño de texto ajustado */
+  color: var(--secondary-color); /* Gris oscuro para el texto principal */
+  margin-bottom: var(--spacing-small);
 }
 
 .welcome-content {
-  width: 100%;
-  max-width: 1200px;
-  background-color: #ffffff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.welcome-message {
   text-align: center;
-  font-size: 1.2em;
-  color: #555555;
+  font-size: 1.2rem; /* Texto profesional y legible */
+  color: var(--text-color); /* Color del texto */
+  max-width: 800px; /* Limita el ancho del contenido */
 }
 
 .message {
-  margin-top: 10px;
-  padding: 10px;
-  border-radius: 5px;
+  margin-top: var(--spacing-small);
+  padding: var(--spacing-small);
+  border-radius: var(--border-radius);
+  font-size: 1rem;
   text-align: center;
-  font-size: 16px;
+  max-width: 400px; /* Limita el ancho de los mensajes dinámicos */
 }
 
 .message.success {
-  color: #28a745;
-  background-color: #e6ffed;
-  border: 1px solid #28a745;
+  color: var(--primary-color);
+  background-color: rgba(0, 120, 212, 0.1);
+  border: 1px solid var(--primary-color);
 }
 
 .message.error {
-  color: #dc3545;
-  background-color: #ffebeb;
-  border: 1px solid #dc3545;
+  color: var(--error-text-color);
+  background-color: var(--error-bg-color);
+  border: 1px solid var(--error-border-color);
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+  .welcome-header h1 {
+    font-size: 1.5rem; /* Ajusta el tamaño para dispositivos pequeños */
+  }
+
+  .welcome-content {
+    font-size: 1rem; /* Reduce ligeramente el texto */
+    padding: var(--spacing-small); /* Ajusta el padding */
+  }
 }

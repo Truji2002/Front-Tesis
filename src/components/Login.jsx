@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { login } from '../services/api';
 import Button from './ui/button/button';
 import Input from './ui/input/input';
 import Label from './ui/label/label';
@@ -11,7 +10,38 @@ const Login = ({ onSuccess }) => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate(); // Agrega useNavigate
+  const navigate = useNavigate();
+
+  const login = async (credentials) => {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000);
+
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/api/login/`, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(credentials),
+        signal: controller.signal,
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || 'Error en la autenticación');
+      }
+
+      return await response.json();
+    } catch (error) {
+      if (error.name === 'AbortError') {
+        throw new Error('Tiempo de espera excedido. Intente nuevamente.');
+      }
+      throw error;
+    } finally {
+      clearTimeout(timeoutId);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,19 +50,21 @@ const Login = ({ onSuccess }) => {
 
     try {
       const response = await login({ email, password });
-      
+
       if (response && response.access) {
         localStorage.setItem('accessToken', response.access);
         localStorage.setItem('refreshToken', response.refresh);
         localStorage.setItem('nombre', response.first_name);
         setError('');
-        onSuccess(); // Llama a la función onSuccess para indicar que el login fue exitoso
+        onSuccess();
       } else {
         setError('Credenciales incorrectas');
       }
     } catch (err) {
-      console.error('Error durante el login:', err);
-      setError('Error al intentar iniciar sesión. Inténtalo de nuevo más tarde.');
+      setError(err.message || 'Error al intentar iniciar sesión. Inténtalo de nuevo más tarde.');
+
+      // Eliminar el mensaje de error después de 5 segundos
+      setTimeout(() => setError(''), 5000);
     } finally {
       setLoading(false);
     }
@@ -43,7 +75,7 @@ const Login = ({ onSuccess }) => {
       <form onSubmit={handleSubmit} className="login-form">
         <h2>Iniciar Sesión</h2>
         {error && <p className="error">{error}</p>}
-        
+
         <div className="form-group">
           <Label htmlFor="email">Email</Label>
           <Input
@@ -55,7 +87,7 @@ const Login = ({ onSuccess }) => {
             required
           />
         </div>
-        
+
         <div className="form-group">
           <Label htmlFor="password">Contraseña</Label>
           <Input
@@ -67,7 +99,7 @@ const Login = ({ onSuccess }) => {
             required
           />
         </div>
-        
+
         <Button type="submit" className="w-full" disabled={loading}>
           {loading ? 'Cargando...' : 'Ingresar'}
         </Button>

@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/AdministrarSubcursos.css';
 
-const AdministrarSubcursos = ({ setMessage }) => {
+const AdministrarSubcursos = ({  }) => {
   const [cursos, setCursos] = useState([]);
   const [selectedCurso, setSelectedCurso] = useState('');
   const [subcursoNombre, setSubcursoNombre] = useState('');

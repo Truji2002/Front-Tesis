@@ -1,15 +1,16 @@
 /* Input.css */
 .input {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #cccccc;
-    border-radius: 4px;
-    transition: border-color 0.3s ease;
-  }
-  
-  .input:focus {
-    border-color: #007bff;
-    outline: none;
-  }
-  
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  background-color: var(--form-bg-color);
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+input:focus {
+  border-color: var(--primary-hover-color); /* Azul más oscuro */
+  background-color: rgba(0, 120, 212, 0.1); /* Azul translúcido */
+  outline: none; /* Elimina el borde del navegador */
+}

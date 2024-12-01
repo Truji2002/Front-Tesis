@@ -1,41 +1,91 @@
-/* Layout principal */
 .main-layout {
-    display: flex; /* Layout flexible con menú lateral */
-    min-height: 100vh; /* Asegura que cubra toda la pantalla */
-  }
-  
-  /* Sidebar */
+  display: flex;
+  min-height: 100vh; /* Asegura que cubra toda la pantalla */
+  width: 100%;
+  font-family: var(--font-family); /* Fuente global */
+  background-color: var(--background-color); /* Fondo general */
+}
+
+/* Sidebar */
+.sidebar {
+  width: 250px; /* Ancho fijo del menú lateral */
+  background-color: var(--secondary-color); /* Fondo del sidebar */
+  color: white; /* Texto en blanco */
+  position: fixed; /* Fijo en la pantalla */
+  top: 0;
+  bottom: 0;
+  left: 0;
+  padding: 20px;
+  box-shadow: var(--shadow-light, 2px 0 5px rgba(0, 0, 0, 0.1)); /* Sombra */
+  z-index: 1; /* Asegura que esté sobre el contenido */
+  display: flex;
+  flex-direction: column; /* Elementos en columna */
+  justify-content: space-between; /* Espaciado entre el contenido */
+}
+
+/* Títulos del Sidebar */
+.sidebar h2 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  color: white;
+}
+
+.sidebar a {
+  color: white;
+  text-decoration: none;
+  font-size: 1rem;
+  margin-bottom: 10px;
+  display: block; /* Cada enlace ocupa una línea */
+  transition: color 0.3s ease;
+}
+
+.sidebar a:hover {
+  color: var(--primary-color); /* Color primario al pasar el mouse */
+}
+
+/* Contenido Principal */
+.main-content {
+  margin-left: 250px; /* Espacio igual al ancho del sidebar */
+  padding: 20px;
+  flex: 1;
+  width: calc(100% - 250px); /* Ajusta el ancho dinámico */
+  box-sizing: border-box;
+  background-color: var(--background-color); /* Fondo del contenido */
+  overflow-y: auto; /* Scroll en caso de contenido largo */
+  z-index: 0; /* Asegura que esté detrás del sidebar */
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Espacio entre los elementos */
+  border-left: 1px solid #ddd; /* Línea divisoria entre el sidebar y el contenido */
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 20px;
+  background-color: var(--footer-bg-color, #ffffff); /* Fondo del footer */
+  color: var(--secondary-color); /* Texto del footer */
+
+  margin-top: auto; /* Empuja al final */
+ 
+  z-index: 2; /* Asegura que esté sobre el contenido principal */
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
   .sidebar {
-    width: 250px; /* Ancho fijo del menú lateral */
-    background-color: var(--secondary-color, #2c3e50); /* Variable de color */
-    color: white;
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    padding: 20px;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    width: 200px; /* Sidebar más estrecho */
+    font-size: 0.9rem; /* Texto más pequeño */
   }
-  
-  /* Contenido principal */
+
   .main-content {
-    margin-left: 250px; /* Asegura espacio para el sidebar */
-    padding: 20px;
-    width: calc(100% - 250px); /* Ancho dinámico */
-    box-sizing: border-box; /* Incluye padding y border */
-    background-color: var(--background-color, white);
-    overflow-y: auto; /* Scroll en caso de contenido largo */
-    display: flex;
-    flex-direction: column;
-    flex: 1;
+    margin-left: 200px; /* Ajusta el margen según el ancho del sidebar */
+    width: calc(100% - 200px);
   }
-  
-  /* Footer */
+
   .footer {
-    text-align: center;
-    padding: 20px;
-    margin-top: auto; /* Empuja al final */
-    color: var(--text-color, black);
-    background-color: var(--background-color, #f8f9fa);
+    font-size: 0.9rem; /* Texto más pequeño en el footer */
+    padding: 15px; /* Menos padding */
   }
-  
+}
+

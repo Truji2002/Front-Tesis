@@ -202,7 +202,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import '../styles/AdministrarModulos.css';
 
-const AdministrarModulos = ({ setMessage }) => {
+const AdministrarModulos = ({  }) => {
   const [subcursos, setSubcursos] = useState([]);
   const [selectedSubcurso, setSelectedSubcurso] = useState('');
   const accessToken = localStorage.getItem('accessToken');

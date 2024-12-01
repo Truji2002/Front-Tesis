@@ -1,0 +1,195 @@
+/* Contenedor principal */
+.empresas-container {
+    padding: var(--spacing-medium);
+    background-color: var(--background-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-light);
+    max-width: 1200px;
+    margin: 20px auto;
+    font-family: var(--font-family);
+  }
+  
+  /* Título principal */
+  .empresas-container h2 {
+    text-align: center;
+    font-size: 2rem;
+    color: var(--secondary-color);
+    margin-bottom: var(--spacing-medium);
+  }
+  
+  /* Formulario */
+  .empresa-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--spacing-medium);
+    margin-bottom: var(--spacing-large);
+    justify-items: center; 
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-group label {
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-small);
+  }
+  
+  .form-group input {
+    padding: var(--spacing-small);
+    border: 1px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    box-sizing: border-box;
+  }
+  
+  .form-group input:focus {
+    outline: none;
+    border-color: var(--primary-hover-color);
+    box-shadow: 0 0 4px rgba(0, 120, 212, 0.5);
+  }
+  
+  /* Botón principal */
+  .empresa-form button {
+    grid-column: 1 / -1; /* Ocupa todo el ancho del grid */
+    justify-self: center; /* Asegura que el botón esté centrado */
+  }
+  
+  button {
+    padding: var(--spacing-small);
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    justify-self: center; 
+  }
+  
+  button:hover {
+    transform: translateY(-2px);
+  }
+  
+  /* Botón de peligro */
+  button.danger {
+    background-color: var(--logout-bg-color);
+    color: white;
+  }
+  
+  button.danger:hover {
+    background-color: var(--logout-hover-color);
+  }
+  
+  /* Tabla */
+  .empresa-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: var(--spacing-medium);
+    box-shadow: var(--shadow-light);
+    border-radius: var(--border-radius);
+    overflow: hidden; /* Asegura que los bordes redondeados funcionen */
+  }
+  
+  .empresa-table thead {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);;
+    text-align: center;
+  }
+  
+  .empresa-table th,
+  .empresa-table td {
+    padding: var(--spacing-small);
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .empresa-table th {
+    font-size: 1rem;
+    font-weight: bold;
+  }
+  
+  .empresa-table td {
+    font-size: 0.9rem;
+  }
+  
+  .empresa-table tr:hover td {
+    background-color: rgba(0, 120, 212, 0.1); /* Efecto hover en las filas */
+  }
+  
+  .empresa-table tr:last-child td {
+    border-bottom: none; /* Elimina el borde inferior de la última fila */
+  }
+  
+  /* Alertas */
+  .alert {
+    margin-bottom: var(--spacing-medium);
+    padding: var(--spacing-small);
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    text-align: center;
+  }
+  
+  .alert.success {
+    background-color: rgba(0, 200, 0, 0.1);
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+  }
+  
+  .alert.error {
+    background-color: rgba(255, 0, 0, 0.1);
+    border: 1px solid var(--logout-bg-color);
+    color: var(--logout-bg-color);
+  }
+  
+  .alert.warning {
+    background-color: rgba(255, 165, 0, 0.1);
+    border: 1px solid #ffa500;
+    color: #ffa500;
+  }
+  
+  /* Responsividad */
+  @media (max-width: 768px) {
+    .empresa-form {
+      grid-template-columns: 1fr;
+    }
+  
+    .empresa-table th,
+    .empresa-table td {
+      font-size: 0.85rem;
+    }
+  }
+  
+  .search-bar {
+    margin: 20px 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-small);
+    width: 100%;
+  }
+  
+  .search-bar input {
+    width: 100%;
+    max-width: 100%;
+    padding: var(--spacing-small);
+    font-size: 1rem;
+    border: 1px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    box-sizing: border-box;
+  }
+  
+  .search-bar input:focus {
+    outline: none;
+    border-color: var(--primary-hover-color);
+    box-shadow: 0 0 4px rgba(0, 120, 212, 0.5);
+  }
+  
+  /* Espaciado */
+  .empresa-form {
+    margin-bottom: var(--spacing-large);
+  }
+  
+  .empresa-table {
+    margin-top: var(--spacing-large);
+  }
