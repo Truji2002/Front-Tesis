@@ -14,6 +14,7 @@ import Registro from './components/Registro.jsx';
 import Empresas from './components/Empresas.jsx';
 import CrearInstructor from './components/CrearInstructor';
 import EditarInstructor from './components/EditarInstructor';
+import VerInstructores from './components/VerInstructores.jsx';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -60,7 +61,9 @@ function App() {
       <Route path="courses/modules" element={<AdministrarModulos />} />
       <Route path="empresas" element={<Empresas />} />
       <Route path="instructors/create" element={<CrearInstructor />} />
-      <Route path="instructores/editar/:id" element={<EditarInstructor />} />
+      <Route path="instructor/edit/:id" element={<EditarInstructor/>} />
+      <Route path="instructors" element={<VerInstructores />} />
+      
     </Route>
 
     {/* Ruta por defecto */}

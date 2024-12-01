@@ -128,7 +128,37 @@ const Sidebar = ({ onLogout }) => {
             </ul>
           )}
         </li>
-
+        {/* Administrar Instructores */}
+        <li>
+          <button onClick={() => setOpenInstructors(!openInstructors)} className="menu-button">
+            Administrar Instructores
+          </button>
+          {openInstructors && (
+            <ul className="submenu">
+              <li
+                onClick={() => {
+                  navigate('/instructors/create');
+                }}
+              >
+                Crear Instructor
+              </li>
+              <li
+                onClick={() => {
+                  navigate('/instructors');
+                }}
+              >
+                Ver Instructores
+              </li>
+              <li
+                onClick={() => {
+                  navigate('/instructors/change');
+                }}
+              >
+                Cambiar Instructor
+              </li>
+            </ul>
+          )}
+        </li>
         {/* Administrar Cursos */}
         <li>
           <button onClick={() => setOpenCourses(!openCourses)} className="menu-button">
@@ -168,37 +198,7 @@ const Sidebar = ({ onLogout }) => {
           )}
         </li>
 
-        {/* Administrar Instructores */}
-        <li>
-          <button onClick={() => setOpenInstructors(!openInstructors)} className="menu-button">
-            Administrar Instructores
-          </button>
-          {openInstructors && (
-            <ul className="submenu">
-              <li
-                onClick={() => {
-                  navigate('/instructors/create');
-                }}
-              >
-                Crear Instructor
-              </li>
-              <li
-                onClick={() => {
-                  navigate('/instructors');
-                }}
-              >
-                Ver Instructores
-              </li>
-              <li
-                onClick={() => {
-                  navigate('/instructors/change');
-                }}
-              >
-                Cambiar Instructor
-              </li>
-            </ul>
-          )}
-        </li>
+
 
         {/* Métricas */}
         <li>

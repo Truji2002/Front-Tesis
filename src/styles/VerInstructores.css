@@ -1,0 +1,86 @@
+.ver-instructores-container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: var(--spacing-medium);
+    background-color: var(--background-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-light);
+  }
+  
+  .ver-instructores-container h2 {
+    text-align: center;
+    color: var(--secondary-color);
+    margin-bottom: var(--spacing-medium);
+  }
+  
+  .filters {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: var(--spacing-medium);
+  }
+  
+  .filters select {
+    width: 48%;
+  }
+  
+  .instructores-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    box-shadow: var(--shadow-light);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+  }
+  
+  .instructores-table thead {
+    background-color: var(--primary-color);
+  
+    color: var(--secondary-color);;
+  }
+  
+  .instructores-table th,
+  .instructores-table td {
+    text-align: center;
+    padding: var(--spacing-small);
+  }
+  
+  .instructores-table tbody tr:hover {
+    background-color: rgba(0, 120, 212, 0.1);
+  }
+  .filters {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end; /* Alinea los elementos al final */
+    margin-bottom: var(--spacing-medium);
+  }
+  
+  .filter {
+    display: flex;
+    flex-direction: column;
+    margin-right: 10px;
+  }
+  
+  .filter label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: var(--primary-color);
+  }
+  
+  .large-select {
+    padding: var(--spacing-small);
+    border: 1px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    min-width: 200px;
+  }
+  
+  .success {
+    background-color: green;
+    color: white;
+  }
+  
+  .danger {
+    background-color: red;
+    color: white;
+  }
+  

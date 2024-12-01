@@ -131,7 +131,7 @@ const FormInstructor = ({ isEdit, instructor, onSubmit }) => {
     };
 
     try {
-      const method = isEdit ? 'PUT' : 'POST';
+      const method = isEdit ? 'PATCH' : 'POST';
       const url = isEdit
         ? `http://127.0.0.1:8000/api/instructores/${instructor.id}/`
         : 'http://127.0.0.1:8000/api/registrarInstructor/';
@@ -208,7 +208,7 @@ const FormInstructor = ({ isEdit, instructor, onSubmit }) => {
           name="email"
           type="email"
           value={formData.email}
-          onChange={handleInputChange}
+          disabled={isEdit}
           required
         />
       </div>
@@ -251,7 +251,7 @@ const FormInstructor = ({ isEdit, instructor, onSubmit }) => {
           id="empresa"
           name="empresa"
           value={formData.empresa}
-          onChange={handleInputChange}
+          disabled={isEdit}
           required
         >
           <option value="">Seleccione una empresa</option>

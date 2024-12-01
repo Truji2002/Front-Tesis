@@ -27,7 +27,7 @@ const EditarInstructor = () => {
         setInstructor(data);
       } catch (error) {
         showAlert('Error', 'No se pudo cargar la información del instructor.', 'error');
-        navigate('/instructores'); // Redirige en caso de error
+        navigate('/instructors'); // Redirige en caso de error
       } finally {
         setLoading(false);
       }
@@ -36,6 +36,11 @@ const EditarInstructor = () => {
     fetchInstructor();
   }, [id, navigate, token]);
 
+  const handleFormSubmit = () => {
+    showAlert('Éxito', 'El instructor fue actualizado con éxito.', 'success');
+    navigate('/instructors'); // Redirigir a la lista de instructores
+  };
+
   if (loading) {
     return <p>Cargando...</p>;
   }
@@ -43,7 +48,7 @@ const EditarInstructor = () => {
   return (
     <div className="editar-instructor-container">
       {instructor ? (
-        <FormInstructor instructor={instructor} isEdit={true} />
+        <FormInstructor instructor={instructor} isEdit={true} onSubmit={handleFormSubmit} />
       ) : (
         <p>No se encontró el instructor.</p>
       )}
