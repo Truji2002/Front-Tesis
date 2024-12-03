@@ -1,5 +1,5 @@
 .ver-instructores-container {
-    max-width: 1200px;
+    max-width: 1100px;
     margin: 20px auto;
     padding: var(--spacing-medium);
     background-color: var(--background-color);
@@ -24,7 +24,8 @@
   }
   
   .instructores-table {
-    width: 100%;
+    width: 90%;
+    margin: 0 auto; 
     border-collapse: separate;
     border-spacing: 0;
     box-shadow: var(--shadow-light);
@@ -40,8 +41,9 @@
   
   .instructores-table th,
   .instructores-table td {
-    text-align: center;
-    padding: var(--spacing-small);
+      text-align: center;
+      padding: 15px; /* Reduce el padding */
+      font-size: 0.9rem; /* Reduce el tamaño de la fuente */
   }
   
   .instructores-table tbody tr:hover {
@@ -83,4 +85,33 @@
     background-color: red;
     color: white;
   }
+  .large-popup {
+    width: 600px !important; /* Ajusta el ancho según tus necesidades */
+    height: auto !important;
+    max-height: 90vh; /* Evita que sea demasiado alto */
+    overflow-y: auto; /* Habilita el desplazamiento si es necesario */
+    padding: 20px; /* Agrega un poco de espacio interno */
+    font-size: 1rem; /* Ajusta el tamaño del texto */
+  }
   
+  .large-popup .swal2-input {
+    width: 90% !important; /* Aumenta el ancho de los inputs */
+    margin: 10px auto; /* Agrega espacio entre los campos */
+    font-size: 1.1rem; /* Aumenta el tamaño del texto de los inputs */
+  }
+
+  @media (max-width: 768px) {
+    .ver-instructores-container {
+        padding: var(--spacing-small);
+    }
+
+    .instructores-table {
+        width: 100%;
+    }
+
+    .instructores-table th,
+    .instructores-table td {
+        font-size: 0.8rem; /* Ajusta el tamaño en pantallas pequeñas */
+        padding: 5px;
+    }
+}

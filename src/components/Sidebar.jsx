@@ -149,13 +149,7 @@ const Sidebar = ({ onLogout }) => {
               >
                 Ver Instructores
               </li>
-              <li
-                onClick={() => {
-                  navigate('/instructors/change');
-                }}
-              >
-                Cambiar Instructor
-              </li>
+             
             </ul>
           )}
         </li>

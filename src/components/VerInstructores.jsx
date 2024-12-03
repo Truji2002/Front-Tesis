@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { showAlert } from './alerts';
 import Button from './ui/button/button';
 import '../styles/VerInstructores.css';
+import Swal from 'sweetalert2';
 
 const VerInstructores = () => {
   const [instructores, setInstructores] = useState([]);
@@ -114,6 +115,66 @@ const VerInstructores = () => {
   const handleEdit = (id) => {
     navigate(`/instructor/edit/${id}`);
   };
+  const handleCambiar = (instructor) => {
+    Swal.fire({
+      title: 'Reemplazar Instructor',
+      html: `
+        <div>
+          <input type="text" id="nombre" placeholder="Nombre del nuevo instructor" class="swal2-input">
+          <input type="text" id="apellido" placeholder="Apellido del nuevo instructor" class="swal2-input">
+          <input type="email" id="email" placeholder="Correo del nuevo instructor" class="swal2-input">
+        </div>
+      `,
+      focusConfirm: false,
+      showCancelButton: true,
+      confirmButtonText: 'Reemplazar',
+      cancelButtonText: 'Cancelar',
+      customClass: {
+        popup: 'large-popup', // Clase personalizada para aumentar el tamaño
+      },
+      preConfirm: () => {
+        const nombre = Swal.getPopup().querySelector('#nombre').value;
+        const apellido = Swal.getPopup().querySelector('#apellido').value;
+        const email = Swal.getPopup().querySelector('#email').value;
+  
+        if (!nombre || !apellido || !email) {
+          Swal.showValidationMessage('Por favor complete todos los campos.');
+          return false;
+        }
+  
+        return { nombre, apellido, email };
+      },
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const { nombre, apellido, email } = result.value;
+  
+        try {
+          const response = await fetch('http://127.0.0.1:8000/api/modificacionInstructor/', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({
+              instructor_anterior_id: instructor.id,
+              nombre,
+              apellido,
+              email,
+            }),
+          });
+  
+          if (!response.ok) {
+            throw new Error('Error al reemplazar el instructor.');
+          }
+  
+          showAlert('Éxito', 'El instructor fue reemplazado exitosamente.', 'success');
+          fetchInstructores(); // Actualizar la lista de instructores
+        } catch (error) {
+          showAlert('Error', error.message || 'No se pudo completar la operación.', 'error');
+        }
+      }
+    });
+  };
 
   return (
     <div className="ver-instructores-container">
@@ -182,14 +243,27 @@ const VerInstructores = () => {
                 <td>{instructor.fechaFinCapacitacion || 'N/A'}</td>
                 <td>
                 {instructor.is_active && (
-              <Button onClick={() => handleEdit(instructor.id)}>Editar</Button>
-            )}
-                  <Button
+                    <>
+                    <Button onClick={() => handleEdit(instructor.id)}>Editar</Button>
+                    <Button
+                        onClick={() => toggleEstado(instructor)}
+                        className={instructor.is_active ? 'danger' : 'success'}
+                    >
+                        {instructor.is_active ? 'Desactivar' : 'Activar'}
+                    </Button>
+                    <Button onClick={() => handleCambiar(instructor)} className="primary">
+                        Cambiar
+                    </Button>
+                    </>
+                )}
+                {!instructor.is_active && (
+                    <Button
                     onClick={() => toggleEstado(instructor)}
-                    className={instructor.is_active ? 'danger' : 'success'}
-                  >
-                    {instructor.is_active ? 'Desactivar' : 'Activar'}
-                  </Button>
+                    className="success"
+                    >
+                    Activar
+                    </Button>
+                )}
                 </td>
               </tr>
             ))

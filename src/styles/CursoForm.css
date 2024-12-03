@@ -1,0 +1,61 @@
+.curso-form {
+    max-width: 800px;
+    width: 80%;
+    margin: 0 auto;
+    padding: var(--spacing-medium);
+    background-color: var(--background-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-light);
+  }
+  
+  .curso-form h2 {
+    text-align: center;
+    color: var(--secondary-color);
+    margin-bottom: var(--spacing-medium);
+  }
+  
+  .form-group {
+    margin-bottom: var(--spacing-medium);
+  }
+  
+  .textarea {
+    width: 100%;
+    padding: var(--spacing-small);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    resize: none;
+  }
+  
+  textarea:focus,
+  input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+  }
+  
+  button {
+    margin-top: var(--spacing-medium);
+    width: 100%; /* Botón a lo ancho del formulario */
+  }
+  
+  .image-preview {
+    margin-top: var(--spacing-medium);
+    text-align: center;
+  }
+  
+  .image-preview img {
+    max-width: 100%;
+    max-height: 300px; /* Aumenta el tamaño máximo */
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-light);
+  }
+  
+  /* Estilos para centrar verticalmente */
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: var(--background-color-light);
+  }
+  
