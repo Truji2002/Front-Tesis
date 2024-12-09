@@ -3,6 +3,7 @@
   --primary-color: #0078d4;
   --primary-hover-color: #0056a3;
   --secondary-color: #2c3e50; /* Gris oscuro */
+  --secondary-hover-color: #1a252f;
   --background-color: #f9f9f9;
   --form-bg-color: #ffffff;
   --error-bg-color: #ffe6e6;
@@ -17,6 +18,8 @@
   --spacing-medium: 20px;
   --logout-bg-color: #e74c3c; 
   --logout-hover-color: #c0392b; 
+  --secondary-button-bg: #2c3e50; 
+  --secondary-button-hover-bg: #1a252f;
 }
 
 /* Reset y base */

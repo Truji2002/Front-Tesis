@@ -160,12 +160,13 @@ const Sidebar = ({ onLogout }) => {
           </button>
           {openCourses && (
             <ul className="submenu">
+              
               <li
                 onClick={() => {
-                  navigate('/courses/create');
+                  navigate('/courses/list');
                 }}
               >
-                Crear Curso
+                Panel de Cursos
               </li>
               <li
                 onClick={() => {
@@ -176,7 +177,7 @@ const Sidebar = ({ onLogout }) => {
               </li>
               <li
                 onClick={() => {
-                  navigate('/courses/modules');
+                  navigate('/courses/subcourses/module');
                 }}
               >
                 Administrar Módulos

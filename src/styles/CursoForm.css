@@ -45,7 +45,7 @@
   
   .image-preview img {
     max-width: 100%;
-    max-height: 300px; /* Aumenta el tamaño máximo */
+    max-height: 200px; /* Aumenta el tamaño máximo */
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-light);
   }

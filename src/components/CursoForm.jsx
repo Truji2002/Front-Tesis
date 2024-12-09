@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import Button from './ui/button/button';
 import Input from './ui/input/input';
@@ -13,13 +14,17 @@ const CursoForm = ({ isEdit, curso, onSubmit }) => {
     imagen: null, // Aquí se guardará el archivo seleccionado
   });
 
+  const [imagePreview, setImagePreview] = useState(null); // Vista previa de la nueva imagen
+  const [currentImage, setCurrentImage] = useState(null); // Imagen actual del curso
+
   useEffect(() => {
     if (isEdit && curso) {
       setFormData({
         titulo: curso.titulo || '',
         descripcion: curso.descripcion || '',
-        imagen: null, // La imagen no se carga como valor inicial
+        imagen: null, // Nueva imagen no cargada aún
       });
+      setCurrentImage(curso.imagen); // Cargar la imagen actual desde la API
     }
   }, [isEdit, curso]);
 
@@ -28,14 +33,12 @@ const CursoForm = ({ isEdit, curso, onSubmit }) => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const [imagePreview, setImagePreview] = useState(null);
-
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     setFormData({ ...formData, imagen: file });
     if (file) {
       const reader = new FileReader();
-      reader.onload = () => setImagePreview(reader.result);
+      reader.onload = () => setImagePreview(reader.result); // Actualizar vista previa
       reader.readAsDataURL(file);
     } else {
       setImagePreview(null);
@@ -100,12 +103,11 @@ const CursoForm = ({ isEdit, curso, onSubmit }) => {
       showAlert('Error', error.message || 'No se pudo completar la operación.', 'error');
     }
   };
-  
 
   return (
     <form className="curso-form" onSubmit={handleSubmit}>
       <h2>{isEdit ? 'Editar Curso' : 'Crear Curso'}</h2>
-  
+
       <div className="form-group">
         <Label htmlFor="titulo">Título</Label>
         <Input
@@ -116,7 +118,7 @@ const CursoForm = ({ isEdit, curso, onSubmit }) => {
           required
         />
       </div>
-  
+
       <div className="form-group">
         <Label htmlFor="descripcion">Descripción</Label>
         <textarea
@@ -129,7 +131,7 @@ const CursoForm = ({ isEdit, curso, onSubmit }) => {
           required
         />
       </div>
-  
+
       <div className="form-group">
         <Label htmlFor="imagen">Imagen</Label>
         <Input
@@ -140,18 +142,23 @@ const CursoForm = ({ isEdit, curso, onSubmit }) => {
           onChange={handleFileChange}
         />
       </div>
-  
-      {imagePreview && (
-        <div className="image-preview">
+
+      {/* Mostrar la imagen actual si no hay una nueva seleccionada */}
+      <div className="image-preview">
+        {imagePreview ? (
           <img src={imagePreview} alt="Vista previa de la imagen seleccionada" />
-        </div>
-      )}
-  
+        ) : currentImage ? (
+          <img src={currentImage} alt="Imagen actual del curso" />
+        ) : (
+          <p>No se ha cargado ninguna imagen</p>
+        )}
+      </div>
+
       <Button type="submit" className="w-full">
         {isEdit ? 'Actualizar Curso' : 'Crear Curso'}
       </Button>
     </form>
   );
-};  
+};
 
 export default CursoForm;

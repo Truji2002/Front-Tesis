@@ -178,7 +178,7 @@ const FormInstructor = ({ isEdit, instructor, onSubmit }) => {
   return (
     <form className="form-instructor" onSubmit={handleSubmit}>
       <h2>{isEdit ? 'Editar Instructor' : 'Crear Instructor'}</h2>
-
+  
       <div className="form-group">
         <Label htmlFor="first_name">Nombre</Label>
         <Input
@@ -189,7 +189,7 @@ const FormInstructor = ({ isEdit, instructor, onSubmit }) => {
           required
         />
       </div>
-
+  
       <div className="form-group">
         <Label htmlFor="last_name">Apellido</Label>
         <Input
@@ -200,7 +200,7 @@ const FormInstructor = ({ isEdit, instructor, onSubmit }) => {
           required
         />
       </div>
-
+  
       <div className="form-group">
         <Label htmlFor="email">Email</Label>
         <Input
@@ -208,11 +208,12 @@ const FormInstructor = ({ isEdit, instructor, onSubmit }) => {
           name="email"
           type="email"
           value={formData.email}
+          onChange={handleInputChange} // Esto debe estar presente incluso si está deshabilitado
           disabled={isEdit}
           required
         />
       </div>
-
+  
       <div className="form-group">
         <Label htmlFor="area">Área</Label>
         <Input
@@ -220,9 +221,10 @@ const FormInstructor = ({ isEdit, instructor, onSubmit }) => {
           name="area"
           value={formData.area}
           onChange={handleInputChange}
+          required
         />
       </div>
-
+  
       <div className="form-group">
         <Label htmlFor="fechaInicioCapacitacion">Fecha Inicio Capacitación</Label>
         <Input
@@ -231,9 +233,10 @@ const FormInstructor = ({ isEdit, instructor, onSubmit }) => {
           type="date"
           value={formData.fechaInicioCapacitacion}
           onChange={handleInputChange}
+          required
         />
       </div>
-
+  
       <div className="form-group">
         <Label htmlFor="fechaFinCapacitacion">Fecha Fin Capacitación</Label>
         <Input
@@ -242,15 +245,17 @@ const FormInstructor = ({ isEdit, instructor, onSubmit }) => {
           type="date"
           value={formData.fechaFinCapacitacion}
           onChange={handleInputChange}
+          required
         />
       </div>
-
+  
       <div className="form-group">
         <Label htmlFor="empresa">Empresa</Label>
         <select
           id="empresa"
           name="empresa"
           value={formData.empresa}
+          onChange={handleInputChange} // Se añadió para que sea controlado
           disabled={isEdit}
           required
         >
@@ -262,12 +267,13 @@ const FormInstructor = ({ isEdit, instructor, onSubmit }) => {
           ))}
         </select>
       </div>
-
+  
       <Button type="submit" className="w-full">
         {isEdit ? 'Actualizar Instructor' : 'Crear Instructor'}
       </Button>
     </form>
   );
+  
 };
 
 export default FormInstructor;

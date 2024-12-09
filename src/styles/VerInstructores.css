@@ -28,14 +28,15 @@
     margin: 0 auto; 
     border-collapse: separate;
     border-spacing: 0;
+    
     box-shadow: var(--shadow-light);
     border-radius: var(--border-radius);
     overflow: hidden;
   }
   
   .instructores-table thead {
-    background-color: var(--primary-color);
-  
+    background-color: var(--background-color);
+    text-align: center;
     color: var(--secondary-color);;
   }
   
@@ -114,4 +115,14 @@
         font-size: 0.8rem; /* Ajusta el tamaño en pantallas pequeñas */
         padding: 5px;
     }
+}
+
+.instructores-table th,
+.instructores-table td {
+  padding: var(--spacing-small);
+  border-bottom: 1px solid #ddd; /* Borde entre las filas */
+}
+
+.instructores-table tr:last-child td {
+  border-bottom: none; /* Elimina el borde inferior de la última fila */
 }

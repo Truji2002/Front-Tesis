@@ -10,7 +10,11 @@ import Registro from './components/Registro.jsx';
 import Empresas from './components/Empresas.jsx';
 import CrearInstructor from './components/CrearInstructor';
 import EditarInstructor from './components/EditarInstructor';
-import VerInstructores from './components/VerInstructores.jsx';
+import VerInstructores from './components/VerInstructores.jsx'; 
+import ListaCursos from './components/ListaCursos.jsx';
+import EditarCurso from './components/EditarCurso.jsx';
+import ListaSubcursos from './components/ListaSubcursos.jsx';
+import CrearSubcurso from './components/CrearSubcurso.jsx';
 
 
 function App() {
@@ -57,6 +61,11 @@ function App() {
       <Route path="instructor/edit/:id" element={<EditarInstructor/>} />
       <Route path="instructors" element={<VerInstructores />} />
       <Route path="courses/create" element={<CrearCurso />} />
+      <Route path="courses/list" element={<ListaCursos />} />
+      <Route path="course/edit/:id" element={<EditarCurso />} />
+      <Route path="/courses/:cursoId/subcourses" element={<ListaSubcursos />} />
+      <Route path="/subcourses/create/:cursoId" element={<CrearSubcurso />} />
+      
     </Route>
 
     {/* Ruta por defecto */}
