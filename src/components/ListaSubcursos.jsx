@@ -3,8 +3,12 @@ import { useParams, useNavigate } from 'react-router-dom';
 import Button from './ui/button/button';
 import { showAlert } from './alerts';
 import '../styles/ListaSubcursos.css';
+import Swal from 'sweetalert2';
+import { useLocation } from 'react-router-dom';
 
 const ListaSubcursos = () => {
+  const location = useLocation();
+  const [tituloCurso, setTituloCurso] = useState('');
   const { cursoId } = useParams(); // Obtener el ID del curso desde la URL
   const navigate = useNavigate();
   const [subcursos, setSubcursos] = useState([]);
@@ -32,6 +36,11 @@ const ListaSubcursos = () => {
       setLoading(false);
     }
   };
+  useEffect(() => {
+    // Usar primero el estado de la navegación, luego buscar en localStorage
+    const titulo = location.state?.tituloCurso || localStorage.getItem('tituloCurso');
+    setTituloCurso(titulo || 'Sin Título');
+  }, [location]);
 
   useEffect(() => {
     fetchSubcursos();
@@ -46,19 +55,23 @@ const ListaSubcursos = () => {
   };
 
   const handleEditarSubcurso = (subcursoId) => {
-    navigate(`/subcursos/${subcursoId}/editar`);
+    navigate(`/subcourses/edit/${subcursoId}`);
   };
 
   const handleEliminarSubcurso = async (subcursoId) => {
-    const confirm = await showAlert(
-      'Advertencia',
-      '¿Estás seguro de que deseas eliminar este subcurso?',
-      'warning',
-      true
-    );
-
+    const confirm = await Swal.fire({
+      title: 'Advertencia',
+      text: '¿Estás seguro de que deseas eliminar este subcurso con sus respectivos módulos?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Confirmar',
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: 'var(--logout-bg-color)', // Color del botón Confirmar
+      cancelButtonColor: 'var(--primary-color)', // Color del botón Cancelar
+    });
+  
     if (!confirm.isConfirmed) return;
-
+  
     try {
       const token = localStorage.getItem('accessToken');
       const response = await fetch(`http://127.0.0.1:8000/api/subcursos/${subcursoId}/`, {
@@ -67,21 +80,32 @@ const ListaSubcursos = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-
+  
       if (!response.ok) {
         throw new Error('Error al eliminar el subcurso.');
       }
-
-      showAlert('Éxito', 'Subcurso eliminado correctamente.', 'success');
+  
+      Swal.fire({
+        title: 'Éxito',
+        text: 'Subcurso eliminado correctamente.',
+        icon: 'success',
+        confirmButtonColor: 'var(--primary-color)',
+      });
+  
       fetchSubcursos(); // Refrescar la lista de subcursos
     } catch (error) {
-      showAlert('Error', error.message || 'No se pudo eliminar el subcurso.', 'error');
+      Swal.fire({
+        title: 'Error',
+        text: error.message || 'No se pudo eliminar el subcurso.',
+        icon: 'error',
+        confirmButtonColor: 'var(--error-color)',
+      });
     }
   };
 
   return (
     <div className="lista-subcursos-container">
-      <h2>Lista de Subcursos</h2>
+      <h2>Lista de subcursos {tituloCurso}</h2>
       {loading ? (
         <p>Cargando...</p>
       ) : subcursos.length > 0 ? (
@@ -90,7 +114,7 @@ const ListaSubcursos = () => {
             <tr>
               <th>Nombre</th>
               <th>Cantidad de Módulos</th>
-              <th>Progreso (%)</th>
+              
               <th>Acciones</th>
             </tr>
           </thead>
@@ -99,7 +123,7 @@ const ListaSubcursos = () => {
               <tr key={subcurso.id}>
                 <td>{subcurso.nombre}</td>
                 <td>{subcurso.cantidad_modulos}</td>
-                <td>{subcurso.progreso}</td>
+                
                 <td>
                   <Button onClick={() => handleVerModulos(subcurso.id)}>Ver Módulos</Button>
                   <Button onClick={() => handleEditarSubcurso(subcurso.id)}>Editar</Button>

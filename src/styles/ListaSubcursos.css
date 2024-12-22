@@ -39,6 +39,7 @@
     padding: var(--spacing-small);
     border-bottom: 1px solid var(--border-color);
     text-align: center;
+    border-bottom: 1px solid #ddd;
 }
 
 .subcursos-table th {

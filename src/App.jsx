@@ -4,8 +4,7 @@ import Login from './components/Login.jsx';
 import MainLayout from './components/MainLayout.jsx';
 import WelcomeScreen from './components/WelcomeAdmin.jsx';
 import CrearCurso from './components/CrearCurso.jsx';
-import AdministrarModulos from './components/AdministrarModulos.jsx';
-import AdministrarSubcursos from './components/AdministrarSubcursos.jsx';
+
 import Registro from './components/Registro.jsx';
 import Empresas from './components/Empresas.jsx';
 import CrearInstructor from './components/CrearInstructor';
@@ -15,6 +14,8 @@ import ListaCursos from './components/ListaCursos.jsx';
 import EditarCurso from './components/EditarCurso.jsx';
 import ListaSubcursos from './components/ListaSubcursos.jsx';
 import CrearSubcurso from './components/CrearSubcurso.jsx';
+import EditarSubcurso from './components/EditarSubcurso.jsx';
+import CambiarContraseña from './components/CambiarContraseña.jsx';
 
 
 function App() {
@@ -48,14 +49,16 @@ function App() {
     {/* Ruta de Registro */}
     <Route path="/register" element={<Registro />} />
 
+    {/* Ruta de Registro */}
+
+    <Route path="/change-password" element={<CambiarContraseña />} />
+
     {/* Rutas protegidas con Sidebar */}
     <Route
       path="/"
       element={isAuthenticated ? <MainLayout onLogout={handleLogout} /> : <Navigate to="/login" />}
     >
       <Route path="welcome" element={<WelcomeScreen />} />
-      <Route path="courses/subcourses" element={<AdministrarSubcursos />} />
-      <Route path="courses/modules" element={<AdministrarModulos />} />
       <Route path="empresas" element={<Empresas />} />
       <Route path="instructors/create" element={<CrearInstructor />} />
       <Route path="instructor/edit/:id" element={<EditarInstructor/>} />
@@ -65,6 +68,7 @@ function App() {
       <Route path="course/edit/:id" element={<EditarCurso />} />
       <Route path="/courses/:cursoId/subcourses" element={<ListaSubcursos />} />
       <Route path="/subcourses/create/:cursoId" element={<CrearSubcurso />} />
+      <Route path="/subcourses/edit/:subcursoId" element={<EditarSubcurso />} />
       
     </Route>
 

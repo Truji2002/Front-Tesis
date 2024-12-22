@@ -24,7 +24,22 @@ const EditarInstructor = () => {
         if (!response.ok) throw new Error('No se pudo cargar la información del instructor.');
 
         const data = await response.json();
-        setInstructor(data);
+        const responseCursos = await fetch(
+          `http://127.0.0.1:8000/api/instructor-curso/?instructor=${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+  
+        if (!responseCursos.ok) throw new Error('No se pudieron cargar los cursos asociados.');
+  
+        const cursosData = await responseCursos.json();
+        const cursosSeleccionados = cursosData.map((curso) => curso.curso);
+  
+        // Actualizar el estado del instructor con los cursos seleccionados
+        setInstructor({ ...data, cursosSeleccionados });
       } catch (error) {
         showAlert('Error', 'No se pudo cargar la información del instructor.', 'error');
         navigate('/instructors'); // Redirige en caso de error

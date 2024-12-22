@@ -1,95 +1,3 @@
-// import React, { useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
-// import '../styles/Sidebar.css';
-
-// const Sidebar = ({ onLogout }) => {
-//   const navigate = useNavigate();
-
-//   const [openEmpresas, setOpenEmpresas] = useState(false); // Nuevo estado para empresas
-//   const [openCourses, setOpenCourses] = useState(false);
-//   const [openMetrics, setOpenMetrics] = useState(false);
-
-//   const handleLogout = () => {
-//     onLogout(); // Llama a la función para desautenticar
-//     navigate('/login'); // Redirige a la página de login
-//   };
-
-//   return (
-//     <aside className="sidebar">
-//       <h2>Menú</h2>
-//       <ul>
-//         {/* Administrar Empresas */}
-//         <li>
-//       <button onClick={() => setOpenEmpresas(!openEmpresas)} className="menu-button">
-//         Administrar Empresas
-//       </button>
-//       {openEmpresas && (
-//         <ul className="submenu">
-//           <li
-//             onClick={() => {
-//               navigate('/empresas');
-//             }}
-//           >
-//             Empresas
-//           </li>
-//         </ul>
-//       )}
-//     </li>
-
-//         {/* Administrar Cursos */}
-//         <li>
-//           <button onClick={() => setOpenCourses(!openCourses)} className="menu-button">
-//             Administrar Cursos
-//           </button>
-//           {openCourses && (
-//             <ul className="submenu">
-//               <li
-//                 onClick={() => {
-//                   navigate('/courses/create');
-//                 }}
-//               >
-//                 Crear Curso
-//               </li>
-//               <li
-//                 onClick={() => {
-//                   navigate('/courses/subcourses');
-//                 }}
-//               >
-//                 Administrar Subcursos
-//               </li>
-//               <li
-//                 onClick={() => {
-//                   navigate('/courses/modules');
-//                 }}
-//               >
-//                 Administrar Módulos
-//               </li>
-//               <li
-//                 onClick={() => {
-//                   navigate('/courses/tests');
-//                 }}
-//               >
-//                 Administrar Prueba
-//               </li>
-//             </ul>
-//           )}
-//         </li>
-
-//         {/* Métricas */}
-//         <li>
-//           <button onClick={() => setOpenMetrics(!openMetrics)} className="menu-button">
-//             Métricas
-//           </button>
-//         </li>
-//       </ul>
-//       <button className="logout-button" onClick={handleLogout}>
-//         Cerrar sesión
-//       </button>
-//     </aside>
-//   );
-// };
-
-// export default Sidebar;
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Sidebar.css';
@@ -100,10 +8,13 @@ const Sidebar = ({ onLogout }) => {
   const [openEmpresas, setOpenEmpresas] = useState(false);
   const [openCourses, setOpenCourses] = useState(false);
   const [openMetrics, setOpenMetrics] = useState(false);
-  const [openInstructors, setOpenInstructors] = useState(false); // Nuevo estado para instructores
+  const [openInstructors, setOpenInstructors] = useState(false);
+
+  const role = localStorage.getItem('rol'); // Obtener el rol desde localStorage
 
   const handleLogout = () => {
     onLogout();
+    localStorage.removeItem('rol'); // Limpiar el rol al cerrar sesión
     navigate('/login');
   };
 
@@ -111,97 +22,72 @@ const Sidebar = ({ onLogout }) => {
     <aside className="sidebar">
       <h2>Menú</h2>
       <ul>
-        {/* Administrar Empresas */}
-        <li>
-          <button onClick={() => setOpenEmpresas(!openEmpresas)} className="menu-button">
-            Administrar Empresas
-          </button>
-          {openEmpresas && (
-            <ul className="submenu">
-              <li
-                onClick={() => {
-                  navigate('/empresas');
-                }}
-              >
-                Empresas
-              </li>
-            </ul>
-          )}
-        </li>
-        {/* Administrar Instructores */}
-        <li>
-          <button onClick={() => setOpenInstructors(!openInstructors)} className="menu-button">
-            Administrar Instructores
-          </button>
-          {openInstructors && (
-            <ul className="submenu">
-              <li
-                onClick={() => {
-                  navigate('/instructors/create');
-                }}
-              >
-                Crear Instructor
-              </li>
-              <li
-                onClick={() => {
-                  navigate('/instructors');
-                }}
-              >
-                Ver Instructores
-              </li>
-             
-            </ul>
-          )}
-        </li>
+
         {/* Administrar Cursos */}
-        <li>
-          <button onClick={() => setOpenCourses(!openCourses)} className="menu-button">
-            Administrar Cursos
-          </button>
-          {openCourses && (
-            <ul className="submenu">
-              
-              <li
-                onClick={() => {
-                  navigate('/courses/list');
-                }}
-              >
-                Panel de Cursos
-              </li>
-              <li
-                onClick={() => {
-                  navigate('/courses/subcourses');
-                }}
-              >
-                Administrar Subcursos
-              </li>
-              <li
-                onClick={() => {
-                  navigate('/courses/subcourses/module');
-                }}
-              >
-                Administrar Módulos
-              </li>
-              <li
-                onClick={() => {
-                  navigate('/courses/tests');
-                }}
-              >
-                Administrar Prueba
-              </li>
-            </ul>
-          )}
-        </li>
+        {role === 'admin' && (
+          <li>
+            <button onClick={() => setOpenCourses(!openCourses)} className="menu-button">
+              Administrar Cursos
+            </button>
+            {openCourses && (
+              <ul className="submenu">
+                <li onClick={() => navigate('/courses/list')}>Panel de Cursos</li>
+                <li onClick={() => navigate('/courses/tests')}>Administrar Prueba</li>
+              </ul>
+            )}
+          </li>
+        )}
+        {/* Administrar Empresas */}
+        {role === 'admin' && (
+          <li>
+            <button onClick={() => setOpenEmpresas(!openEmpresas)} className="menu-button">
+              Administrar Empresas
+            </button>
+            {openEmpresas && (
+              <ul className="submenu">
+                <li onClick={() => navigate('/empresas')}>Empresas</li>
+              </ul>
+            )}
+          </li>
+        )}
 
+        
 
+        {/* Administrar Instructores */}
+        {role === 'admin' && (
+          <li>
+            <button onClick={() => setOpenInstructors(!openInstructors)} className="menu-button">
+              Administrar Instructores
+            </button>
+            {openInstructors && (
+              <ul className="submenu">
+                <li onClick={() => navigate('/instructors/create')}>Crear Instructor</li>
+                <li onClick={() => navigate('/instructors')}>Ver Instructores</li>
+              </ul>
+            )}
+          </li>
+        )}
 
-        {/* Métricas */}
+        
+
+        {/* Opción de Estudiantes para el rol instructor */}
+        {role === 'instructor' && (
+          <li>
+            <button className="menu-button" onClick={() => navigate('/estudiantes')}>
+              Estudiantes
+            </button>
+          </li>
+        )}
+
+        {/* Métricas (común a todos los roles) */}
         <li>
           <button onClick={() => setOpenMetrics(!openMetrics)} className="menu-button">
             Métricas
           </button>
         </li>
       </ul>
+
+      {/* Botón de cerrar sesión */}
       <button className="logout-button" onClick={handleLogout}>
         Cerrar sesión
       </button>
