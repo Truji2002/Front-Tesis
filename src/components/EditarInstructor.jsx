@@ -15,16 +15,34 @@ const EditarInstructor = () => {
   useEffect(() => {
     const fetchInstructor = async () => {
       try {
-        const response = await fetch(`http://127.0.0.1:8000/api/instructores/${id}/`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
+        const response = await fetch(
+          `http://127.0.0.1:8000/api/instructores/${id}/`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+  
         if (!response.ok) throw new Error('No se pudo cargar la información del instructor.');
-
+  
         const data = await response.json();
-        setInstructor(data);
+  
+        const responseCursos = await fetch(
+          `http://127.0.0.1:8000/api/instructor-curso/?instructor=${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+  
+        if (!responseCursos.ok) throw new Error('Error al cargar los cursos asociados.');
+        const cursosData = await responseCursos.json();
+  
+        const cursosSeleccionados = cursosData.map((curso) => curso.curso_id);
+  
+        setInstructor({ ...data, cursosSeleccionados });
       } catch (error) {
         showAlert('Error', 'No se pudo cargar la información del instructor.', 'error');
         navigate('/instructors'); // Redirige en caso de error
@@ -32,9 +50,10 @@ const EditarInstructor = () => {
         setLoading(false);
       }
     };
-
+  
     fetchInstructor();
   }, [id, navigate, token]);
+  
 
   const handleFormSubmit = () => {
     showAlert('Éxito', 'El instructor fue actualizado con éxito.', 'success');

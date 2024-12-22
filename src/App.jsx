@@ -4,8 +4,7 @@ import Login from './components/Login.jsx';
 import MainLayout from './components/MainLayout.jsx';
 import WelcomeScreen from './components/WelcomeAdmin.jsx';
 import CrearCurso from './components/CrearCurso.jsx';
-import AdministrarModulos from './components/AdministrarModulos.jsx';
-import AdministrarSubcursos from './components/AdministrarSubcursos.jsx';
+
 import Registro from './components/Registro.jsx';
 import Empresas from './components/Empresas.jsx';
 import CrearInstructor from './components/CrearInstructor';
@@ -15,6 +14,7 @@ import ListaCursos from './components/ListaCursos.jsx';
 import EditarCurso from './components/EditarCurso.jsx';
 import ListaSubcursos from './components/ListaSubcursos.jsx';
 import CrearSubcurso from './components/CrearSubcurso.jsx';
+<<<<<<< HEAD
 import CrearPrueba from './components/CrearPrueba.jsx';
 import ListaPruebas from './components/ListaPruebas.jsx'; // Asegúrate de importar esto
 import CrearPregunta from './components/CrearPregunta.jsx';
@@ -23,6 +23,10 @@ import ListaPreguntas from './components/ListaPreguntas.jsx';
 import EditarPrueba from './components/EditarPrueba.jsx'; // Ajusta la ruta según tu estructura de archivos
 import EditarPregunta from './components/EditarPregunta.jsx';
 import EstudianteDashboard from './components/EstudianteDashboard';
+=======
+import EditarSubcurso from './components/EditarSubcurso.jsx';
+import CambiarContraseña from './components/CambiarContraseña.jsx';
+>>>>>>> developDavid-local
 
 
 function App() {
@@ -56,6 +60,7 @@ function App() {
         {/* Ruta de Registro */}
         <Route path="/register" element={<Registro />} />
 
+<<<<<<< HEAD
         {/* Rutas protegidas con Sidebar */}
         <Route
           path="/"
@@ -76,6 +81,30 @@ function App() {
           <Route path="pruebas" element={<ListaPruebas />} />
           <Route path="pruebas/create" element={<CrearPrueba />} />
           <Route path="pruebas/:pruebaId/preguntas" element={<ListaPreguntas />} />
+=======
+    {/* Ruta de Registro */}
+
+    <Route path="/change-password" element={<CambiarContraseña />} />
+
+    {/* Rutas protegidas con Sidebar */}
+    <Route
+      path="/"
+      element={isAuthenticated ? <MainLayout onLogout={handleLogout} /> : <Navigate to="/login" />}
+    >
+      <Route path="welcome" element={<WelcomeScreen />} />
+      <Route path="empresas" element={<Empresas />} />
+      <Route path="instructors/create" element={<CrearInstructor />} />
+      <Route path="instructor/edit/:id" element={<EditarInstructor/>} />
+      <Route path="instructors" element={<VerInstructores />} />
+      <Route path="courses/create" element={<CrearCurso />} />
+      <Route path="courses/list" element={<ListaCursos />} />
+      <Route path="course/edit/:id" element={<EditarCurso />} />
+      <Route path="/courses/:cursoId/subcourses" element={<ListaSubcursos />} />
+      <Route path="/subcourses/create/:cursoId" element={<CrearSubcurso />} />
+      <Route path="/subcourses/edit/:subcursoId" element={<EditarSubcurso />} />
+      
+    </Route>
+>>>>>>> developDavid-local
 
 <Route path="pruebas/:pruebaId/preguntas/create" element={<CrearPregunta />} />
 <Route path="pruebas/:id/edit" element={<EditarPrueba />} />

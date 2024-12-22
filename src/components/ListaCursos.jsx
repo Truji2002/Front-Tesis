@@ -28,7 +28,8 @@ const ListaCursos = () => {
     fetchCursos();
   }, []);
 
-  const handleVerSubcursos = (cursoId) => {
+  const handleVerSubcursos = (cursoId, titulo) => {
+    localStorage.setItem('tituloCurso', titulo); // Guardar en localStorage
     navigate(`/courses/${cursoId}/subcourses`);
   };
 

@@ -21,7 +21,7 @@ const Login = ({ onSuccess }) => {
       const response = await fetch(`http://127.0.0.1:8000/api/login/`, {
         method: 'POST',
         headers: {
-          'Accept': 'application/json',
+          Accept: 'application/json',
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(credentials),
@@ -48,16 +48,27 @@ const Login = ({ onSuccess }) => {
     e.preventDefault();
     setError('');
     setLoading(true);
-
+  
     try {
       const response = await login({ email, password });
-
+  
       if (response && response.access) {
+        // Guardar tokens y datos en localStorage
         localStorage.setItem('accessToken', response.access);
         localStorage.setItem('refreshToken', response.refresh);
         localStorage.setItem('nombre', response.first_name);
-        setError('');
-        onSuccess();
+        localStorage.setItem('rol', response.rol);
+  
+        if (response.rol === 'instructor' && response.debeCambiarContraseña) {
+          console.log('Redirigiendo a cambio de contraseña'); // Verificar en consola
+          localStorage.setItem('debeCambiarContraseña', 'true');
+          navigate('/change-password'); // Redirige a la página de cambio
+        } else {
+          // Redirigir al dashboard principal
+          localStorage.removeItem('debeCambiarContraseña');
+          onSuccess(); // Llama al callback
+          navigate('/'); // Redirige al dashboard
+        }
       } else {
         setError('Credenciales incorrectas');
       }
@@ -68,7 +79,6 @@ const Login = ({ onSuccess }) => {
       setLoading(false);
     }
   };
-
   return (
     <div className="login-container">
       <form onSubmit={handleSubmit} className="login-form">
@@ -111,7 +121,13 @@ const Login = ({ onSuccess }) => {
 
         <p className="register-link">
           ¿No tienes cuenta?{' '}
-          <a href="#" onClick={(e) => { e.preventDefault(); navigate('/register'); }}>
+          <a
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              navigate('/register');
+            }}
+          >
             Regístrate con el código de tu organización
           </a>
         </p>

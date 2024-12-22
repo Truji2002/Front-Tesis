@@ -112,9 +112,41 @@ const VerInstructores = () => {
     }
   };
 
-  const handleEdit = (id) => {
-    navigate(`/instructor/edit/${id}`);
+  const handleEdit = async (id) => {
+    try {
+      const responseInstructor = await fetch(
+        `http://127.0.0.1:8000/api/instructores/${id}/`,
+        {
+          headers: getHeaders(),
+        }
+      );
+  
+      if (!responseInstructor.ok) throw new Error('Error al cargar el instructor.');
+      const instructorData = await responseInstructor.json();
+  
+      const responseCursos = await fetch(
+        `http://127.0.0.1:8000/api/instructor-curso/?instructor=${id}`,
+        {
+          headers: getHeaders(),
+        }
+      );
+  
+      if (!responseCursos.ok) throw new Error('Error al cargar los cursos asociados.');
+      const cursosData = await responseCursos.json();
+  
+      const cursosSeleccionados = cursosData.map((curso) => curso.curso);
+  
+      navigate(`/instructor/edit/${id}`, {
+        state: {
+          instructor: { ...instructorData, cursosSeleccionados },
+        },
+      });
+    } catch (error) {
+      showAlert('Error', error.message || 'No se pudo cargar el instructor.', 'error');
+    }
   };
+  
+  
   const handleCambiar = (instructor) => {
     Swal.fire({
       title: 'Reemplazar Instructor',

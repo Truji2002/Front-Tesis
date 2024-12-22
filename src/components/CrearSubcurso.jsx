@@ -12,7 +12,7 @@ const CrearSubcurso = () => {
 
   return (
     <div className="crear-subcurso-container">
-      <SubcursoForm onSubmit={handleSubmit} />
+      <SubcursoForm onSubmit={handleSubmit} isEdit={false} />
     </div>
   );
 };
