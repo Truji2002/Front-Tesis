@@ -79,15 +79,21 @@ const FormInstructor = ({ isEdit, instructor, onSubmit }) => {
           );
           if (!response.ok) throw new Error('Error al obtener cursos asociados.');
           const data = await response.json();
+          
+          // Extraer el campo curso (ID real del curso) de cada registro
+          const cursosSeleccionados = data.map((registro) => registro.curso_id);
+          
+    
           setFormData((prev) => ({
             ...prev,
-            cursosSeleccionados: data.map((curso) => curso.curso),
+            cursosSeleccionados,
           }));
         } catch (error) {
           showAlert('Error', 'No se pudieron cargar los cursos asociados.', 'error');
         }
       }
     };
+    
 
     fetchEmpresas();
     fetchCursos();
@@ -174,7 +180,7 @@ const FormInstructor = ({ isEdit, instructor, onSubmit }) => {
         }
       );
   
-      const cursosActuales = (await cursosActualesResponse.json()).map((c) => c.curso);
+      const cursosActuales = (await cursosActualesResponse.json()).map((c) => c.curso_id);
   
       // Calcular los cursos a agregar y eliminar
       const cursosAAgregar = formData.cursosSeleccionados.filter(
@@ -344,19 +350,26 @@ const FormInstructor = ({ isEdit, instructor, onSubmit }) => {
       <div className="form-group">
   <Label htmlFor="cursos">Cursos</Label>
   <div className="cursos-list">
-    {cursos.map((curso) => (
-      <div className="cursos-item" key={curso.id}>
-        <input
-          type="checkbox"
-          id={`curso-${curso.id}`}
-          checked={formData.cursosSeleccionados.includes(curso.id)}
-          onChange={() => handleCursoChange(curso.id)}
-        />
-        <label htmlFor={`curso-${curso.id}`}>{curso.titulo}</label>
-      </div>
-    ))}
+
+    {cursos.map((curso) => {
+      const isChecked = formData.cursosSeleccionados.includes(curso.id);
+      
+
+      return (
+        <div className="cursos-item" key={curso.id}>
+          <input
+            type="checkbox"
+            id={`curso-${curso.id}`}
+            checked={isChecked}
+            onChange={() => handleCursoChange(curso.id)}
+          />
+          <label htmlFor={`curso-${curso.id}`}>{curso.titulo}</label>
+        </div>
+      );
+    })}
   </div>
 </div>
+
 
 
       <Button type="submit">{isEdit ? 'Actualizar Instructor' : 'Crear Instructor'}</Button>
