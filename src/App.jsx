@@ -15,6 +15,14 @@ import ListaCursos from './components/ListaCursos.jsx';
 import EditarCurso from './components/EditarCurso.jsx';
 import ListaSubcursos from './components/ListaSubcursos.jsx';
 import CrearSubcurso from './components/CrearSubcurso.jsx';
+import CrearPrueba from './components/CrearPrueba.jsx';
+import ListaPruebas from './components/ListaPruebas.jsx'; // Asegúrate de importar esto
+import CrearPregunta from './components/CrearPregunta.jsx';
+import ListaPreguntas from './components/ListaPreguntas.jsx';
+
+import EditarPrueba from './components/EditarPrueba.jsx'; // Ajusta la ruta según tu estructura de archivos
+import EditarPregunta from './components/EditarPregunta.jsx';
+import EstudianteDashboard from './components/EstudianteDashboard';
 
 
 function App() {
@@ -38,42 +46,51 @@ function App() {
 
   return (
     <Router>
-  <Routes>
-    {/* Ruta de Login */}
-    <Route
-      path="/login"
-      element={isAuthenticated ? <Navigate to="/welcome" /> : <Login onSuccess={handleLoginSuccess} />}
-    />
+      <Routes>
+        {/* Ruta de Login */}
+        <Route
+          path="/login"
+          element={isAuthenticated ? <Navigate to="/welcome" /> : <Login onSuccess={handleLoginSuccess} />}
+        />
 
-    {/* Ruta de Registro */}
-    <Route path="/register" element={<Registro />} />
+        {/* Ruta de Registro */}
+        <Route path="/register" element={<Registro />} />
 
-    {/* Rutas protegidas con Sidebar */}
-    <Route
-      path="/"
-      element={isAuthenticated ? <MainLayout onLogout={handleLogout} /> : <Navigate to="/login" />}
-    >
-      <Route path="welcome" element={<WelcomeScreen />} />
-      <Route path="courses/subcourses" element={<AdministrarSubcursos />} />
-      <Route path="courses/modules" element={<AdministrarModulos />} />
-      <Route path="empresas" element={<Empresas />} />
-      <Route path="instructors/create" element={<CrearInstructor />} />
-      <Route path="instructor/edit/:id" element={<EditarInstructor/>} />
-      <Route path="instructors" element={<VerInstructores />} />
-      <Route path="courses/create" element={<CrearCurso />} />
-      <Route path="courses/list" element={<ListaCursos />} />
-      <Route path="course/edit/:id" element={<EditarCurso />} />
-      <Route path="/courses/:cursoId/subcourses" element={<ListaSubcursos />} />
-      <Route path="/subcourses/create/:cursoId" element={<CrearSubcurso />} />
-      
-    </Route>
+        {/* Rutas protegidas con Sidebar */}
+        <Route
+          path="/"
+          element={isAuthenticated ? <MainLayout onLogout={handleLogout} /> : <Navigate to="/login" />}
+        >
+          <Route path="welcome" element={<WelcomeScreen />} />
+          <Route path="courses/subcourses" element={<AdministrarSubcursos />} />
+          <Route path="courses/modules" element={<AdministrarModulos />} />
+          <Route path="empresas" element={<Empresas />} />
+          <Route path="instructors/create" element={<CrearInstructor />} />
+          <Route path="instructor/edit/:id" element={<EditarInstructor/>} />
+          <Route path="instructors" element={<VerInstructores />} />
+          <Route path="courses/create" element={<CrearCurso />} />
+          <Route path="courses/list" element={<ListaCursos />} />
+          <Route path="course/edit/:id" element={<EditarCurso />} />
+          <Route path="courses/:cursoId/subcourses" element={<ListaSubcursos />} />
+          <Route path="subcourses/create/:cursoId" element={<CrearSubcurso />} />
+          <Route path="pruebas" element={<ListaPruebas />} />
+          <Route path="pruebas/create" element={<CrearPrueba />} />
+          <Route path="pruebas/:pruebaId/preguntas" element={<ListaPreguntas />} />
 
-    {/* Ruta por defecto */}
-    <Route path="*" element={<Navigate to={isAuthenticated ? "/welcome" : "/login"} />} />
-  </Routes>
-</Router>
+<Route path="pruebas/:pruebaId/preguntas/create" element={<CrearPregunta />} />
+<Route path="pruebas/:id/edit" element={<EditarPrueba />} />
+<Route path="pruebas/:id/edit" element={<EditarPrueba />} />
+<Route path="pruebas/:pruebaId/preguntas/:preguntaId/edit" element={<EditarPregunta />} />
+
+        </Route>
+        <Route path="/estudiante/dashboard" element={<EstudianteDashboard />} />
+
+
+        {/* Ruta por defecto */}
+        <Route path="*" element={<Navigate to={isAuthenticated ? "/welcome" : "/login"} />} />
+      </Routes>
+    </Router>
   );
 }
 
 export default App;
-

@@ -1,131 +1,237 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap');
+
+:root {
+  --primary-color: #4e54c8;
+  --primary-hover-color: #3b3b8f;
+  --secondary-color: #333;
+  --form-bg-color: #fff;
+  --text-color: #fff;
+  --logout-bg-color: #e74c3c; 
+  --logout-hover-color: #c0392b;
+  --font-family: 'Poppins', sans-serif;
+  --shadow-light: 0 4px 8px rgba(0,0,0,0.1);
+  --shadow-hover: 0 6px 16px rgba(0,0,0,0.15);
+  --border-radius: 8px;
+  --spacing-small: 10px;
+  --spacing-medium: 20px;
+}
+
+/* Sidebar con efecto glassmorphism */
 .sidebar {
-  position: fixed; /* Fijo en la pantalla */
+  position: fixed;
   top: 0;
   left: 0;
-  height: 100%; /* Ocupa toda la altura */
-  width: 250px; /* Ancho fijo */
-  background-color: var(--secondary-color); /* Fondo gris oscuro */
+  height: 100%;
+  width: 250px;
+  background: rgba(62,62,92,0.2);
+  backdrop-filter: blur(10px);
   padding: var(--spacing-medium);
-  box-shadow: var(--shadow-light); /* Sombra ligera */
   display: flex;
-  flex-direction: column; /* Acomoda elementos en columna */
-  justify-content: space-between; /* Espaciado entre contenido principal y "Cerrar sesión" */
+  flex-direction: column;
   font-family: var(--font-family);
-  z-index: 10; /* Asegura que esté siempre visible */
-  overflow-y: auto; /* Scroll si hay mucho contenido */
+  z-index: 10;
+  overflow-y: auto;
+  border-right: 1px solid rgba(255,255,255,0.1);
 }
 
-/* Scroll personalizado para el Sidebar */
+/* Scroll personalizado */
 .sidebar::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
-
 .sidebar::-webkit-scrollbar-thumb {
-  background-color: var(--primary-color); /* Color del scroll */
+  background-color: var(--primary-color);
   border-radius: 4px;
 }
-
 .sidebar::-webkit-scrollbar-track {
-  background-color: rgba(255, 255, 255, 0.1); /* Fondo del track */
+  background-color: transparent;
 }
 
-/* Título del Sidebar */
-.sidebar h2 {
-  font-size: 1.5rem;
-  color: var(--form-bg-color); /* Texto blanco */
-  text-align: center;
+/* Header del sidebar */
+.sidebar-header {
+  display: flex;
+  align-items: center;
   margin-bottom: var(--spacing-medium);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Línea divisoria */
-  padding-bottom: var(--spacing-small);
 }
 
-/* Lista principal del menú */
-.sidebar ul {
+.brand-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: var(--spacing-small);
+  object-fit: cover;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+.brand-info {
+  color: #fff;
+}
+
+.brand-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin: 0;
+  margin-bottom: 4px;
+}
+
+.brand-subtitle {
+  font-size: 0.9rem;
+  font-weight: 300;
+  margin: 0;
+  opacity: 0.8;
+}
+
+/* Menú principal */
+.main-menu {
   list-style: none;
   padding: 0;
   margin: 0;
-  flex-grow: 1; /* Ocupa todo el espacio disponible */
+  flex-grow: 1;
 }
 
-.sidebar ul li {
+.menu-item {
+  position: relative;
   margin-bottom: var(--spacing-small);
 }
 
-.sidebar ul li .menu-button {
+.menu-item:hover::before {
+  content: "";
+  position: absolute;
+  left: -8px;
+  top: 0;
+  height: 100%;
+  width: 3px;
+  background: var(--primary-color);
+  border-radius: 2px;
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.3s ease;
+}
+
+.menu-item:hover::before {
+  transform: scaleY(1);
+}
+
+.menu-button {
   background: none;
-  color: var(--form-bg-color); /* Texto blanco */
+  color: #fff;
   border: none;
-  font-size: 16px;
+  font-size: 14px;
   text-align: left;
   width: 100%;
   cursor: pointer;
   padding: var(--spacing-small);
   border-radius: var(--border-radius);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   transition: color 0.3s ease, background-color 0.3s ease, transform 0.2s ease;
+  position: relative;
 }
 
-.sidebar ul li .menu-button:hover {
-  color: var(--primary-color); /* Azul principal al pasar el mouse */
-  background-color: rgba(255, 255, 255, 0.1); /* Fondo translúcido */
-  transform: translateX(5px); /* Desplazamiento sutil */
+.menu-icon {
+  margin-right: 8px;
+  font-size: 1.1em;
+  vertical-align: middle;
+  transition: filter 0.3s ease;
 }
 
-/* Submenú */
+.menu-button:hover .menu-icon {
+  filter: drop-shadow(0 0 4px var(--primary-color));
+}
+
+.chevron {
+  transition: transform 0.3s ease;
+  font-size: 0.9em;
+  opacity: 0.8;
+}
+
+.chevron.rotated {
+  transform: rotate(90deg);
+}
+
+.menu-button:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  transform: translateX(3px);
+}
+
+/* Submenú con animación */
 .submenu {
-  margin-left: var(--spacing-small);
+  margin-left: calc(var(--spacing-small) + 5px);
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.4s ease, opacity 0.4s ease, transform 0.3s ease;
+  opacity: 0;
+  transform: scale(0.95);
+  transform-origin: top left;
+}
+
+.submenu.open {
+  max-height: 200px;
+  opacity: 1;
+  transform: scale(1);
 }
 
 .submenu li {
-  color: var(--form-bg-color); /* Texto blanco */
+  color: #fff;
   cursor: pointer;
   padding: var(--spacing-small);
   transition: color 0.3s ease, background-color 0.3s ease;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
 }
 
 .submenu li:hover {
-  color: var(--primary-color); /* Azul al pasar el mouse */
+  color: var(--primary-color);
   background-color: rgba(255, 255, 255, 0.1);
   border-radius: var(--border-radius);
 }
 
 /* Botón de cerrar sesión */
 .logout-button {
-  margin-top: auto; /* Posición al final del Sidebar */
+  margin-top: auto;
   padding: var(--spacing-small);
-  background-color: var(--logout-bg-color); /* Fondo rojo */
-  color: white; /* Texto blanco */
-  font-size: 16px;
-  font-weight: bold;
+  background-color: var(--logout-bg-color);
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
   border: none;
   border-radius: var(--border-radius);
   cursor: pointer;
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
   transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  margin-top: var(--spacing-medium);
 }
 
 .logout-button:hover {
-  background-color: var(--logout-hover-color); /* Rojo más oscuro */
-  box-shadow: 0px 4px 10px rgba(255, 0, 0, 0.4); /* Sombra roja */
-  transform: translateY(-2px); /* Elevación al pasar el mouse */
+  background-color: var(--logout-hover-color);
+  box-shadow: 0px 4px 10px rgba(255, 0, 0, 0.4);
+  transform: translateY(-2px);
 }
 
-/* Diseño responsivo */
+/* Responsivo */
 @media (max-width: 768px) {
   .sidebar {
-    width: 200px; /* Sidebar más estrecho */
+    width: 200px;
   }
-
-  .main-content {
-    margin-left: 200px; /* Ajusta el margen según el ancho del sidebar */
-  }
-}
-.logout-button {
-  margin-bottom: 20px;
-
   
-}
+  .brand-title {
+    font-size: 1.1rem;
+  }
+  
+  .brand-subtitle {
+    font-size: 0.8rem;
+  }
 
-.sidebar ul li {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  padding-bottom: 10px;
+  .menu-button {
+    font-size: 13px;
+  }
+
+  .logout-button {
+    font-size: 13px;
+  }
 }

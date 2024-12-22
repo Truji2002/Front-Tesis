@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Button from './ui/button/button';
 import Input from './ui/input/input';
 import Label from './ui/label/label';
+import { FaEnvelope, FaLock } from 'react-icons/fa';
 import '../styles/Login.css';
 
 const Login = ({ onSuccess }) => {
@@ -62,8 +63,6 @@ const Login = ({ onSuccess }) => {
       }
     } catch (err) {
       setError(err.message || 'Error al intentar iniciar sesión. Inténtalo de nuevo más tarde.');
-
-      // Eliminar el mensaje de error después de 5 segundos
       setTimeout(() => setError(''), 5000);
     } finally {
       setLoading(false);
@@ -76,8 +75,11 @@ const Login = ({ onSuccess }) => {
         <h2>Iniciar Sesión</h2>
         {error && <p className="error">{error}</p>}
 
+        
         <div className="form-group">
-          <Label htmlFor="email">Email</Label>
+          <Label htmlFor="email">
+            <FaEnvelope className="icon-inline" /> Email
+          </Label>
           <Input
             id="email"
             name="email"
@@ -89,7 +91,9 @@ const Login = ({ onSuccess }) => {
         </div>
 
         <div className="form-group">
-          <Label htmlFor="password">Contraseña</Label>
+          <Label htmlFor="password">
+            <FaLock className="icon-inline" /> Contraseña
+          </Label>
           <Input
             id="password"
             name="password"
@@ -99,6 +103,7 @@ const Login = ({ onSuccess }) => {
             required
           />
         </div>
+        
 
         <Button type="submit" className="w-full" disabled={loading}>
           {loading ? 'Cargando...' : 'Ingresar'}

@@ -1,6 +1,7 @@
-/* Button.css */
 .button {
-  width: 100%;
+  display: block; /* Asegura que el botón se comporte como un elemento de bloque */
+  width: 50%;
+  margin: 0 auto; /* Centra el botón horizontalmente */
   padding: 12px;
   font-size: 16px;
   font-weight: 600;
@@ -14,10 +15,14 @@
 
 .button:hover {
   background-color: var(--primary-hover-color);
-  transform: translateY(-2px); /* Efecto de elevación */
+  transform: translateY(-2px);
 }
 
 .button:disabled {
   background-color: #cccccc;
   cursor: not-allowed;
+}
+
+.button + .button {
+  margin-top: 10px; /* Añade 10px de espacio entre los botones */
 }
