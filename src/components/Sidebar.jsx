@@ -73,7 +73,7 @@ const Sidebar = ({ onLogout }) => {
         {/* Opción de Estudiantes para el rol instructor */}
         {role === 'instructor' && (
           <li>
-            <button className="menu-button" onClick={() => navigate('/estudiantes')}>
+            <button className="menu-button" onClick={() => navigate('/students')}>
               Estudiantes
             </button>
           </li>

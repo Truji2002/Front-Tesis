@@ -16,6 +16,7 @@ import ListaSubcursos from './components/ListaSubcursos.jsx';
 import CrearSubcurso from './components/CrearSubcurso.jsx';
 import EditarSubcurso from './components/EditarSubcurso.jsx';
 import CambiarContraseña from './components/CambiarContraseña.jsx';
+import VerEstudiantes from './components/VerEstudiantes.jsx';
 
 
 function App() {
@@ -69,6 +70,7 @@ function App() {
       <Route path="/courses/:cursoId/subcourses" element={<ListaSubcursos />} />
       <Route path="/subcourses/create/:cursoId" element={<CrearSubcurso />} />
       <Route path="/subcourses/edit/:subcursoId" element={<EditarSubcurso />} />
+      <Route path="students" element={<VerEstudiantes />} />
       
     </Route>
 

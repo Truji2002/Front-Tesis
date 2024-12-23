@@ -57,9 +57,10 @@ const Login = ({ onSuccess }) => {
         localStorage.setItem('refreshToken', response.refresh);
         localStorage.setItem('nombre', response.first_name);
         localStorage.setItem('rol', response.rol);
-  
+        localStorage.setItem('codigoOrganizacion', response.codigoOrganizacion);
+        
         if (response.rol === 'instructor' && response.debeCambiarContraseña) {
-          console.log('Redirigiendo a cambio de contraseña'); // Verificar en consola
+          
           localStorage.setItem('debeCambiarContraseña', 'true');
           navigate('/change-password'); // Redirige a la página de cambio
         } else {
