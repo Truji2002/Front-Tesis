@@ -74,10 +74,12 @@ const Sidebar = ({ onLogout }) => {
         {role === 'instructor' && (
           <li>
             <button className="menu-button" onClick={() => navigate('/students')}>
-              Estudiantes
+            Progreso Estudiantes
             </button>
           </li>
+          
         )}
+        
 
         {/* Métricas (común a todos los roles) */}
         <li>

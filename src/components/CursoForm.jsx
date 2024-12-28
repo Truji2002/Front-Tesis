@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import Button from './ui/button/button';
 import Input from './ui/input/input';
@@ -12,6 +11,7 @@ const CursoForm = ({ isEdit, curso, onSubmit }) => {
     titulo: '',
     descripcion: '',
     imagen: null, // Aquí se guardará el archivo seleccionado
+    simulacion: false, // Nuevo campo
   });
 
   const [imagePreview, setImagePreview] = useState(null); // Vista previa de la nueva imagen
@@ -23,6 +23,7 @@ const CursoForm = ({ isEdit, curso, onSubmit }) => {
         titulo: curso.titulo || '',
         descripcion: curso.descripcion || '',
         imagen: null, // Nueva imagen no cargada aún
+        simulacion: curso.simulacion || false, // Cargar el valor del campo simulación
       });
       setCurrentImage(curso.imagen); // Cargar la imagen actual desde la API
     }
@@ -31,6 +32,10 @@ const CursoForm = ({ isEdit, curso, onSubmit }) => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+  };
+
+  const handleCheckboxChange = (e) => {
+    setFormData({ ...formData, simulacion: e.target.checked });
   };
 
   const handleFileChange = (e) => {
@@ -56,6 +61,7 @@ const CursoForm = ({ isEdit, curso, onSubmit }) => {
     const payload = new FormData();
     payload.append('titulo', formData.titulo);
     payload.append('descripcion', formData.descripcion);
+    payload.append('simulacion', formData.simulacion); // Incluir el campo simulación
     if (formData.imagen) {
       payload.append('imagen', formData.imagen);
     }
@@ -143,6 +149,8 @@ const CursoForm = ({ isEdit, curso, onSubmit }) => {
         />
       </div>
 
+   
+
       {/* Mostrar la imagen actual si no hay una nueva seleccionada */}
       <div className="image-preview">
         {imagePreview ? (
@@ -153,6 +161,18 @@ const CursoForm = ({ isEdit, curso, onSubmit }) => {
           <p>No se ha cargado ninguna imagen</p>
         )}
       </div>
+
+      <div className="form-group simulacion-group">
+      <label htmlFor="simulacion">¿Incluye simulación?</label>
+      <input
+        id="simulacion"
+        name="simulacion"
+        type="checkbox"
+        checked={formData.simulacion}
+        onChange={(e) => setFormData({ ...formData, simulacion: e.target.checked })}
+      />
+
+    </div>
 
       <Button type="submit" className="w-full">
         {isEdit ? 'Actualizar Curso' : 'Crear Curso'}

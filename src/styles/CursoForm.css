@@ -58,4 +58,33 @@
     min-height: 100vh;
     background-color: var(--background-color-light);
   }
+  .simulacion-group {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 5rem;
+    
+  }
   
+  .simulacion-group input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: var(--primary-color, #007bff); /* Cambia el color al primario de tu diseño */
+  }
+  
+  .simulacion-group label {
+    font-size: 1.1rem;
+    color: #333;
+    font-weight: 500;
+  }
+  
+  .simulacion-group {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    background-color: #f9f9f9;
+    width: fit-content;
+    margin: auto; /* Centra la sección */
+    margin-top: 1rem;
+  }

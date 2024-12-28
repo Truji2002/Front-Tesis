@@ -1,44 +1,70 @@
 .ver-estudiantes-container {
-    padding: 20px;
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ffffff; /* Fondo blanco para más contraste */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .ver-estudiantes-container h2 {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: var(--primary-color);
+    text-align: center;
+    font-weight: bold;
   }
   
   .filters {
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap; /* Permite adaptarse mejor en pantallas pequeñas */
+    gap: 10px;
     margin-bottom: 20px;
   }
   
   .filter {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
+    flex: 1;
+    min-width: 250px; /* Evita que los filtros sean demasiado pequeños */
   }
   
-  .large-select,
+  .filter label {
+    display: block;
+    font-size: 1em;
+    margin-bottom: 8px;
+    color: #333;
+    font-weight: bold;
+  }
+  
   .search-input {
-    padding: 8px;
-    font-size: 16px;
     width: 100%;
-    max-width: 300px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1em;
+    box-sizing: border-box;
   }
   
   .estudiantes-table {
     width: 100%;
     border-collapse: collapse;
+    margin-top: 20px;
+    overflow-x: auto; /* Permite hacer scroll horizontal si la tabla es muy grande */
   }
   
   .estudiantes-table th,
   .estudiantes-table td {
-    padding: 10px;
+    padding: 12px 10px;
+    text-align: left;
     border: 1px solid #ddd;
-    text-align: center;
+    vertical-align: middle;
   }
   
   .estudiantes-table th {
-    background-color: #f4f4f4;
+    background-color: var(--primary-color);
+    color: #fff;
     font-weight: bold;
+    font-size: 1em;
   }
   
   .estudiantes-table tr:nth-child(even) {
@@ -46,26 +72,48 @@
   }
   
   .estudiantes-table tr:hover {
-    background-color: #f1f1f1;
+    background-color: #e6f7ff;
   }
   
-  button.success {
+  .estudiantes-table td {
+    font-size: 0.95em;
+    color: #333;
+    text-align: center;
+  }
+  
+  .estudiantes-table td:first-child,
+  .estudiantes-table td:nth-child(2),
+  .estudiantes-table td:nth-child(3) {
+    text-align: left; /* Mejor para datos como nombres o correos */
+  }
+  
+  .success {
     background-color: #28a745;
-    color: white;
-    padding: 5px 10px;
+    color: #ffffff;
     border: none;
+    padding: 8px 14px;
+    font-size: 0.9em;
     cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
   }
   
-  button.danger {
-    background-color: #dc3545;
-    color: white;
-    padding: 5px 10px;
-    border: none;
-    cursor: pointer;
+  .success:hover {
+    background-color: #218838;
   }
   
-  button:hover {
-    opacity: 0.9;
+  @media (max-width: 768px) {
+    .filters {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  
+    .filter {
+      margin-bottom: 15px;
+    }
+  
+    .estudiantes-table {
+      font-size: 0.85em; /* Reduce el tamaño del texto en pantallas pequeñas */
+    }
   }
   
