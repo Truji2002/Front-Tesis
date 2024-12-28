@@ -148,7 +148,7 @@ const FormInstructor = ({ isEdit, instructor, onSubmit }) => {
       fechaFinCapacitacion: formData.fechaFinCapacitacion || null,
       empresa: parseInt(formData.empresa, 10),
     };
-    console.log("Payload preparado:", payload);
+    
     try {
       // Crear o actualizar el instructor
       const method = isEdit ? 'PATCH' : 'POST';
@@ -156,8 +156,7 @@ const FormInstructor = ({ isEdit, instructor, onSubmit }) => {
         ? `http://127.0.0.1:8000/api/instructores/${instructor.id}/`
         : 'http://127.0.0.1:8000/api/registrarInstructor/';
 
-        console.log(`URL: ${url}`);
-        console.log(`Método: ${method}`);
+     
   
       const response = await fetch(url, {
         method,
@@ -167,7 +166,7 @@ const FormInstructor = ({ isEdit, instructor, onSubmit }) => {
         },
         body: JSON.stringify(payload),
       });
-      console.log("Respuesta de la API:", response);
+    
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -175,8 +174,7 @@ const FormInstructor = ({ isEdit, instructor, onSubmit }) => {
       }
   
       const createdInstructor = isEdit ? instructor : await response.json();
-      console.log("Instructor creado/actualizado:", createdInstructor);
-      console.log("Instructor id:", createdInstructor.id);
+
 
       // Obtener los cursos actuales asociados al instructor
       const cursosActualesResponse = await fetch(
@@ -185,11 +183,11 @@ const FormInstructor = ({ isEdit, instructor, onSubmit }) => {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      console.log("Respuesta de cursos actuales:", cursosActualesResponse);
+
   
       const cursosActuales = (await cursosActualesResponse.json()).map((c) => c.curso_id);
 
-      console.log("Cursos actuales:", cursosActuales);
+  
   
       // Calcular los cursos a agregar y eliminar
       const cursosAAgregar = formData.cursosSeleccionados.filter(
