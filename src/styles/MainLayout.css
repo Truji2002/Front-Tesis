@@ -89,3 +89,7 @@
   }
 }
 
+.no-sidebar {
+  margin-left: 0; /* Sin espacio reservado para el Sidebar */
+  width: 100%; /* Ancho completo */
+}

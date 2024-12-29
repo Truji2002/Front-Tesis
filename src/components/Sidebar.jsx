@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Sidebar.css';
 
-const Sidebar = ({ onLogout }) => {
+const Sidebar = () => {
   const navigate = useNavigate();
 
   const [openEmpresas, setOpenEmpresas] = useState(false);
@@ -12,11 +12,7 @@ const Sidebar = ({ onLogout }) => {
 
   const role = localStorage.getItem('rol'); // Obtener el rol desde localStorage
 
-  const handleLogout = () => {
-    onLogout();
-    localStorage.removeItem('rol'); // Limpiar el rol al cerrar sesión
-    navigate('/login');
-  };
+  
 
   return (
     <aside className="sidebar">
@@ -89,10 +85,7 @@ const Sidebar = ({ onLogout }) => {
         </li>
       </ul>
 
-      {/* Botón de cerrar sesión */}
-      <button className="logout-button" onClick={handleLogout}>
-        Cerrar sesión
-      </button>
+      
     </aside>
   );
 };

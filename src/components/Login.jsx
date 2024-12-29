@@ -57,6 +57,7 @@ const Login = ({ onSuccess }) => {
         localStorage.setItem('refreshToken', response.refresh);
         localStorage.setItem('nombre', response.first_name);
         localStorage.setItem('rol', response.rol);
+        localStorage.setItem('id',response.id);
         localStorage.setItem('codigoOrganizacion', response.codigoOrganizacion);
         
         if (response.rol === 'instructor' && response.debeCambiarContraseña) {

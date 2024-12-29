@@ -9,7 +9,7 @@ const CrearCurso = () => {
   const handleCrearCurso = () => {
     // Después de crear el curso, redirige a la lista o a otra vista
     showAlert('Éxito', 'Curso creado con éxito.', 'success');
-    navigate('/administrar-cursos'); // Ajusta la ruta según tu navegación
+    navigate('/courses/list'); // Ajusta la ruta según tu navegación
   };
 
   return (

@@ -1,16 +1,22 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar'; // Tu menú lateral
-import '../styles/MainLayout.css'; // Los estilos ajustados en el paso 1
+import Header from './Header'; // Importar el Header
+import '../styles/MainLayout.css'; // Los estilos ajustados
 
 const MainLayout = ({ onLogout }) => {
+  const role = localStorage.getItem('rol'); // Obtener el rol del usuario (suponiendo que se guarda en localStorage)
+
   return (
     <div className="main-layout">
-      <Sidebar onLogout={onLogout} /> {/* Menú lateral */}
-      <main className="main-content">
-        <Outlet />
-        <footer className="footer">© 2024 - Global QHSE</footer> {/* Aquí se cargan las pantallas dinámicamente */}
-      </main>
+      <Header  onLogout={onLogout} /> {/* El Header siempre en la parte superior */}
+      <div className="layout-body">
+        {role !== 'estudiante' && <Sidebar  />} {/* Sidebar debajo del Header */}
+        <main className={`main-content ${role === 'estudiante' ? 'no-sidebar' : ''}`}>
+          <Outlet />
+          <footer className="footer">© 2024 - Global QHSE</footer>
+        </main>
+      </div>
     </div>
   );
 };

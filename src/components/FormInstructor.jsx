@@ -173,7 +173,11 @@ const FormInstructor = ({ isEdit, instructor, onSubmit }) => {
         throw new Error(errorData.detail || 'Error al guardar los datos.');
       }
   
-      const createdInstructor = isEdit ? instructor : await response.json();
+      const responseData = await response.json();
+      const createdInstructor = {
+        id: isEdit ? instructor.id : responseData.data.id,
+        ...responseData.data,
+      };
 
 
       // Obtener los cursos actuales asociados al instructor

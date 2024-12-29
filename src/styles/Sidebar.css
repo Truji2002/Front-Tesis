@@ -88,26 +88,7 @@
   border-radius: var(--border-radius);
 }
 
-/* Botón de cerrar sesión */
-.logout-button {
-  margin-top: auto; /* Posición al final del Sidebar */
-  padding: var(--spacing-small);
-  background-color: var(--logout-bg-color); /* Fondo rojo */
-  color: white; /* Texto blanco */
-  font-size: 16px;
-  font-weight: bold;
-  border: none;
-  border-radius: var(--border-radius);
-  cursor: pointer;
-  text-align: center;
-  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-}
 
-.logout-button:hover {
-  background-color: var(--logout-hover-color); /* Rojo más oscuro */
-  box-shadow: 0px 4px 10px rgba(255, 0, 0, 0.4); /* Sombra roja */
-  transform: translateY(-2px); /* Elevación al pasar el mouse */
-}
 
 /* Diseño responsivo */
 @media (max-width: 768px) {
@@ -119,11 +100,7 @@
     margin-left: 200px; /* Ajusta el margen según el ancho del sidebar */
   }
 }
-.logout-button {
-  margin-bottom: 20px;
 
-  
-}
 
 .sidebar ul li {
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);

@@ -24,7 +24,7 @@ const EditarCurso = () => {
                 setCurso(data); // Establece los datos del curso
             } catch (error) {
                 showAlert('Error', 'No se pudo cargar el curso.', 'error');
-                navigate('/cursos'); // Redirige si hay un error
+                navigate('/courses/list'); // Redirige si hay un error
             } finally {
                 setLoading(false); // Finaliza el estado de carga
             }
@@ -42,7 +42,7 @@ const EditarCurso = () => {
 
     return (
         <div className="editar-curso-container">
-            <CursoForm isEdit={true} curso={curso} onSubmit={() => navigate('/cursos')} />
+            <CursoForm isEdit={true} curso={curso} onSubmit={() => navigate('/courses/list')} />
         </div>
     );
 };
