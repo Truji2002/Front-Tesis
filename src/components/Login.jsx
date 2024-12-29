@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Button from './ui/button/button';
 import Input from './ui/input/input';
 import Label from './ui/label/label';
+import { FaEnvelope, FaLock } from 'react-icons/fa';
 import '../styles/Login.css';
 
 const Login = ({ onSuccess }) => {
@@ -50,26 +51,35 @@ const Login = ({ onSuccess }) => {
 
     try {
       const response = await login({ email, password });
-
+  
       if (response && response.access) {
+        // Guardar tokens y datos en localStorage
         localStorage.setItem('accessToken', response.access);
         localStorage.setItem('refreshToken', response.refresh);
         localStorage.setItem('nombre', response.first_name);
-        setError('');
-        onSuccess();
+        localStorage.setItem('rol', response.rol);
+        localStorage.setItem('codigoOrganizacion', response.codigoOrganizacion);
+
+        if (response.rol === 'instructor' && response.debeCambiarContraseña) {
+          console.log('Redirigiendo a cambio de contraseña'); // Verificar en consola
+          localStorage.setItem('debeCambiarContraseña', 'true');
+          navigate('/change-password'); // Redirige a la página de cambio
+        } else {
+          // Redirigir al dashboard principal
+          localStorage.removeItem('debeCambiarContraseña');
+          onSuccess(); // Llama al callback
+          navigate('/'); // Redirige al dashboard
+        }
       } else {
         setError('Credenciales incorrectas');
       }
     } catch (err) {
       setError(err.message || 'Error al intentar iniciar sesión. Inténtalo de nuevo más tarde.');
-
-      // Eliminar el mensaje de error después de 5 segundos
       setTimeout(() => setError(''), 5000);
     } finally {
       setLoading(false);
     }
   };
-
   return (
     <div className="login-container">
       <form onSubmit={handleSubmit} className="login-form">
@@ -77,7 +87,9 @@ const Login = ({ onSuccess }) => {
         {error && <p className="error">{error}</p>}
 
         <div className="form-group">
-          <Label htmlFor="email">Email</Label>
+          <Label htmlFor="email">
+            <FaEnvelope className="icon-inline" /> Email
+          </Label>
           <Input
             id="email"
             name="email"
@@ -89,7 +101,9 @@ const Login = ({ onSuccess }) => {
         </div>
 
         <div className="form-group">
-          <Label htmlFor="password">Contraseña</Label>
+          <Label htmlFor="password">
+            <FaLock className="icon-inline" /> Contraseña
+          </Label>
           <Input
             id="password"
             name="password"
@@ -106,7 +120,13 @@ const Login = ({ onSuccess }) => {
 
         <p className="register-link">
           ¿No tienes cuenta?{' '}
-          <a href="#" onClick={(e) => { e.preventDefault(); navigate('/register'); }}>
+          <a
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              navigate('/register');
+            }}
+          >
             Regístrate con el código de tu organización
           </a>
         </p>

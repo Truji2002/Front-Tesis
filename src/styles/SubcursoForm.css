@@ -1,176 +1,181 @@
 /* Contenedor principal del formulario */
 .subcurso-form {
-    max-width: 900px;
-    margin: 30px auto;
-    padding: 25px;
-    background-color: var(--background-color);
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow-light);
-  }
-  
-  /* Título principal */
-  .subcurso-form h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 2rem;
-    color: var(--secondary-color);
-    font-weight: bold;
-  }
-  
-  /* Grupo de formulario */
-  .form-group {
-    margin-bottom: 20px;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  /* Input y etiquetas alineados */
-  .form-group label {
-    font-size: 1rem;
-    font-weight: bold;
-    color: var(--secondary-color);
-    margin-bottom: 5px;
-  }
-  
-  .form-group input, 
-  .form-group textarea, 
-  .form-group select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius);
-    font-size: 1rem;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
-  }
-  
-  .form-group input:focus, 
-  .form-group textarea:focus, 
-  .form-group select:focus {
-    outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 5px rgba(0, 120, 212, 0.5);
-  }
-  
-  /* Sección de módulos */
-  .modulos-section {
-    margin-top: 30px;
-    padding: 20px;
-    background-color: var(--background-color-light);
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow-light);
-  }
-  
-  /* Título de la sección de módulos */
-  .modulos-section h3 {
-    text-align: center;
-    font-size: 1.6rem;
-    color: var(--secondary-color);
-    font-weight: bold;
-    margin-bottom: 15px;
-  }
-  
-  /* Elemento individual de módulo */
-  .modulo-item {
-    padding: 15px;
- 
-  }
-  
-  /* Labels de los módulos */
-  .modulo-item label {
-    font-size: 0.95rem;
-    color: var(--secondary-color);
-    font-weight: bold;
-    margin-bottom: 5px;
-    display: block;
-  }
-  
-  /* Input dentro de módulos */
-  .modulo-item input[type="text"], 
-  .modulo-item input[type="file"], 
-  .modulo-item textarea {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius);
-    font-size: 1rem;
-  }
-  
-  .modulo-item input:focus {
-    outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 5px rgba(0, 120, 212, 0.5);
-  }
-  
-  /* Botón para agregar módulos */
-  .modulos-section button.primary {
-    display: block;
-    width: 100%;
-    margin-top: 20px;
-    padding: 10px 15px;
-    font-size: 1rem;
-    font-weight: bold;
-    border: none;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    background-color: var(--primary-color);
-    color: white;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-  }
-  
-  .modulos-section button.primary:hover {
-    background-color: var(--primary-hover-color);
-    transform: translateY(-2px);
-  }
-  
-  /* Botón para eliminar módulos */
-  .modulo-item button.danger {
-    margin-top: 10px;
-    padding: 10px;
-    font-size: 0.9rem;
-    border: none;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    background-color: var(--logout-bg-color);
-    color: white;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-  }
-  
-  .modulo-item button.danger:hover {
-    background-color: var(--logout-hover-color);
-    transform: translateY(-2px);
-  }
-  
-  /* Botón de envío del formulario */
-  .subcurso-form button.w-full {
-    display: block;
-    width: 100%;
-    padding: 10px 15px;
-    font-size: 1rem;
-    font-weight: bold;
-    border: none;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    background-color: var(--primary-color);
-    color: white;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-  }
-  
-  .subcurso-form button.w-full:hover {
-    background-color: var(--primary-hover-color);
-    transform: translateY(-2px);
-  }
-  
-  /* Contenedor para visualizadores */
-  .visualizador-container {
-    margin-top: 10px;
-    padding: 15px;
-    background-color: var(--background-color-light);
-    border: 1px dashed var(--border-color);
-    border-radius: var(--border-radius);
-    text-align: center;
-  }
-  button.danger {
-    background-color: var(--logout-bg-color);
-    color: white;
-  }
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 25px;
+  background-color: var(--background-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-light);
+}
+
+/* Título principal */
+.subcurso-form h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 2rem;
+  color: var(--secondary-color);
+  font-weight: bold;
+}
+
+/* Grupo de formulario */
+.form-group {
+  margin-bottom: 25px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Input y etiquetas alineados */
+.form-group label {
+  font-size: 1rem;
+  font-weight: bold;
+  color: var(--secondary-color);
+  margin-bottom: 5px;
+}
+
+.form-group input, 
+.form-group textarea, 
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.form-group input:focus, 
+.form-group textarea:focus, 
+.form-group select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 5px rgba(0, 120, 212, 0.5);
+}
+
+/* Sección de módulos */
+.modulos-section {
+  margin-top: 30px;
+  padding: 20px;
+  background-color: var(--background-color-light);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-light);
+}
+
+/* Título de la sección de módulos */
+.modulos-section h3 {
+  text-align: center;
+  font-size: 1.6rem;
+  color: var(--secondary-color);
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+/* Elemento individual de módulo */
+.modulo-item {
+  padding: 15px;
+
+}
+
+/* Labels de los módulos */
+.modulo-item label {
+  font-size: 0.95rem;
+  color: var(--secondary-color);
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
+}
+
+/* Input dentro de módulos */
+.modulo-item input[type="text"], 
+.modulo-item input[type="file"], 
+.modulo-item textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+}
+
+.modulo-item input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 5px rgba(0, 120, 212, 0.5);
+}
+
+/* Botón para agregar módulos */
+.modulos-section button.primary {
+  display: block;
+  width: 100%;
+  margin-top: 20px;
+  padding: 10px 15px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  background-color: var(--primary-color);
+  color: white;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.modulos-section button.primary:hover {
+  background-color: var(--primary-hover-color);
+  transform: translateY(-2px);
+}
+
+/* Botón para eliminar módulos */
+.modulo-item button.danger {
+  margin-top: 10px;
+  padding: 10px;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  background-color: var(--logout-bg-color);
+  color: white;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.modulo-item button.danger:hover {
+  background-color: var(--logout-hover-color);
+  transform: translateY(-2px);
+}
+
+/* Botón de envío del formulario */
+.subcurso-form button.w-full {
+  display: block;
+  width: 100%;
+  padding: 10px 15px;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  background-color: var(--primary-color);
+  color: white;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.subcurso-form button.w-full:hover {
+  background-color: var(--primary-hover-color);
+  transform: translateY(-2px);
+}
+
+/* Contenedor para visualizadores */
+.visualizador-container {
+  margin-top: 15px;
+  padding: 20px;
+  background-color: var(--background-color-light);
+  border: 1px dashed var(--border-color);
+  border-radius: var(--border-radius);
+}
+button.danger {
+  background-color: var(--logout-bg-color);
+  color: white;
+}
+
+.modulo-item input[type="text"], 
+.modulo-item input[type="file"], 
+.modulo-item textarea {
+  margin-bottom: 15px; /* Agrega separación entre inputs dentro del módulo */
+}

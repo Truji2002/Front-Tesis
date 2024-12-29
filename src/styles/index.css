@@ -11,15 +11,19 @@
   --error-text-color: #d32f2f;
   --text-color: #2b2d42;
   --font-family: 'Roboto', sans-serif;
-  --shadow-light: 0px 4px 12px rgba(0, 0, 0, 0.1);
-  --shadow-hover: 0px 6px 16px rgba(0, 0, 0, 0.15);
-  --border-radius: 8px;
-  --spacing-small: 10px;
-  --spacing-medium: 20px;
+  --shadow-light: 0px 2px 6px rgba(0, 0, 0, 0.1);
+  --shadow-hover: 0px 4px 10px rgba(0, 0, 0, 0.15);
+  --border-radius: 6px;
+  --spacing-small: 8px;
+  --spacing-medium: 16px;
+  --spacing-large: 32px;
   --logout-bg-color: #e74c3c; 
   --logout-hover-color: #c0392b; 
-  --secondary-button-bg: #2c3e50; 
-  --secondary-button-hover-bg: #1a252f;
+  --secondary-button-bg: #6c757d; 
+  --secondary-button-hover-bg: #5a6268;
+  --table-header-bg: #343a40;
+  --table-header-color: #ffffff;
+  --table-row-hover: #e9ecef;
 }
 
 /* Reset y base */
@@ -29,15 +33,15 @@ body {
   padding: 0;
   width: 100%;
   height: 100%;
-  overflow-x: hidden; /* Evita el scroll horizontal */
   font-family: var(--font-family);
   background-color: var(--background-color);
+  color: var(--text-color);
 }
+
 #root {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background-color: var(--background-color);
 }
 
 /* Títulos */
@@ -50,12 +54,13 @@ h3 {
 }
 
 h1 {
-  font-size: 2rem;
+  font-size: 2.5rem;
   margin-bottom: var(--spacing-medium);
+  text-align: center;
 }
 
 h2 {
-  font-size: 1.8rem;
+  font-size: 2rem;
   margin-bottom: var(--spacing-small);
 }
 
@@ -84,25 +89,16 @@ button {
   border: none;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-button.primary {
-  background-color: var(--primary-color);
+  background-color: var(--secondary-button-bg);
   color: white;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-small);
 }
 
-button.primary:hover {
-  background-color: var(--primary-hover-color);
+button:hover {
+  background-color: var(--secondary-button-hover-bg);
   transform: translateY(-2px);
-}
-
-button.secondary {
-  background-color: var(--secondary-button-bg); /* Rojo de acción secundaria */
-  color: white;
-}
-
-button.secondary:hover {
-  background-color: var(--secondary-button-hover);
 }
 
 button:disabled {
@@ -115,6 +111,8 @@ button:disabled {
   width: 100%;
   margin: var(--spacing-medium) auto;
   border-collapse: collapse;
+  border-radius: var(--border-radius);
+  overflow: hidden;
   box-shadow: var(--shadow-light);
 }
 
@@ -126,12 +124,17 @@ button:disabled {
 }
 
 .table-container th {
-  background-color: var(--primary-color);
-  color: white;
+  background-color: var(--table-header-bg);
+  color: var(--table-header-color);
+  font-weight: bold;
 }
 
 .table-container tr:nth-child(even) {
   background-color: #f2f2f2;
+}
+
+.table-container tr:hover {
+  background-color: var(--table-row-hover);
 }
 
 /* Layout General */
@@ -142,7 +145,7 @@ button:disabled {
 
 /* Sidebar */
 .sidebar {
-  width: 250px;
+  width: 260px;
   background-color: var(--secondary-color);
   color: white;
   padding: var(--spacing-medium);
@@ -151,44 +154,122 @@ button:disabled {
   bottom: 0;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Distribuye el contenido */
+  justify-content: space-between;
+  box-shadow: var(--shadow-light);
+  z-index: 10;
 }
 
 .sidebar h2 {
   font-size: 1.5rem;
-  margin-bottom: var(--spacing-medium);
+  margin-bottom: var(--spacing-large);
   color: white;
+  text-align: center;
 }
 
 .sidebar a {
   color: white;
-  transition: color 0.3s ease; /* Transición suave */
+  padding: var(--spacing-small);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-small);
+  border-radius: var(--border-radius);
+  transition: background-color 0.3s ease;
 }
 
 .sidebar a:hover {
-  color: var(--primary-color);
+  background-color: var(--primary-hover-color);
+}
+
+.sidebar a .icon {
+  font-size: 1.2rem;
 }
 
 .main-content {
-  margin-left: 250px;
+  margin-left: 260px;
   padding: var(--spacing-medium);
-  width: calc(100% - 250px);
+  width: calc(100% - 260px);
   box-sizing: border-box;
   flex: 1;
   overflow-y: auto;
-  background-color: var(--background-color); /* Fondo claro */
-  border-left: 1px solid #ddd; /* Línea divisoria */
+  background-color: var(--background-color);
 }
 
+/* Footer */
 .footer {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px 30px;
-  background-color: var(--background-color); /* Fondo oscuro */
-  color: var(--secondary-color); /* Texto blanco */
+  padding: 20px;
+  background-color: var(--background-color);
+  color: var(--secondary-color);
   font-size: 0.9rem;
-  
-  flex-shrink: 0;
+  border-top: 1px solid #ddd;
 }
 
+.footer a {
+  color: var(--primary-color);
+  font-weight: 500;
+}
+
+.footer a:hover {
+  color: var(--primary-hover-color);
+}
+
+/* Formularios */
+.form-container {
+  background-color: var(--form-bg-color);
+  padding: var(--spacing-large);
+  border-radius: var(--border-radius);
+  max-width: 500px;
+  margin: var(--spacing-large) auto;
+  box-shadow: var(--shadow-light);
+}
+
+.input-field {
+  width: 100%;
+  padding: var(--spacing-small);
+  margin-bottom: var(--spacing-medium);
+  border: 1px solid #ddd;
+  border-radius: var(--border-radius);
+  font-size: 16px;
+}
+
+.input-field:focus {
+  border-color: var(--primary-color);
+  outline: none;
+}
+
+.error-message {
+  background-color: var(--error-bg-color);
+  color: var(--error-text-color);
+  border: 1px solid var(--error-border-color);
+  padding: var(--spacing-small);
+  margin-bottom: var(--spacing-medium);
+  border-radius: var(--border-radius);
+}
+
+/* Scroll personalizado */
+.sidebar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: var(--primary-color);
+  border-radius: 4px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Mejora de menú desplegable */
+.sidebar a {
+  padding: var(--spacing-medium);
+  background-color: var(--secondary-hover-color);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.sidebar a:hover {
+  transform: translateX(5px);
+  color: var(--table-header-color);
+}

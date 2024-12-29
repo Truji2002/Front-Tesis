@@ -14,10 +14,12 @@ const FormInstructor = ({ isEdit, instructor, onSubmit }) => {
     area: '',
     fechaInicioCapacitacion: '',
     fechaFinCapacitacion: '',
-    empresa: '', // Aquí se guardará el ID de la empresa seleccionada
+    empresa: '',
+    cursosSeleccionados: [],
   });
 
-  const [empresas, setEmpresas] = useState([]); // Lista de empresas
+  const [empresas, setEmpresas] = useState([]);
+  const [cursos, setCursos] = useState([]);
   const token = localStorage.getItem('accessToken');
 
   useEffect(() => {
@@ -30,6 +32,7 @@ const FormInstructor = ({ isEdit, instructor, onSubmit }) => {
         fechaInicioCapacitacion: instructor.fechaInicioCapacitacion || '',
         fechaFinCapacitacion: instructor.fechaFinCapacitacion || '',
         empresa: instructor.empresa || '',
+        cursosSeleccionados: instructor.cursosSeleccionados || [],
       });
     }
 
@@ -40,9 +43,7 @@ const FormInstructor = ({ isEdit, instructor, onSubmit }) => {
             Authorization: `Bearer ${token}`,
           },
         });
-
         if (!response.ok) throw new Error('Error al obtener las empresas.');
-
         const data = await response.json();
         setEmpresas(data);
       } catch (error) {
@@ -50,76 +51,94 @@ const FormInstructor = ({ isEdit, instructor, onSubmit }) => {
       }
     };
 
-    fetchEmpresas();
-  }, [isEdit, instructor, token]);
-
-  const isOnlyLetters = (value) => /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(value);
-  const isValidEmail = (value) =>
-    /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(value);
-  const isDateValid = () =>
-    new Date(formData.fechaInicioCapacitacion) <=
-    new Date(formData.fechaFinCapacitacion);
-
-  const validateForm = () => {
-    if (!isOnlyLetters(formData.first_name)) {
-      showAlert('Error', 'El nombre solo puede contener letras.', 'error');
-      return false;
-    }
-
-    if (!isOnlyLetters(formData.last_name)) {
-      showAlert('Error', 'El apellido solo puede contener letras.', 'error');
-      return false;
-    }
-
-    if (!isValidEmail(formData.email)) {
-      showAlert('Error', 'El correo electrónico no es válido.', 'error');
-      return false;
-    }
-
-    if (!isOnlyLetters(formData.area)) {
-      showAlert('Error', 'El área solo puede contener letras.', 'error');
-      return false;
-    }
-
-    if (formData.fechaInicioCapacitacion && formData.fechaFinCapacitacion) {
-      if (!isDateValid()) {
-        showAlert(
-          'Error',
-          'La fecha de fin no puede ser menor a la fecha de inicio.',
-          'error'
-        );
-        return false;
+    const fetchCursos = async () => {
+      try {
+        const response = await fetch('http://127.0.0.1:8000/api/cursos/', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (!response.ok) throw new Error('Error al obtener los cursos.');
+        const data = await response.json();
+        setCursos(data);
+      } catch (error) {
+        showAlert('Error', 'No se pudieron cargar los cursos.', 'error');
       }
-    }
+    };
 
-    return true;
-  };
+    const fetchCursosAsociados = async () => {
+      if (isEdit && instructor) {
+        try {
+          const response = await fetch(
+            `http://127.0.0.1:8000/api/instructor-curso/?instructor=${instructor.id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          if (!response.ok) throw new Error('Error al obtener cursos asociados.');
+          const data = await response.json();
+          
+          // Extraer el campo curso (ID real del curso) de cada registro
+          const cursosSeleccionados = data.map((registro) => registro.curso_id);
+          
+    
+          setFormData((prev) => ({
+            ...prev,
+            cursosSeleccionados,
+          }));
+        } catch (error) {
+          showAlert('Error', 'No se pudieron cargar los cursos asociados.', 'error');
+        }
+      }
+    };
+    
+
+    fetchEmpresas();
+    fetchCursos();
+    fetchCursosAsociados();
+  }, [isEdit, instructor, token]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
+  const handleCursoChange = (cursoId) => {
+    setFormData((prev) => {
+      const { cursosSeleccionados } = prev;
+      if (cursosSeleccionados.includes(cursoId)) {
+        return {
+          ...prev,
+          cursosSeleccionados: cursosSeleccionados.filter((id) => id !== cursoId),
+        };
+      } else {
+        return {
+          ...prev,
+          cursosSeleccionados: [...cursosSeleccionados, cursoId],
+        };
+      }
+    });
+  };
+
+  const validateForm = () => {
+    if (!formData.first_name.trim() || !formData.last_name.trim()) {
+      showAlert('Error', 'El nombre y apellido son obligatorios.', 'error');
+      return false;
+    }
+    if (!formData.email.includes('@')) {
+      showAlert('Error', 'Correo electrónico no válido.', 'error');
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     if (!validateForm()) return;
-
-    const result = await Swal.fire({
-      title: isEdit ? 'Confirmación de Modificación' : 'Confirmación de Creación',
-      text: isEdit
-        ? '¿Está seguro de que desea modificar este instructor?'
-        : '¿Está seguro de que desea crear este instructor?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: isEdit ? 'Sí, modificar' : 'Sí, crear',
-      cancelButtonText: 'Cancelar',
-      confirmButtonColor: 'var(--primary-color)',
-      cancelButtonColor: 'var(--error-text-color)',
-    });
-
-    if (!result.isConfirmed) return;
-
+  
     const payload = {
       first_name: formData.first_name,
       last_name: formData.last_name,
@@ -129,13 +148,14 @@ const FormInstructor = ({ isEdit, instructor, onSubmit }) => {
       fechaFinCapacitacion: formData.fechaFinCapacitacion || null,
       empresa: parseInt(formData.empresa, 10),
     };
-
+  
     try {
+      // Crear o actualizar el instructor
       const method = isEdit ? 'PATCH' : 'POST';
       const url = isEdit
         ? `http://127.0.0.1:8000/api/instructores/${instructor.id}/`
         : 'http://127.0.0.1:8000/api/registrarInstructor/';
-
+  
       const response = await fetch(url, {
         method,
         headers: {
@@ -144,41 +164,100 @@ const FormInstructor = ({ isEdit, instructor, onSubmit }) => {
         },
         body: JSON.stringify(payload),
       });
-
+  
       if (!response.ok) {
         const errorData = await response.json();
-        console.error('Error del servidor:', errorData);
         throw new Error(errorData.detail || 'Error al guardar los datos.');
       }
-
-      if (!isEdit) {
-        setFormData({
-          first_name: '',
-          last_name: '',
-          email: '',
-          area: '',
-          fechaInicioCapacitacion: '',
-          fechaFinCapacitacion: '',
-          empresa: '',
+  
+      const createdInstructor = isEdit ? instructor : await response.json();
+  
+      // Obtener los cursos actuales asociados al instructor
+      const cursosActualesResponse = await fetch(
+        `http://127.0.0.1:8000/api/instructor-curso/?instructor=${createdInstructor.id}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+  
+      const cursosActuales = (await cursosActualesResponse.json()).map((c) => c.curso_id);
+  
+      // Calcular los cursos a agregar y eliminar
+      const cursosAAgregar = formData.cursosSeleccionados.filter(
+        (cursoId) => !cursosActuales.includes(cursoId)
+      );
+      const cursosAEliminar = cursosActuales.filter(
+        (cursoId) => !formData.cursosSeleccionados.includes(cursoId)
+      );
+  
+      // Asociar nuevos cursos
+      for (const cursoId of cursosAAgregar) {
+        const cursoPayload = {
+          instructor: createdInstructor.id,
+          curso: cursoId,
+        };
+  
+        const cursoResponse = await fetch('http://127.0.0.1:8000/api/instructor-curso/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(cursoPayload),
         });
+  
+        if (!cursoResponse.ok) {
+          const errorData = await cursoResponse.json();
+          throw new Error(
+            `Error al asociar el curso con ID ${cursoId}: ${errorData.detail || 'Desconocido'}`
+          );
+        }
       }
-
+  
+      // Eliminar cursos desasociados
+      for (const cursoId of cursosAEliminar) {
+        const cursoPayload = {
+          instructor: createdInstructor.id,
+          curso: cursoId,
+        };
+  
+        const cursoResponse = await fetch('http://127.0.0.1:8000/api/instructor-curso/', {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(cursoPayload),
+        });
+  
+        if (!cursoResponse.ok) {
+          const errorData = await cursoResponse.json();
+          throw new Error(
+            `Error al desasociar el curso con ID ${cursoId}: ${errorData.detail || 'Desconocido'}`
+          );
+        }
+      }
+  
+      // Mostrar mensaje de éxito
       showAlert(
         'Éxito',
         isEdit ? 'Instructor actualizado con éxito.' : 'Instructor creado con éxito.',
         'success'
       );
-
+  
       onSubmit();
     } catch (error) {
       showAlert('Error', error.message || 'No se pudo completar la operación.', 'error');
     }
   };
+  
+
+  
 
   return (
     <form className="form-instructor" onSubmit={handleSubmit}>
       <h2>{isEdit ? 'Editar Instructor' : 'Crear Instructor'}</h2>
-  
+
       <div className="form-group">
         <Label htmlFor="first_name">Nombre</Label>
         <Input
@@ -189,7 +268,7 @@ const FormInstructor = ({ isEdit, instructor, onSubmit }) => {
           required
         />
       </div>
-  
+
       <div className="form-group">
         <Label htmlFor="last_name">Apellido</Label>
         <Input
@@ -200,7 +279,7 @@ const FormInstructor = ({ isEdit, instructor, onSubmit }) => {
           required
         />
       </div>
-  
+
       <div className="form-group">
         <Label htmlFor="email">Email</Label>
         <Input
@@ -208,12 +287,12 @@ const FormInstructor = ({ isEdit, instructor, onSubmit }) => {
           name="email"
           type="email"
           value={formData.email}
-          onChange={handleInputChange} // Esto debe estar presente incluso si está deshabilitado
+          onChange={handleInputChange}
           disabled={isEdit}
           required
         />
       </div>
-  
+
       <div className="form-group">
         <Label htmlFor="area">Área</Label>
         <Input
@@ -224,7 +303,7 @@ const FormInstructor = ({ isEdit, instructor, onSubmit }) => {
           required
         />
       </div>
-  
+
       <div className="form-group">
         <Label htmlFor="fechaInicioCapacitacion">Fecha Inicio Capacitación</Label>
         <Input
@@ -236,7 +315,7 @@ const FormInstructor = ({ isEdit, instructor, onSubmit }) => {
           required
         />
       </div>
-  
+
       <div className="form-group">
         <Label htmlFor="fechaFinCapacitacion">Fecha Fin Capacitación</Label>
         <Input
@@ -248,14 +327,14 @@ const FormInstructor = ({ isEdit, instructor, onSubmit }) => {
           required
         />
       </div>
-  
+
       <div className="form-group">
         <Label htmlFor="empresa">Empresa</Label>
         <select
           id="empresa"
           name="empresa"
           value={formData.empresa}
-          onChange={handleInputChange} // Se añadió para que sea controlado
+          onChange={handleInputChange}
           disabled={isEdit}
           required
         >
@@ -267,13 +346,35 @@ const FormInstructor = ({ isEdit, instructor, onSubmit }) => {
           ))}
         </select>
       </div>
-  
-      <Button type="submit" className="w-full">
-        {isEdit ? 'Actualizar Instructor' : 'Crear Instructor'}
-      </Button>
+
+      <div className="form-group">
+  <Label htmlFor="cursos">Cursos</Label>
+  <div className="cursos-list">
+
+    {cursos.map((curso) => {
+      const isChecked = formData.cursosSeleccionados.includes(curso.id);
+      
+
+      return (
+        <div className="cursos-item" key={curso.id}>
+          <input
+            type="checkbox"
+            id={`curso-${curso.id}`}
+            checked={isChecked}
+            onChange={() => handleCursoChange(curso.id)}
+          />
+          <label htmlFor={`curso-${curso.id}`}>{curso.titulo}</label>
+        </div>
+      );
+    })}
+  </div>
+</div>
+
+
+
+      <Button type="submit">{isEdit ? 'Actualizar Instructor' : 'Crear Instructor'}</Button>
     </form>
   );
-  
 };
 
 export default FormInstructor;

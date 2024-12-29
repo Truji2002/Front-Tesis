@@ -39,6 +39,7 @@
     padding: var(--spacing-small);
     border-bottom: 1px solid var(--border-color);
     text-align: center;
+    border-bottom: 1px solid #ddd;
 }
 
 .subcursos-table th {
@@ -93,4 +94,3 @@
     background-color: var(--secondary-button-hover-bg); /* Fondo más oscuro al pasar el cursor */
     transform: translateY(-2px); /* Efecto de elevación */
 }
-

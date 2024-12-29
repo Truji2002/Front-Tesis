@@ -1,131 +1,124 @@
+/* Variables globales */
+:root {
+  --primary-color: #fdfeff;
+  --primary-hover-color: #0056a3;
+  --secondary-color: linear-gradient(180deg, #060606, #fafdffd4); /* Degradado azul oscuro */
+  --secondary-hover-bg: #ffffff; /* Fondo blanco al hover */
+  --secondary-hover-text: #000000; /* Texto negro al hover */
+  --text-default: #ffffff; /* Texto blanco por defecto */
+  --background-color: #f9f9f9;
+  --form-bg-color: #ffffff;
+  --font-family: 'Roboto', sans-serif;
+  --shadow-light: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  --border-radius: 8px;
+  --spacing-small: 10px;
+  --spacing-medium: 16px;
+  --spacing-large: 24px;
+}
+
+/* Sidebar */
 .sidebar {
-  position: fixed; /* Fijo en la pantalla */
+  width: 200px; /* Ancho fijo */
+  background: var(--secondary-color); /* Cambiado a degradado */
+  color: var(--text-default);
+  position: fixed;
   top: 0;
-  left: 0;
-  height: 100%; /* Ocupa toda la altura */
-  width: 250px; /* Ancho fijo */
-  background-color: var(--secondary-color); /* Fondo gris oscuro */
+  bottom: 0;
+  left: 0; /* Alineado a la izquierda */
   padding: var(--spacing-medium);
-  box-shadow: var(--shadow-light); /* Sombra ligera */
   display: flex;
-  flex-direction: column; /* Acomoda elementos en columna */
-  justify-content: space-between; /* Espaciado entre contenido principal y "Cerrar sesión" */
-  font-family: var(--font-family);
-  z-index: 10; /* Asegura que esté siempre visible */
-  overflow-y: auto; /* Scroll si hay mucho contenido */
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: var(--shadow-light);
+  z-index: 10; /* Asegura visibilidad por encima del contenido */
 }
 
-/* Scroll personalizado para el Sidebar */
-.sidebar::-webkit-scrollbar {
-  width: 8px;
-}
-
-.sidebar::-webkit-scrollbar-thumb {
-  background-color: var(--primary-color); /* Color del scroll */
-  border-radius: 4px;
-}
-
-.sidebar::-webkit-scrollbar-track {
-  background-color: rgba(255, 255, 255, 0.1); /* Fondo del track */
-}
-
-/* Título del Sidebar */
 .sidebar h2 {
-  font-size: 1.5rem;
-  color: var(--form-bg-color); /* Texto blanco */
-  text-align: center;
-  margin-bottom: var(--spacing-medium);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Línea divisoria */
-  padding-bottom: var(--spacing-small);
+  font-size: 1.8rem;
+  color: var(--text-default);
+  margin-bottom: var(--spacing-large);
+  text-align: left;
+  font-weight: bold;
 }
 
-/* Lista principal del menú */
 .sidebar ul {
   list-style: none;
   padding: 0;
   margin: 0;
-  flex-grow: 1; /* Ocupa todo el espacio disponible */
 }
 
 .sidebar ul li {
   margin-bottom: var(--spacing-small);
 }
 
-.sidebar ul li .menu-button {
+.menu-button {
   background: none;
-  color: var(--form-bg-color); /* Texto blanco */
   border: none;
-  font-size: 16px;
+  color: var(--text-default); /* Texto blanco por defecto */
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  font-weight: 500;
   text-align: left;
+  padding: var(--spacing-small);
   width: 100%;
   cursor: pointer;
-  padding: var(--spacing-small);
   border-radius: var(--border-radius);
-  transition: color 0.3s ease, background-color 0.3s ease, transform 0.2s ease;
+  gap: var(--spacing-small); /* Espaciado entre el icono y el texto */
+  transition: background-color 0.3s ease, color 0.3s ease;
+  justify-content: flex-start; /* Alinea icono y texto a la izquierda */
 }
 
-.sidebar ul li .menu-button:hover {
-  color: var(--primary-color); /* Azul principal al pasar el mouse */
-  background-color: rgba(255, 255, 255, 0.1); /* Fondo translúcido */
-  transform: translateX(5px); /* Desplazamiento sutil */
+.menu-button:hover {
+  background-color: var(--secondary-hover-bg); /* Fondo blanco al hover */
+  color: var(--secondary-hover-text); /* Texto negro al hover */
 }
 
-/* Submenú */
+.menu-button .icon {
+  font-size: 1.2rem;
+}
+
 .submenu {
-  margin-left: var(--spacing-small);
+  margin-left: var(--spacing-medium);
+  padding-top: var(--spacing-small);
 }
 
 .submenu li {
-  color: var(--form-bg-color); /* Texto blanco */
+  padding: var(--spacing-small) 0;
+  font-size: 0.9rem;
+  color: var(--text-default); /* Texto blanco por defecto */
   cursor: pointer;
-  padding: var(--spacing-small);
-  transition: color 0.3s ease, background-color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .submenu li:hover {
-  color: var(--primary-color); /* Azul al pasar el mouse */
-  background-color: rgba(255, 255, 255, 0.1);
-  border-radius: var(--border-radius);
+  background-color: var(--secondary-hover-bg); /* Fondo blanco */
+  color: var(--secondary-hover-text); /* Texto negro */
 }
 
-/* Botón de cerrar sesión */
 .logout-button {
-  margin-top: auto; /* Posición al final del Sidebar */
+  margin-top: auto;
   padding: var(--spacing-small);
-  background-color: var(--logout-bg-color); /* Fondo rojo */
-  color: white; /* Texto blanco */
-  font-size: 16px;
-  font-weight: bold;
+  background-color: white;
+  color: black;
   border: none;
   border-radius: var(--border-radius);
   cursor: pointer;
-  text-align: center;
-  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .logout-button:hover {
-  background-color: var(--logout-hover-color); /* Rojo más oscuro */
-  box-shadow: 0px 4px 10px rgba(255, 0, 0, 0.4); /* Sombra roja */
-  transform: translateY(-2px); /* Elevación al pasar el mouse */
+  background-color: var(--primary-hover-color);
+  transform: translateY(-2px);
 }
 
-/* Diseño responsivo */
-@media (max-width: 768px) {
-  .sidebar {
-    width: 200px; /* Sidebar más estrecho */
-  }
-
-  .main-content {
-    margin-left: 200px; /* Ajusta el margen según el ancho del sidebar */
-  }
-}
-.logout-button {
-  margin-bottom: 20px;
-
-  
-}
-
-.sidebar ul li {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  padding-bottom: 10px;
+/* Contenido principal */
+.main-content {
+  margin-left: 200px; /* Ajusta exactamente al ancho del Sidebar */
+  padding: var(--spacing-medium);
+  box-sizing: border-box;
+  overflow-y: auto;
+  background-color: var(--background-color);
 }

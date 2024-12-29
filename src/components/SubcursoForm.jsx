@@ -1,20 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from './ui/button/button';
 import Input from './ui/input/input';
 import Label from './ui/label/label';
 import { showAlert } from './alerts';
-import Swal from 'sweetalert2';
 import '../styles/SubcursoForm.css';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
-const SubcursoForm = ({ onSubmit }) => {
+const SubcursoForm = ({ isEdit, subcurso, onSubmit, initialModulos = [] }) => {
   const { cursoId } = useParams();
   const [subcursoData, setSubcursoData] = useState({
     nombre: '',
-    curso: cursoId,
+    curso: cursoId || '',// Curso asociado
   });
+  const navigate = useNavigate();
+  const [modulos, setModulos] = useState(initialModulos);
 
-  const [modulos, setModulos] = useState([]);
+  useEffect(() => {
+    if (isEdit && subcurso) {
+      setSubcursoData({
+        nombre: subcurso.nombre || '',
+        curso: subcurso.curso || '',
+      });
+    }
+  }, [isEdit, subcurso]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -22,7 +31,7 @@ const SubcursoForm = ({ onSubmit }) => {
   };
 
   const handleAddModulo = () => {
-    setModulos([...modulos, { nombre: '', enlace: '', archivo: null }]);
+    setModulos([...modulos, { id: null, nombre: '', enlace: '', archivo: null }]);
   };
 
   const handleModuloChange = (index, field, value) => {
@@ -31,71 +40,28 @@ const SubcursoForm = ({ onSubmit }) => {
     setModulos(updatedModulos);
   };
 
+  const handleFileChange = (index, file) => {
+    const updatedModulos = [...modulos];
+    updatedModulos[index].archivo = file;
+    setModulos(updatedModulos);
+  };
+
   const handleRemoveModulo = (index) => {
     const updatedModulos = modulos.filter((_, i) => i !== index);
     setModulos(updatedModulos);
   };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!subcursoData.nombre) {
-      showAlert('Error', 'El nombre del subcurso es obligatorio.', 'error');
-      return;
-    }
-
-    try {
-      const token = localStorage.getItem('accessToken');
-      const subcursoResponse = await fetch('http://127.0.0.1:8000/api/subcursos/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(subcursoData),
-      });
-
-      if (!subcursoResponse.ok) throw new Error('Error al crear el subcurso.');
-      const subcurso = await subcursoResponse.json();
-
-      for (const modulo of modulos) {
-        const moduloPayload = new FormData();
-        moduloPayload.append('nombre', modulo.nombre);
-        moduloPayload.append('enlace', modulo.enlace);
-        if (modulo.archivo) {
-          moduloPayload.append('archivo', modulo.archivo);
-        }
-        moduloPayload.append('subcurso', subcurso.id);
-
-        const moduloResponse = await fetch('http://127.0.0.1:8000/api/modulos/', {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: moduloPayload,
-        });
-
-        if (!moduloResponse.ok) throw new Error('Error al crear un módulo.');
-      }
-
-      showAlert('Éxito', 'Subcurso y módulos creados con éxito.', 'success');
-      onSubmit();
-    } catch (error) {
-      showAlert('Error', error.message || 'No se pudo completar la operación.', 'error');
-    }
-  };
-
   const renderEnlacePreview = (enlace) => {
-    if (enlace && enlace.includes('youtube.com')) {
+    if (enlace && enlace.includes('youtube.com/watch?v=')) {
+      const videoId = enlace.split('v=')[1].split('&')[0]; // Extraer el ID del video
+      const embedUrl = `https://www.youtube.com/embed/${videoId}`;
       return (
-        <div className="visualizador-enlace">
+        <div className="enlace-preview">
           <h4>Vista previa del Enlace</h4>
           <iframe
+            src={embedUrl}
             width="100%"
-            height="300"
-            src={`https://www.youtube.com/embed/${enlace.split('v=')[1]}`}
-            title="YouTube Video"
-            frameBorder="0"
+            height="300px"
+            title="Vista previa del video de YouTube"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
           ></iframe>
@@ -104,42 +70,123 @@ const SubcursoForm = ({ onSubmit }) => {
     }
     return null;
   };
+  
 
-  const renderArchivoPreview = (archivo) => {
-    if (archivo) {
+  const renderArchivoPreview = (archivo, isEdit) => {
+    // Si el archivo proviene del backend (es una URL) y estamos editando
+    if (isEdit && typeof archivo === 'string') {
+      return (
+        <div>
+          <a
+            href={`http://127.0.0.1:8000${archivo}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Ver archivo actual
+          </a>
+        </div>
+      );
+    }
+  
+    // Si el archivo es un nuevo archivo local (File)
+    if (archivo instanceof File) {
+      const fileUrl = URL.createObjectURL(archivo);
       if (archivo.type === 'application/pdf') {
         return (
-          <div className="visualizador-archivo">
-            <h4>Vista previa del Archivo</h4>
-            <iframe
-              width="100%"
-              height="300"
-              src={URL.createObjectURL(archivo)}
-              title="PDF Viewer"
-            ></iframe>
-          </div>
+          <iframe
+            src={fileUrl}
+            width="100%"
+            height="300px"
+            title="Vista previa del archivo PDF"
+          ></iframe>
         );
       }
-
+  
       if (archivo.type.startsWith('image/')) {
         return (
-          <div className="visualizador-archivo">
-            <h4>Vista previa del Archivo</h4>
-            <img
-              src={URL.createObjectURL(archivo)}
-              alt="Vista previa del archivo"
-              style={{ width: '100%', height: '300' }}
-            />
-          </div>
+          <img
+            src={fileUrl}
+            alt="Vista previa de la imagen"
+            style={{ width: '100%', height: '300px' }}
+          />
         );
       }
     }
-    return null;
+  
+    return null; // No hay archivo seleccionado
   };
+  
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    if (!subcursoData.nombre) {
+      showAlert('Error', 'El nombre del subcurso es obligatorio.', 'error');
+      return;
+    }
+  
+    try {
+      const token = localStorage.getItem('accessToken');
+  
+      // **Primero guardar el subcurso**
+      const subcursoMethod = isEdit ? 'PATCH' : 'POST';
+      const subcursoUrl = isEdit
+        ? `http://127.0.0.1:8000/api/subcursos/${subcurso.id}/`
+        : 'http://127.0.0.1:8000/api/subcursos/';
+  
+      const subcursoResponse = await fetch(subcursoUrl, {
+        method: subcursoMethod,
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(subcursoData),
+      });
+  
+      if (!subcursoResponse.ok) throw new Error('Error al guardar el subcurso.');
+  
+      const subcursoResult = await subcursoResponse.json(); // Respuesta del backend
+      const finalSubcursoId = subcursoResult.id; // Obtén el ID del subcurso guardado
+  
+      // **Luego guardar los módulos**
+      for (const modulo of modulos) {
+        const moduloPayload = new FormData();
+        moduloPayload.append('nombre', modulo.nombre);
+        moduloPayload.append('enlace', modulo.enlace);
+        if (modulo.archivo) moduloPayload.append('archivo', modulo.archivo);
+        moduloPayload.append('subcurso', finalSubcursoId); // Asignar el ID del subcurso
+  
+        const moduloMethod = modulo.id ? 'PATCH' : 'POST';
+        const moduloUrl = modulo.id
+          ? `http://127.0.0.1:8000/api/modulos/${modulo.id}/`
+          : 'http://127.0.0.1:8000/api/modulos/';
+  
+        const moduloResponse = await fetch(moduloUrl, {
+          method: moduloMethod,
+          headers: { Authorization: `Bearer ${token}` },
+          body: moduloPayload,
+        });
+  
+        if (!moduloResponse.ok) throw new Error('Error al guardar un módulo.');
+      }
+  
+      showAlert(
+        'Éxito',
+        isEdit ? 'Subcurso y módulos actualizados con éxito.' : 'Subcurso y módulos creados con éxito.',
+        'success'
+      );
+      onSubmit(); // Notifica al componente padre
+    } catch (error) {
+      showAlert('Error', error.message || 'No se pudo completar la operación.', 'error');
+    }
+    console.log('Payload subcursoData:', JSON.stringify(subcursoData));
+
+  };
+  
 
   return (
     <form className="subcurso-form" onSubmit={handleSubmit}>
-      <h2>Crear Subcurso y Módulos</h2>
+      <h2>{isEdit ? 'Editar Subcurso' : 'Crear Subcurso'}</h2>
 
       <div className="form-group">
         <Label htmlFor="nombre">Nombre del Subcurso</Label>
@@ -172,7 +219,6 @@ const SubcursoForm = ({ onSubmit }) => {
               value={modulo.enlace}
               onChange={(e) => handleModuloChange(index, 'enlace', e.target.value)}
             />
-
             {renderEnlacePreview(modulo.enlace)}
 
             <Label htmlFor={`modulo-archivo-${index}`}>Archivo</Label>
@@ -180,11 +226,11 @@ const SubcursoForm = ({ onSubmit }) => {
               id={`modulo-archivo-${index}`}
               name={`modulo-archivo-${index}`}
               type="file"
-              accept="application/pdf,application/vnd.ms-excel,image/*"
-              onChange={(e) => handleModuloChange(index, 'archivo', e.target.files[0])}
+              accept="application/pdf,image/*"
+              onChange={(e) => handleFileChange(index, e.target.files[0])}
             />
 
-            {renderArchivoPreview(modulo.archivo)}
+            {renderArchivoPreview(modulo.archivo,isEdit)}
 
             <Button type="button" onClick={() => handleRemoveModulo(index)} className="danger">
               Eliminar
@@ -198,8 +244,11 @@ const SubcursoForm = ({ onSubmit }) => {
       </div>
 
       <Button type="submit" className="w-full">
-        Crear Subcurso y Módulos
+        {isEdit ? 'Guardar Cambios' : 'Crear Subcurso'}
       </Button>
+      <Button type="button" onClick={() => navigate(-1)} className="volver-button">
+          Regresar
+        </Button>
     </form>
   );
 };

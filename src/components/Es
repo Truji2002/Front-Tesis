@@ -1,0 +1,21 @@
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from .models import Progreso
+from .serializers import ProgresoDetailSerializer
+
+class EstudianteDashboardAPIView(APIView):
+    """
+    API para que los estudiantes vean sus cursos asignados, progreso y pruebas.
+    """
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        estudiante = request.user
+
+        if estudiante.rol != 'estudiante':
+            return Response({"error": "Solo los estudiantes pueden acceder a esta vista."}, status=403)
+
+        progresos = Progreso.objects.filter(estudiante=estudiante)
+        serializer = ProgresoDetailSerializer(progresos, many=True)
+        return Response(serializer.data, status=200)

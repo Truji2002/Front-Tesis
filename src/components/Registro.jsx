@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Importa useNavigate
+import { useNavigate } from 'react-router-dom';
 import Button from './ui/button/button';
 import Input from './ui/input/input';
 import Label from './ui/label/label';
@@ -16,9 +16,9 @@ const Registro = () => {
     asignadoSimulacion: false,
   });
   const [message, setMessage] = useState('');
-  const [isError, setIsError] = useState(false); // Estado para indicar si el mensaje es un error
+  const [isError, setIsError] = useState(false); 
   const [passwordError, setPasswordError] = useState('');
-  const navigate = useNavigate(); // Define useNavigate para la navegación
+  const navigate = useNavigate(); 
 
   const handleChange = (e) => {
     setFormData({
@@ -37,8 +37,6 @@ const Registro = () => {
     if (formData.password !== formData.confirmPassword) {
       setPasswordError('Las contraseñas no coinciden');
       setIsError(true);
-
-      // Eliminar automáticamente el mensaje después de 5 segundos
       setTimeout(() => setPasswordError(''), 5000);
       return;
     }
@@ -76,7 +74,6 @@ const Registro = () => {
       } else {
         const errorData = await response.json();
 
-        // Manejo de errores: Formatea el mensaje correctamente
         if (errorData.email) {
           setMessage(`Error: ${errorData.email[0]}`);
         } else if (errorData.error) {
@@ -90,16 +87,12 @@ const Registro = () => {
           setMessage('Error desconocido al registrar.');
         }
         setIsError(true);
-
-        // Eliminar automáticamente el mensaje después de 5 segundos
         setTimeout(() => setMessage(''), 5000);
       }
     } catch (error) {
       console.error('Error durante el registro:', error);
       setMessage('Error al intentar registrar. Inténtalo de nuevo más tarde.');
       setIsError(true);
-
-      // Eliminar automáticamente el mensaje después de 5 segundos
       setTimeout(() => setMessage(''), 5000);
     }
   };
@@ -114,28 +107,33 @@ const Registro = () => {
           </p>
         )}
         {passwordError && <p className="error">{passwordError}</p>}
-        <div className="form-group">
-          <Label htmlFor="first_name">Nombre</Label>
-          <Input
-            id="first_name"
-            name="first_name"
-            type="text"
-            value={formData.first_name}
-            onChange={handleChange}
-            required
-          />
+
+        {/* Colocamos Nombre y Apellido en la misma línea */}
+        <div className="form-row">
+          <div className="form-group">
+            <Label htmlFor="first_name">Nombre</Label>
+            <Input
+              id="first_name"
+              name="first_name"
+              type="text"
+              value={formData.first_name}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <Label htmlFor="last_name">Apellido</Label>
+            <Input
+              id="last_name"
+              name="last_name"
+              type="text"
+              value={formData.last_name}
+              onChange={handleChange}
+              required
+            />
+          </div>
         </div>
-        <div className="form-group">
-          <Label htmlFor="last_name">Apellido</Label>
-          <Input
-            id="last_name"
-            name="last_name"
-            type="text"
-            value={formData.last_name}
-            onChange={handleChange}
-            required
-          />
-        </div>
+
         <div className="form-group">
           <Label htmlFor="email">Email</Label>
           <Input
@@ -147,6 +145,7 @@ const Registro = () => {
             required
           />
         </div>
+
         <div className="form-group">
           <Label htmlFor="password">Contraseña</Label>
           <Input
@@ -169,6 +168,7 @@ const Registro = () => {
             required
           />
         </div>
+
         <div className="form-group">
           <Label htmlFor="codigoOrganizacion">Código de Organización</Label>
           <Input
@@ -180,6 +180,7 @@ const Registro = () => {
             required
           />
         </div>
+
         <Button type="submit" className="w-full">
           Registrarse
         </Button>

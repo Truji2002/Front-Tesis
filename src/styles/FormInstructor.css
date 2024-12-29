@@ -1,94 +1,128 @@
 /* Contenedor principal del formulario */
 .form-instructor {
-    background-color: var(--form-bg-color);
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow-light);
-    padding: var(--spacing-medium);
-    max-width: 800px; /* Ajusta el ancho máximo del formulario */
-    margin: 20px auto; /* Centra el formulario horizontalmente */
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-medium); /* Espacio entre los elementos del formulario */
+  background-color: var(--form-bg-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-light);
+  padding: var(--spacing-medium);
+  max-width: 800px; /* Ajusta el ancho máximo del formulario */
+  margin: 20px auto; /* Centra el formulario horizontalmente */
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-medium); /* Espacio entre los elementos del formulario */
+}
+
+/* Título del formulario */
+.form-instructor h2 {
+  text-align: center;
+  font-size: 1.8rem;
+  color: var(--secondary-color);
+  margin-bottom: var(--spacing-medium);
+}
+
+/* Grupos del formulario */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-small); /* Espacio entre el label y el input */
+}
+
+/* Label */
+.form-group label {
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+/* Input */
+.form-group input,
+.form-group select {
+  padding: var(--spacing-small);
+  font-size: 1rem;
+  border: 1px solid var(--primary-color);
+  border-radius: var(--border-radius);
+  box-sizing: border-box;
+}
+
+/* Enfocar inputs y select */
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--primary-hover-color);
+  box-shadow: 0 0 4px rgba(0, 120, 212, 0.5);
+}
+
+/* Botón principal */
+button.w-full {
+  background-color: var(--primary-color);
+  color: white;
+  font-weight: bold;
+  padding: var(--spacing-small);
+  font-size: 1rem;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button.w-full:hover {
+  background-color: var(--primary-hover-color);
+  transform: translateY(-2px);
+}
+
+/* Botón deshabilitado */
+button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+  .form-instructor {
+    padding: var(--spacing-small);
+    gap: var(--spacing-small);
   }
-  
-  /* Título del formulario */
-  .form-instructor h2 {
-    text-align: center;
-    font-size: 1.8rem;
-    color: var(--secondary-color);
-    margin-bottom: var(--spacing-medium);
-  }
-  
-  /* Grupos del formulario */
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-small); /* Espacio entre el label y el input */
-  }
-  
-  /* Label */
-  .form-group label {
-    font-weight: bold;
-    color: var(--primary-color);
-  }
-  
-  /* Input */
+
   .form-group input,
   .form-group select {
-    padding: var(--spacing-small);
-    font-size: 1rem;
-    border: 1px solid var(--primary-color);
-    border-radius: var(--border-radius);
-    box-sizing: border-box;
+    font-size: 0.9rem;
   }
-  
-  /* Enfocar inputs y select */
-  .form-group input:focus,
-  .form-group select:focus {
-    outline: none;
-    border-color: var(--primary-hover-color);
-    box-shadow: 0 0 4px rgba(0, 120, 212, 0.5);
-  }
-  
-  /* Botón principal */
+
   button.w-full {
-    background-color: var(--primary-color);
-    color: white;
-    font-weight: bold;
+    font-size: 0.9rem;
     padding: var(--spacing-small);
-    font-size: 1rem;
-    border: none;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
   }
-  
-  button.w-full:hover {
-    background-color: var(--primary-hover-color);
-    transform: translateY(-2px);
-  }
-  
-  /* Botón deshabilitado */
-  button:disabled {
-    background-color: #cccccc;
-    cursor: not-allowed;
-  }
-  
-  /* Responsividad */
-  @media (max-width: 768px) {
-    .form-instructor {
-      padding: var(--spacing-small);
-      gap: var(--spacing-small);
-    }
-  
-    .form-group input,
-    .form-group select {
-      font-size: 0.9rem;
-    }
-  
-    button.w-full {
-      font-size: 0.9rem;
-      padding: var(--spacing-small);
-    }
-  }
-  
+}
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.form-group input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+.cursos-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cursos-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cursos-item input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+}
+
+.cursos-item label {
+  font-size: 16px;
+  line-height: 20px;
+}

@@ -25,6 +25,18 @@
     display: flex;
     flex-direction: column;
   }
+  .form-row {
+    display: flex;        /* Para colocar Nombre y Apellido en línea */
+    gap: 20px;            /* Espacio horizontal entre ellos */
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .form-row .form-group {
+    flex: 1;              /* Cada campo ocupa la mitad del ancho disponible */
+    min-width: 0;         /* Permite que se ajusten sin romper el layout */
+  }
+  
   
   /* Título del formulario */
   .registro-form h2 {
