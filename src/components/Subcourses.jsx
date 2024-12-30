@@ -185,18 +185,28 @@ const Subcourses = () => {
                     )}
                     {module.archivo_url && (
                       <div className="module-content">
-                        {module.archivo_url.endsWith('.pdf') ? (
-                          <iframe
-                            src={module.archivo_url}
-                            title={module.nombre}
-                            className="module-iframe"
-                          ></iframe>
-                        ) : (
-                          <a href={module.archivo_url} download>
-                            Descargar archivo
-                          </a>
-                        )}
-                      </div>
+                      {module.archivo_url.endsWith('.pdf') ? (
+                        // Vista previa para PDFs
+                        <iframe
+                          src={module.archivo_url}
+                          title={module.nombre}
+                          className="module-iframe"
+                        ></iframe>
+                      ) : module.archivo_url.match(/\.(jpeg|jpg|png|gif|bmp|svg)$/i) ? (
+                        // Vista previa para imágenes
+                        <img
+                          src={module.archivo_url}
+                          alt={`Vista previa de ${module.nombre}`}
+                          className="module-image"
+                          style={{ width: '100%', maxHeight: '300px', objectFit: 'contain' }}
+                        />
+                      ) : (
+                        // Descarga para otros archivos
+                        <a href={module.archivo_url} download>
+                          Descargar archivo
+                        </a>
+                      )}
+                    </div>
                     )}
                   </div>
                 ))}

@@ -72,23 +72,38 @@ const SubcursoForm = ({ isEdit, subcurso, onSubmit, initialModulos = [] }) => {
   };
   
 
-  const renderArchivoPreview = (archivo, isEdit) => {
-    // Si el archivo proviene del backend (es una URL) y estamos editando
-    if (isEdit && typeof archivo === 'string') {
-      return (
-        <div>
-          <a
-            href={`http://127.0.0.1:8000${archivo}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Ver archivo actual
-          </a>
-        </div>
-      );
+  const renderArchivoPreview = (archivo_url, archivo, isEdit) => {
+    // Si archivo_url está disponible, se asume que el archivo está en el servidor
+    if (archivo_url) {
+      if (archivo_url.endsWith('.pdf')) {
+        return (
+          <iframe
+            src={archivo_url}
+            width="100%"
+            height="300px"
+            title="Vista previa del archivo PDF"
+          ></iframe>
+        );
+      } else if (archivo_url.match(/\.(jpeg|jpg|png|gif)$/i)) {
+        return (
+          <img
+            src={archivo_url}
+            alt="Vista previa de la imagen"
+            style={{ width: '100%', maxHeight: '300px', objectFit: 'contain' }}
+          />
+        );
+      } else {
+        return (
+          <div>
+            <a href={archivo_url} download>
+              Descargar archivo
+            </a>
+          </div>
+        );
+      }
     }
   
-    // Si el archivo es un nuevo archivo local (File)
+    // Si archivo es un objeto File (nuevo archivo local)
     if (archivo instanceof File) {
       const fileUrl = URL.createObjectURL(archivo);
       if (archivo.type === 'application/pdf') {
@@ -107,14 +122,31 @@ const SubcursoForm = ({ isEdit, subcurso, onSubmit, initialModulos = [] }) => {
           <img
             src={fileUrl}
             alt="Vista previa de la imagen"
-            style={{ width: '100%', height: '300px' }}
+            style={{ width: '100%', maxHeight: '300px', objectFit: 'contain' }}
           />
         );
       }
     }
   
-    return null; // No hay archivo seleccionado
+    // Si estamos en modo edición y no hay archivo_url pero el archivo existe
+    if (isEdit && typeof archivo_url === 'string') {
+      return (
+        <div>
+          <a
+            href={`http://127.0.0.1:8000${archivo_url}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Ver archivo actual
+          </a>
+        </div>
+      );
+    }
+  
+    // Si no hay archivo o archivo_url
+    return null;
   };
+  
   
 
   const handleSubmit = async (e) => {
@@ -230,7 +262,7 @@ const SubcursoForm = ({ isEdit, subcurso, onSubmit, initialModulos = [] }) => {
               onChange={(e) => handleFileChange(index, e.target.files[0])}
             />
 
-            {renderArchivoPreview(modulo.archivo,isEdit)}
+            {renderArchivoPreview(modulo.archivo_url,modulo.archivo,isEdit)}
 
             <Button type="button" onClick={() => handleRemoveModulo(index)} className="danger">
               Eliminar
