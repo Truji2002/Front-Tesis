@@ -1,0 +1,48 @@
+.crear-prueba-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  }
+  
+  .form-section, .preguntas-section {
+    margin-bottom: 20px;
+  }
+  
+  input, select {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .add-button, .save-button, .cancel-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .add-button:hover, .save-button:hover, .cancel-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .preguntas-list ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .preguntas-list li {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    background-color: #fff;
+  }
+  
