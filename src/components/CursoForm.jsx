@@ -5,6 +5,7 @@ import Label from './ui/label/label';
 import { showAlert } from './alerts';
 import '../styles/CursoForm.css';
 import Swal from 'sweetalert2';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const CursoForm = ({ isEdit, curso, onSubmit }) => {
   const [formData, setFormData] = useState({
@@ -84,8 +85,8 @@ const CursoForm = ({ isEdit, curso, onSubmit }) => {
     try {
       const token = localStorage.getItem('accessToken');
       const url = isEdit
-        ? `http://127.0.0.1:8000/api/cursos/${curso.id}/`
-        : 'http://127.0.0.1:8000/api/cursos/';
+        ?  `${API_BASE_URL}/api/cursos/${curso.id}/`
+        :  `${API_BASE_URL}/api/cursos/`;
       const method = isEdit ? 'PATCH' : 'POST';
 
       const response = await fetch(url, {

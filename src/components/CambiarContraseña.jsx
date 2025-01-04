@@ -5,6 +5,7 @@ import Input from './ui/input/input';
 import Button from './ui/button/button';
 import Label from './ui/label/label';
 import { showAlert } from './alerts';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const CambiarContraseña = () => {
   const navigate = useNavigate();
@@ -59,7 +60,7 @@ const CambiarContraseña = () => {
     try {
       const token = localStorage.getItem('accessToken');
       const response = await axios.post(
-        'http://127.0.0.1:8000/api/cambiarPassword/',
+        `${API_BASE_URL}/api/cambiarPassword/`,
         {
           old_password: formData.old_password,
           new_password: formData.new_password,

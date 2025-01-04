@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import '../styles/VerEstudiantes.css';
 import Button from './ui/button/button';
 import { showAlert } from './alerts';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 
 const VerEstudiantes = () => {
   const [estudiantes, setEstudiantes] = useState([]);
@@ -19,7 +21,7 @@ const VerEstudiantes = () => {
 
   const fetchCursos = async () => {
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/cursos/', {
+      const response = await fetch(`${API_BASE_URL}/api/cursos/`, {
         headers: getHeaders(),
       });
 
@@ -43,7 +45,7 @@ const VerEstudiantes = () => {
   const fetchEstudiantes = async () => {
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/api/estudiante-codigoOrganizacion/?codigoOrganizacion=${codigoOrganizacion}`,
+        `${API_BASE_URL}/api/estudiante-codigoOrganizacion/?codigoOrganizacion=${codigoOrganizacion}`,
         {
           headers: getHeaders(),
         }
@@ -53,13 +55,13 @@ const VerEstudiantes = () => {
 
       const estudiantesData = await response.json();
 
-      const progresoResponse = await fetch('http://127.0.0.1:8000/api/progreso/', {
+      const progresoResponse = await fetch(`${API_BASE_URL}/api/progreso/`, {
         headers: getHeaders(),
       });
 
       const progresoData = await progresoResponse.json();
 
-      const pruebaResponse = await fetch('http://127.0.0.1:8000/api/estudiantePrueba/', {
+      const pruebaResponse = await fetch(`${API_BASE_URL}/api/estudiantePrueba/`, {
         headers: getHeaders(),
       });
 
@@ -180,7 +182,7 @@ const VerEstudiantes = () => {
                         onClick={async () => {
                             try {
                             const response = await fetch(
-                                `http://127.0.0.1:8000/api/certificado/?curso_id=${progreso.curso}&estudiante_id=${estudiante.id}`,
+                                `${API_BASE_URL}/api/certificado/?curso_id=${progreso.curso}&estudiante_id=${estudiante.id}`,
                                 {
                                 headers: {
                                     Authorization: `Bearer ${token}`,

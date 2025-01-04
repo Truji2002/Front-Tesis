@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/StudentCourses.css';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const StudentCourses = () => {
   const [courses, setCourses] = useState([]);
@@ -11,8 +12,9 @@ const StudentCourses = () => {
   const fetchCourses = async () => {
     try {
       const token = localStorage.getItem('accessToken');
+      // Obtener el progreso del estudiante
       const progressResponse = await fetch(
-        `http://127.0.0.1:8000/api/progreso/?estudiante_id=${studentId}`,
+        `${API_BASE_URL}/api/progreso/?estudiante_id=${studentId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -20,31 +22,43 @@ const StudentCourses = () => {
           },
         }
       );
-
+  
       if (!progressResponse.ok) {
         throw new Error('Error al obtener el progreso del estudiante.');
       }
-
+  
       const progressData = await progressResponse.json();
-
+      
+  
+      // Obtener los IDs de los cursos
       const courseIds = progressData.map((item) => item.curso);
-      const coursesResponse = await fetch(
-        `http://127.0.0.1:8000/api/cursos/?ids=${courseIds.join(',')}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
+      
+  
+      // Realizar solicitudes individuales para cada curso
+      const courses = [];
+      for (const id of courseIds) {
+        const courseResponse = await fetch(
+         `${API_BASE_URL}/api/cursos/${id}/`, // Llama al endpoint con un solo ID
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+  
+        if (!courseResponse.ok) {
+          throw new Error(`Error al obtener los detalles del curso con ID: ${id}`);
         }
-      );
-
-      if (!coursesResponse.ok) {
-        throw new Error('Error al obtener los detalles de los cursos.');
+  
+        const courseData = await courseResponse.json();
+        courses.push(courseData); // Agrega los detalles del curso a la lista
       }
-
-      const coursesData = await coursesResponse.json();
-
-      const coursesWithProgress = coursesData.map((course) => {
+  
+      
+  
+      // Combinar los detalles del curso con el progreso
+      const coursesWithProgress = courses.map((course) => {
         const progress = progressData.find((p) => p.curso === course.id);
         return {
           ...course,
@@ -52,7 +66,7 @@ const StudentCourses = () => {
           completado: progress ? progress.completado : false,
         };
       });
-
+  
       setCourses(coursesWithProgress);
       setLoading(false);
     } catch (error) {
@@ -60,6 +74,7 @@ const StudentCourses = () => {
       setLoading(false);
     }
   };
+  
 
   useEffect(() => {
     fetchCourses();
@@ -71,7 +86,7 @@ const StudentCourses = () => {
       const studentId = localStorage.getItem('id');
 
       const response = await fetch(
-        `http://127.0.0.1:8000/api/certificado/?curso_id=${courseId}&estudiante_id=${studentId}`,
+       `${API_BASE_URL}/api/certificado/?curso_id=${courseId}&estudiante_id=${studentId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

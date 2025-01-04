@@ -5,6 +5,7 @@ import Button from './ui/button/button';
 import Input from './ui/input/input';
 import Label from './ui/label/label';
 import '../styles/FormInstructor.css';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const FormInstructor = ({ isEdit, instructor, onSubmit }) => {
   const [formData, setFormData] = useState({
@@ -38,7 +39,7 @@ const FormInstructor = ({ isEdit, instructor, onSubmit }) => {
 
     const fetchEmpresas = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:8000/api/empresas/', {
+        const response = await fetch(`${API_BASE_URL}/api/empresas/`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -53,7 +54,7 @@ const FormInstructor = ({ isEdit, instructor, onSubmit }) => {
 
     const fetchCursos = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:8000/api/cursos/', {
+        const response = await fetch(`${API_BASE_URL}/api/cursos/`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -70,7 +71,7 @@ const FormInstructor = ({ isEdit, instructor, onSubmit }) => {
       if (isEdit && instructor) {
         try {
           const response = await fetch(
-            `http://127.0.0.1:8000/api/instructor-curso/?instructor=${instructor.id}`,
+            `${API_BASE_URL}/api/instructor-curso/?instructor=${instructor.id}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -153,8 +154,8 @@ const FormInstructor = ({ isEdit, instructor, onSubmit }) => {
       // Crear o actualizar el instructor
       const method = isEdit ? 'PATCH' : 'POST';
       const url = isEdit
-        ? `http://127.0.0.1:8000/api/instructores/${instructor.id}/`
-        : 'http://127.0.0.1:8000/api/registrarInstructor/';
+        ? `${API_BASE_URL}/api/instructores/${instructor.id}/`
+        : `${API_BASE_URL}/api/registrarInstructor/`;
 
      
   
@@ -182,7 +183,7 @@ const FormInstructor = ({ isEdit, instructor, onSubmit }) => {
 
       // Obtener los cursos actuales asociados al instructor
       const cursosActualesResponse = await fetch(
-        `http://127.0.0.1:8000/api/instructor-curso/?instructor=${createdInstructor.id}`,
+       `${API_BASE_URL}/api/instructor-curso/?instructor=${createdInstructor.id}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -210,7 +211,7 @@ const FormInstructor = ({ isEdit, instructor, onSubmit }) => {
 
         
   
-        const cursoResponse = await fetch('http://127.0.0.1:8000/api/instructor-curso/', {
+        const cursoResponse = await fetch(`${API_BASE_URL}/api/instructor-curso/`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -235,7 +236,7 @@ const FormInstructor = ({ isEdit, instructor, onSubmit }) => {
         };
         
 
-        const cursoResponse = await fetch('http://127.0.0.1:8000/api/instructor-curso/', {
+        const cursoResponse = await fetch(`${API_BASE_URL}/api/instructor-curso/`, {
           method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',

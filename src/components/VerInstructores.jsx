@@ -4,6 +4,8 @@ import { showAlert } from './alerts';
 import Button from './ui/button/button';
 import '../styles/VerInstructores.css';
 import Swal from 'sweetalert2';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 
 const VerInstructores = () => {
   const [instructores, setInstructores] = useState([]);
@@ -22,7 +24,7 @@ const VerInstructores = () => {
 
   const fetchInstructores = async (estado = selectedEstado, empresaId = selectedEmpresa) => {
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/instructores/', {
+      const response = await fetch(`${API_BASE_URL}/api/instructores/`, {
         headers: getHeaders(),
       });
       if (!response.ok) throw new Error('Error al obtener los instructores.');
@@ -50,7 +52,7 @@ const VerInstructores = () => {
 
   const fetchEmpresas = async () => {
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/empresas/', {
+      const response = await fetch(`${API_BASE_URL}/api/empresas/`, {
         headers: getHeaders(),
       });
       if (!response.ok) throw new Error('Error al obtener las empresas.');
@@ -90,7 +92,7 @@ const VerInstructores = () => {
     const nuevoEstado = !instructor.is_active;
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/api/instructores/${instructor.id}/`,
+        `${API_BASE_URL}/api/instructores/${instructor.id}/`,
         {
           method: 'PATCH',
           headers: getHeaders(),
@@ -115,7 +117,7 @@ const VerInstructores = () => {
   const handleEdit = async (id) => {
     try {
       const responseInstructor = await fetch(
-        `http://127.0.0.1:8000/api/instructores/${id}/`,
+       `${API_BASE_URL}/api/instructores/${id}/`,
         {
           headers: getHeaders(),
         }
@@ -125,7 +127,7 @@ const VerInstructores = () => {
       const instructorData = await responseInstructor.json();
   
       const responseCursos = await fetch(
-        `http://127.0.0.1:8000/api/instructor-curso/?instructor=${id}`,
+        `${API_BASE_URL}/api/instructor-curso/?instructor=${id}`,
         {
           headers: getHeaders(),
         }
@@ -181,7 +183,7 @@ const VerInstructores = () => {
         const { nombre, apellido, email } = result.value;
   
         try {
-          const response = await fetch('http://127.0.0.1:8000/api/modificacionInstructor/', {
+          const response = await fetch(`${API_BASE_URL}/api/modificacionInstructor/`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

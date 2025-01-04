@@ -79,7 +79,7 @@ const Sidebar = () => {
 
         {/* Métricas (común a todos los roles) */}
         <li>
-          <button onClick={() => setOpenMetrics(!openMetrics)} className="menu-button">
+          <button className="menu-button" onClick={() => navigate('/dashboard')}>
             Métricas
           </button>
         </li>

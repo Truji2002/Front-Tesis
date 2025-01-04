@@ -20,6 +20,7 @@ import CambiarContraseña from './components/CambiarContraseña.jsx';
 import VerEstudiantes from './components/VerEstudiantes.jsx';
 import StudentCourses from './components/StudentCourses.jsx';
 import Subcourses from './components/Subcourses.jsx';
+import Dashboard from './components/Dashboard.jsx';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -91,6 +92,7 @@ function App() {
           <Route path="/subcourses/create/:cursoId" element={<CrearSubcurso />} />
           <Route path="/subcourses/edit/:subcursoId" element={<EditarSubcurso />} />
           <Route path="students" element={<VerEstudiantes />} />
+          <Route path="dashboard" element={<Dashboard />} />
           {/* <Route path="/student/courses" element={<StudentCourses />} /> */}
          
         </Route>

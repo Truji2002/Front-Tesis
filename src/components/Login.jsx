@@ -4,6 +4,7 @@ import Button from './ui/button/button';
 import Input from './ui/input/input';
 import Label from './ui/label/label';
 import '../styles/Login.css';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const Login = ({ onSuccess }) => {
   const [email, setEmail] = useState('');
@@ -17,7 +18,7 @@ const Login = ({ onSuccess }) => {
     const timeoutId = setTimeout(() => controller.abort(), 5000);
 
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/login/`, {
+      const response = await fetch(`${API_BASE_URL}/api/login/`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',

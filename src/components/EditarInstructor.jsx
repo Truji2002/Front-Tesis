@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import FormInstructor from './FormInstructor';
 import { showAlert } from './alerts';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const EditarInstructor = () => {
   const { id } = useParams(); // ID del instructor desde la URL
@@ -16,7 +17,7 @@ const EditarInstructor = () => {
     const fetchInstructor = async () => {
       try {
         const response = await fetch(
-          `http://127.0.0.1:8000/api/instructores/${id}/`,
+          `${API_BASE_URL}/api/instructores/${id}/`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -29,7 +30,7 @@ const EditarInstructor = () => {
         const data = await response.json();
   
         const responseCursos = await fetch(
-          `http://127.0.0.1:8000/api/instructor-curso/?instructor=${id}`,
+          `${API_BASE_URL}/api/instructor-curso/?instructor=${id}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

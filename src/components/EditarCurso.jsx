@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import CursoForm from './CursoForm';
 import { showAlert } from './alerts';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const EditarCurso = () => {
     const { id } = useParams();
@@ -12,7 +13,7 @@ const EditarCurso = () => {
     useEffect(() => {
         const fetchCurso = async () => {
             try {
-                const response = await fetch(`http://127.0.0.1:8000/api/cursos/${id}/`, {
+                const response = await fetch(`${API_BASE_URL}/api/cursos/${id}/`, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
                     },

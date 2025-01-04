@@ -4,6 +4,7 @@ import Button from './ui/button/button';
 import Input from './ui/input/input';
 import Label from './ui/label/label';
 import '../styles/Registro.css';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const Registro = () => {
   const [formData, setFormData] = useState({
@@ -44,7 +45,7 @@ const Registro = () => {
     }
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/registroEstudiante/', {
+      const response = await fetch(`${API_BASE_URL}/api/registroEstudiante/`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',

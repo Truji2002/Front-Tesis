@@ -5,6 +5,7 @@ import { showAlert } from './alerts';
 import '../styles/ListaSubcursos.css';
 import Swal from 'sweetalert2';
 import { useLocation } from 'react-router-dom';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const ListaSubcursos = () => {
   const location = useLocation();
@@ -17,7 +18,7 @@ const ListaSubcursos = () => {
   const fetchSubcursos = async () => {
     try {
       const token = localStorage.getItem('accessToken');
-      const response = await fetch(`http://127.0.0.1:8000/api/subcursos/curso/${cursoId}/`, {
+      const response = await fetch(`${API_BASE_URL}/api/subcursos/curso/${cursoId}/`, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -74,7 +75,7 @@ const ListaSubcursos = () => {
   
     try {
       const token = localStorage.getItem('accessToken');
-      const response = await fetch(`http://127.0.0.1:8000/api/subcursos/${subcursoId}/`, {
+      const response = await fetch(`${API_BASE_URL}/api/subcursos/${subcursoId}/`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,

@@ -6,6 +6,8 @@ import { showAlert } from './alerts';
 import '../styles/SubcursoForm.css';
 import { useNavigate} from 'react-router-dom';
 import { useParams } from 'react-router-dom';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 
 const SubcursoForm = ({ isEdit, subcurso, onSubmit, initialModulos = [] }) => {
   const { cursoId } = useParams();
@@ -42,7 +44,8 @@ const SubcursoForm = ({ isEdit, subcurso, onSubmit, initialModulos = [] }) => {
 
   const handleFileChange = (index, file) => {
     const updatedModulos = [...modulos];
-    updatedModulos[index].archivo = file;
+    updatedModulos[index].archivo = file; // Actualiza el archivo
+    updatedModulos[index].archivo_url = null; // Borra el archivo_url si hay un nuevo archivo
     setModulos(updatedModulos);
   };
 
@@ -73,7 +76,32 @@ const SubcursoForm = ({ isEdit, subcurso, onSubmit, initialModulos = [] }) => {
   
 
   const renderArchivoPreview = (archivo_url, archivo, isEdit) => {
-    // Si archivo_url está disponible, se asume que el archivo está en el servidor
+    // Si archivo es un objeto File (nuevo archivo local), priorízalo
+    if (archivo instanceof File) {
+      const fileUrl = URL.createObjectURL(archivo);
+      if (archivo.type === 'application/pdf') {
+        return (
+          <iframe
+            src={fileUrl}
+            width="100%"
+            height="300px"
+            title="Vista previa del archivo PDF"
+          ></iframe>
+        );
+      }
+  
+      if (archivo.type.startsWith('image/')) {
+        return (
+          <img
+            src={fileUrl}
+            alt="Vista previa de la imagen"
+            style={{ width: '100%', maxHeight: '300px', objectFit: 'contain' }}
+          />
+        );
+      }
+    }
+  
+    // Si archivo_url está disponible, úsalo (archivo del servidor)
     if (archivo_url) {
       if (archivo_url.endsWith('.pdf')) {
         return (
@@ -103,37 +131,12 @@ const SubcursoForm = ({ isEdit, subcurso, onSubmit, initialModulos = [] }) => {
       }
     }
   
-    // Si archivo es un objeto File (nuevo archivo local)
-    if (archivo instanceof File) {
-      const fileUrl = URL.createObjectURL(archivo);
-      if (archivo.type === 'application/pdf') {
-        return (
-          <iframe
-            src={fileUrl}
-            width="100%"
-            height="300px"
-            title="Vista previa del archivo PDF"
-          ></iframe>
-        );
-      }
-  
-      if (archivo.type.startsWith('image/')) {
-        return (
-          <img
-            src={fileUrl}
-            alt="Vista previa de la imagen"
-            style={{ width: '100%', maxHeight: '300px', objectFit: 'contain' }}
-          />
-        );
-      }
-    }
-  
     // Si estamos en modo edición y no hay archivo_url pero el archivo existe
     if (isEdit && typeof archivo_url === 'string') {
       return (
         <div>
           <a
-            href={`http://127.0.0.1:8000${archivo_url}`}
+            href={`${API_BASE_URL}${archivo_url}`}
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -146,6 +149,7 @@ const SubcursoForm = ({ isEdit, subcurso, onSubmit, initialModulos = [] }) => {
     // Si no hay archivo o archivo_url
     return null;
   };
+  
   
   
 
@@ -163,8 +167,8 @@ const SubcursoForm = ({ isEdit, subcurso, onSubmit, initialModulos = [] }) => {
       // **Primero guardar el subcurso**
       const subcursoMethod = isEdit ? 'PATCH' : 'POST';
       const subcursoUrl = isEdit
-        ? `http://127.0.0.1:8000/api/subcursos/${subcurso.id}/`
-        : 'http://127.0.0.1:8000/api/subcursos/';
+        ?`${API_BASE_URL}/api/subcursos/${subcurso.id}/`
+        : `${API_BASE_URL}/api/subcursos/`;
   
       const subcursoResponse = await fetch(subcursoUrl, {
         method: subcursoMethod,
@@ -185,13 +189,19 @@ const SubcursoForm = ({ isEdit, subcurso, onSubmit, initialModulos = [] }) => {
         const moduloPayload = new FormData();
         moduloPayload.append('nombre', modulo.nombre);
         moduloPayload.append('enlace', modulo.enlace);
-        if (modulo.archivo) moduloPayload.append('archivo', modulo.archivo);
+        if (modulo.archivo instanceof File) {
+          moduloPayload.append('archivo', modulo.archivo);
+      } else if (!modulo.archivo) {
+          // Si no hay archivo, envíalo vacío o maneja el caso según el backend
+          moduloPayload.append('archivo', '');
+      }
         moduloPayload.append('subcurso', finalSubcursoId); // Asignar el ID del subcurso
-  
+        
+        console.log([...moduloPayload.entries()]);
         const moduloMethod = modulo.id ? 'PATCH' : 'POST';
         const moduloUrl = modulo.id
-          ? `http://127.0.0.1:8000/api/modulos/${modulo.id}/`
-          : 'http://127.0.0.1:8000/api/modulos/';
+          ? `${API_BASE_URL}/api/modulos/${modulo.id}/`
+          : `${API_BASE_URL}/api/modulos/`;
   
         const moduloResponse = await fetch(moduloUrl, {
           method: moduloMethod,

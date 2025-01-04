@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import SubcursoForm from './SubcursoForm';
 import { showAlert } from './alerts';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const EditarSubcurso = () => {
   const { subcursoId } = useParams();
@@ -15,7 +16,7 @@ const EditarSubcurso = () => {
       try {
         const token = localStorage.getItem('accessToken');
 
-        const subcursoResponse = await fetch(`http://127.0.0.1:8000/api/subcursos/${subcursoId}/`, {
+        const subcursoResponse = await fetch(`${API_BASE_URL}/api/subcursos/${subcursoId}/`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -26,7 +27,7 @@ const EditarSubcurso = () => {
         const subcursoData = await subcursoResponse.json();
         setSubcurso(subcursoData);
 
-        const modulosResponse = await fetch(`http://127.0.0.1:8000/api/modulos/subcurso/${subcursoId}/`, {
+        const modulosResponse = await fetch(`${API_BASE_URL}/api/modulos/subcurso/${subcursoId}/`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

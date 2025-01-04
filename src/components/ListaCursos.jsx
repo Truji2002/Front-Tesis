@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { showAlert } from './alerts';
 import Button from './ui/button/button';
 import '../styles/ListaCursos.css';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const ListaCursos = () => {
   const [cursos, setCursos] = useState([]);
@@ -11,7 +12,7 @@ const ListaCursos = () => {
 
   const fetchCursos = async () => {
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/cursos/', {
+      const response = await fetch( `${API_BASE_URL}/api/cursos/`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
