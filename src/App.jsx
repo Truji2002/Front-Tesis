@@ -21,6 +21,7 @@ import VerEstudiantes from './components/VerEstudiantes.jsx';
 import StudentCourses from './components/StudentCourses.jsx';
 import Subcourses from './components/Subcourses.jsx';
 import Dashboard from './components/Dashboard.jsx';
+import ContractsManagement from './components/ContractsManagment.jsx';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -93,6 +94,7 @@ function App() {
           <Route path="/subcourses/edit/:subcursoId" element={<EditarSubcurso />} />
           <Route path="students" element={<VerEstudiantes />} />
           <Route path="dashboard" element={<Dashboard />} />
+          <Route path="/instructor/:id/contracts" element={<ContractsManagement />} />
           {/* <Route path="/student/courses" element={<StudentCourses />} /> */}
          
         </Route>

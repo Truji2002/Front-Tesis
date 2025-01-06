@@ -4,14 +4,14 @@ import { showAlert } from './alerts';
 import Button from './ui/button/button';
 import '../styles/VerInstructores.css';
 import Swal from 'sweetalert2';
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const VerInstructores = () => {
   const [instructores, setInstructores] = useState([]);
   const [empresas, setEmpresas] = useState([]);
   const [filteredInstructores, setFilteredInstructores] = useState([]);
-  const [selectedEstado, setSelectedEstado] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
   const [selectedEmpresa, setSelectedEmpresa] = useState('');
   const navigate = useNavigate();
 
@@ -22,7 +22,7 @@ const VerInstructores = () => {
     Authorization: `Bearer ${token}`,
   });
 
-  const fetchInstructores = async (estado = selectedEstado, empresaId = selectedEmpresa) => {
+  const fetchInstructores = async () => {
     try {
       const response = await fetch(`${API_BASE_URL}/api/instructores/`, {
         headers: getHeaders(),
@@ -30,21 +30,7 @@ const VerInstructores = () => {
       if (!response.ok) throw new Error('Error al obtener los instructores.');
       const data = await response.json();
       setInstructores(data);
-  
-      // Aplica el filtro actual automáticamente
-      let filtered = data;
-      if (estado !== '') {
-        filtered = filtered.filter(
-          (instructor) => instructor.is_active.toString() === estado
-        );
-      }
-      if (empresaId !== '') {
-        filtered = filtered.filter(
-          (instructor) => instructor.empresa.toString() === empresaId
-        );
-      }
-  
-      setFilteredInstructores(filtered);
+      setFilteredInstructores(data);
     } catch (error) {
       showAlert('Error', 'No se pudieron cargar los instructores.', 'error');
     }
@@ -68,87 +54,71 @@ const VerInstructores = () => {
     fetchEmpresas();
   }, []);
 
-  const handleEstadoFilter = (estado) => {
-    setSelectedEstado(estado);
+  const handleSearch = (term) => {
+    setSearchTerm(term);
     const filtered = instructores.filter(
       (instructor) =>
-        (estado === '' || instructor.is_active.toString() === estado) &&
-        (selectedEmpresa === '' || instructor.empresa.toString() === selectedEmpresa)
+        (instructor.first_name + ' ' + instructor.last_name)
+          .toLowerCase()
+          .includes(term.toLowerCase()) || 
+        instructor.email.toLowerCase().includes(term.toLowerCase())
     );
-    setFilteredInstructores(filtered);
+    setFilteredInstructores(
+      selectedEmpresa
+        ? filtered.filter((instructor) => instructor.empresa.toString() === selectedEmpresa)
+        : filtered
+    );
   };
 
   const handleEmpresaFilter = (empresaId) => {
     setSelectedEmpresa(empresaId);
     const filtered = instructores.filter(
       (instructor) =>
-        (selectedEstado === '' || instructor.is_active.toString() === selectedEstado) &&
+        (!searchTerm ||
+          (instructor.first_name + ' ' + instructor.last_name)
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase()) ||
+          instructor.email.toLowerCase().includes(searchTerm.toLowerCase())) &&
         (empresaId === '' || instructor.empresa.toString() === empresaId)
     );
     setFilteredInstructores(filtered);
   };
 
-  const toggleEstado = async (instructor) => {
-    const nuevoEstado = !instructor.is_active;
-    try {
-      const response = await fetch(
-        `${API_BASE_URL}/api/instructores/${instructor.id}/`,
-        {
-          method: 'PATCH',
-          headers: getHeaders(),
-          body: JSON.stringify({ is_active: nuevoEstado }),
-        }
-      );
-      if (!response.ok) throw new Error('Error al cambiar el estado.');
-      showAlert(
-        'Éxito',
-        `El instructor ${instructor.first_name} ${instructor.last_name} fue ${
-          nuevoEstado ? 'activado' : 'desactivado'
-        }.`,
-        'success'
-      );
-      // Recargar instructores con los filtros actuales
-      fetchInstructores(selectedEstado, selectedEmpresa);
-    } catch (error) {
-      showAlert('Error', 'No se pudo cambiar el estado del instructor.', 'error');
-    }
+  const handleGestionarContrato = (instructorId) => {
+    navigate(`/instructor/${instructorId}/contracts`);
   };
 
-  const handleEdit = async (id) => {
-    try {
-      const responseInstructor = await fetch(
-       `${API_BASE_URL}/api/instructores/${id}/`,
-        {
-          headers: getHeaders(),
-        }
-      );
-  
-      if (!responseInstructor.ok) throw new Error('Error al cargar el instructor.');
-      const instructorData = await responseInstructor.json();
-  
-      const responseCursos = await fetch(
-        `${API_BASE_URL}/api/instructor-curso/?instructor=${id}`,
-        {
-          headers: getHeaders(),
-        }
-      );
-  
-      if (!responseCursos.ok) throw new Error('Error al cargar los cursos asociados.');
-      const cursosData = await responseCursos.json();
-  
-      const cursosSeleccionados = cursosData.map((curso) => curso.curso);
-  
-      navigate(`/instructor/edit/${id}`, {
-        state: {
-          instructor: { ...instructorData, cursosSeleccionados },
-        },
-      });
-    } catch (error) {
-      showAlert('Error', error.message || 'No se pudo cargar el instructor.', 'error');
-    }
+  const handleEdit = (instructorId) => {
+    navigate(`/instructor/edit/${instructorId}`);
   };
-  
-  
+
+  const handleEliminar = async (instructorId) => {
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'Esta acción eliminará al instructor permanentemente.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: 'Eliminar',
+      cancelButtonText: 'Cancelar',
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const response = await fetch(`${API_BASE_URL}/api/instructores/${instructorId}/`, {
+            method: 'DELETE',
+            headers: getHeaders(),
+          });
+          if (!response.ok) throw new Error('Error al eliminar el instructor.');
+          showAlert('Éxito', 'Instructor eliminado con éxito.', 'success');
+          fetchInstructores();
+        } catch (error) {
+          showAlert('Error', 'No se pudo eliminar el instructor.', 'error');
+        }
+      }
+    });
+  };
+
   const handleCambiar = (instructor) => {
     Swal.fire({
       title: 'Reemplazar Instructor',
@@ -163,32 +133,26 @@ const VerInstructores = () => {
       showCancelButton: true,
       confirmButtonText: 'Reemplazar',
       cancelButtonText: 'Cancelar',
-      customClass: {
-        popup: 'large-popup', // Clase personalizada para aumentar el tamaño
-      },
       preConfirm: () => {
         const nombre = Swal.getPopup().querySelector('#nombre').value;
         const apellido = Swal.getPopup().querySelector('#apellido').value;
         const email = Swal.getPopup().querySelector('#email').value;
-  
+
         if (!nombre || !apellido || !email) {
           Swal.showValidationMessage('Por favor complete todos los campos.');
           return false;
         }
-  
+
         return { nombre, apellido, email };
       },
     }).then(async (result) => {
       if (result.isConfirmed) {
         const { nombre, apellido, email } = result.value;
-  
+
         try {
           const response = await fetch(`${API_BASE_URL}/api/modificacionInstructor/`, {
             method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${token}`,
-            },
+            headers: getHeaders(),
             body: JSON.stringify({
               instructor_anterior_id: instructor.id,
               nombre,
@@ -196,13 +160,10 @@ const VerInstructores = () => {
               email,
             }),
           });
-  
-          if (!response.ok) {
-            throw new Error('Error al reemplazar el instructor.');
-          }
-  
+
+          if (!response.ok) throw new Error('Error al reemplazar el instructor.');
           showAlert('Éxito', 'El instructor fue reemplazado exitosamente.', 'success');
-          fetchInstructores(); // Actualizar la lista de instructores
+          fetchInstructores();
         } catch (error) {
           showAlert('Error', error.message || 'No se pudo completar la operación.', 'error');
         }
@@ -216,17 +177,14 @@ const VerInstructores = () => {
 
       <div className="filters">
         <div className="filter">
-          <label htmlFor="estado-filter">Filtrar por Estado:</label>
-          <select
-            id="estado-filter"
-            value={selectedEstado}
-            onChange={(e) => handleEstadoFilter(e.target.value)}
-            className="large-select"
-          >
-            <option value="">Todos</option>
-            <option value="true">Activos</option>
-            <option value="false">Inactivos</option>
-          </select>
+          <label htmlFor="search-filter">Buscar por Nombre o Correo:</label>
+          <input
+            id="search-filter"
+            type="text"
+            value={searchTerm}
+            onChange={(e) => handleSearch(e.target.value)}
+            placeholder="Buscar..."
+          />
         </div>
 
         <div className="filter">
@@ -235,7 +193,6 @@ const VerInstructores = () => {
             id="empresa-filter"
             value={selectedEmpresa}
             onChange={(e) => handleEmpresaFilter(e.target.value)}
-            className="large-select searchable"
           >
             <option value="">Todas</option>
             {empresas.map((empresa) => (
@@ -252,12 +209,7 @@ const VerInstructores = () => {
           <tr>
             <th>Nombre</th>
             <th>Correo</th>
-            <th>Código Organización</th>
-            <th>Estado</th>
-            <th>Área</th>
             <th>Empresa</th>
-            <th>Fecha Inicio Capacitación</th>
-            <th>Fecha Fin Capacitación</th>
             <th>Acciones</th>
           </tr>
         </thead>
@@ -269,41 +221,27 @@ const VerInstructores = () => {
                   {instructor.first_name} {instructor.last_name}
                 </td>
                 <td>{instructor.email}</td>
-                <td>{instructor.codigoOrganizacion}</td>
-                <td>{instructor.is_active ? 'Activo' : 'Inactivo'}</td>
-                <td>{instructor.area}</td>
                 <td>{instructor.empresa_nombre}</td>
-                <td>{instructor.fechaInicioCapacitacion || 'N/A'}</td>
-                <td>{instructor.fechaFinCapacitacion || 'N/A'}</td>
                 <td>
-                {instructor.is_active && (
-                    <>
-                    <Button onClick={() => handleEdit(instructor.id)}>Editar</Button>
-                    <Button
-                        onClick={() => toggleEstado(instructor)}
-                        className={instructor.is_active ? 'danger' : 'success'}
-                    >
-                        {instructor.is_active ? 'Desactivar' : 'Activar'}
-                    </Button>
-                    <Button onClick={() => handleCambiar(instructor)} className="primary">
-                        Cambiar
-                    </Button>
-                    </>
-                )}
-                {!instructor.is_active && (
-                    <Button
-                    onClick={() => toggleEstado(instructor)}
-                    className="success"
-                    >
-                    Activar
-                    </Button>
-                )}
+                  <Button onClick={() => handleEdit(instructor.id)}>Editar</Button>
+                  <Button onClick={() => handleEliminar(instructor.id)} className="danger">
+                    Eliminar
+                  </Button>
+                  <Button onClick={() => handleCambiar(instructor)} className="primary">
+                    Cambiar
+                  </Button>
+                  <Button
+                    onClick={() => handleGestionarContrato(instructor.id)}
+                    className="secondary"
+                  >
+                    Gestionar Contratos
+                  </Button>
                 </td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan="9">No se encontraron instructores.</td>
+              <td colSpan="4">No se encontraron instructores.</td>
             </tr>
           )}
         </tbody>

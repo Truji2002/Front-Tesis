@@ -16,7 +16,7 @@ const Login = ({ onSuccess }) => {
   const login = async (credentials) => {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 5000);
-
+  
     try {
       const response = await fetch(`${API_BASE_URL}/api/login/`, {
         method: 'POST',
@@ -27,18 +27,23 @@ const Login = ({ onSuccess }) => {
         body: JSON.stringify(credentials),
         signal: controller.signal,
       });
-
+  
       if (!response.ok) {
+        if (response.status === 403) {
+          // Manejo específico para error 403
+          throw new Error('No cuenta con contratos vigentes.');
+        }
+  
         const errorData = await response.json();
         throw new Error(errorData.detail || 'Error en la autenticación');
       }
-
+  
       return await response.json();
     } catch (error) {
       if (error.name === 'AbortError') {
         throw new Error('Tiempo de espera excedido. Intente nuevamente.');
       }
-      throw error;
+      throw error; // Re-lanzar el error para ser manejado donde se llame
     } finally {
       clearTimeout(timeoutId);
     }

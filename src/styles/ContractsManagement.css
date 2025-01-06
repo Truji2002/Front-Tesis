@@ -1,0 +1,136 @@
+.contracts-management-container {
+    max-width: 1100px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: var(--background-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-light);
+  }
+  
+  .contracts-management-container h2 {
+    text-align: center;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+  }
+  
+  .instructor-details {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius);
+  }
+  
+  .instructor-details p {
+    margin: 5px 0;
+    font-size: 1rem;
+    color: #333;
+  }
+  
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+  }
+  
+  .contracts-table {
+    width: 100%;
+    border-collapse: collapse;
+    box-shadow: var(--shadow-light);
+  }
+  
+  .contracts-table thead {
+    background-color: var(--primary-color);
+    color: white;
+  }
+  
+  .contracts-table th,
+  .contracts-table td {
+    padding: 15px;
+    text-align: center;
+    /* border-bottom: 1px solid #ddd; */
+  }
+  
+  .contracts-table tbody tr:hover {
+    background-color: rgba(0, 120, 212, 0.1);
+  }
+  
+  .contracts-table th {
+    font-weight: bold;
+  }
+  
+  .contracts-table td:last-child {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  .form-group input,
+  .form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--primary-color);
+    border-radius: var(--border-radius);
+  }
+  
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+  
+  button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+  }
+  
+  button.success {
+    background-color: green;
+    color: white;
+  }
+  
+  button.danger {
+    background-color: red;
+    color: white;
+  }
+  
+  button.secondary {
+    background-color: #555;
+    color: white;
+  }
+  
+  button:hover {
+    opacity: 0.9;
+  }
+  
+  @media (max-width: 768px) {
+    .contracts-management-container {
+      padding: 10px;
+    }
+  
+    .actions {
+      justify-content: center;
+    }
+  
+    .contracts-table th,
+    .contracts-table td {
+      font-size: 0.9rem;
+    }
+  
+    .form-actions {
+      flex-direction: column;
+    }
+  }
+  
