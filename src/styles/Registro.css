@@ -1,135 +1,131 @@
-/* Contenedor principal del formulario de registro */
+/* Fondo y contenedor principal */
+.registro-background {
+  background: url('https://images.unsplash.com/photo-1505209487757-5114235191e5?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDEwNnx8fGVufDB8fHx8fA%3D%3D') no-repeat center center fixed;
+  background-size: cover;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Contenedor del formulario */
 .registro-container {
-    width: 100%;
-    max-width: 400px; /* Ancho máximo del formulario */
-    margin: 50px auto;
-    padding: var(--spacing-medium);
-    border: 1px solid var(--secondary-color);
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow-light);
-    background-color: var(--form-bg-color);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    transition: box-shadow 0.3s ease, transform 0.2s ease; /* Animación */
+  background: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 435px; /* Ajuste de ancho para mejor visualización */
+  max-height: 90%; /* Ajuste de altura */
+  box-sizing: border-box;
+  overflow: hidden; /* Eliminar scrollbars internos */
+}
+
+/* Título del formulario */
+.form-title {
+  text-align: center;
+  color: #333;
+  font-size: 1.8rem; /* Ajuste de tamaño */
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* Campos en línea */
+.form-row {
+  display: flex;
+  gap: 5px; /* Espacio entre los campos */
+  margin-bottom: 3px;
+}
+
+.form-group {
+  flex: 1;
+}
+
+/* Inputs */
+input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+input:focus {
+  border-color: #4e54c8;
+  box-shadow: 0 0 6px rgba(78, 84, 200, 0.3);
+  outline: none;
+}
+
+/* Botones */
+button {
+  padding: 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: bold;
+  width: 100%;
+  margin-top: 12px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.submit-button {
+  background: #4e54c8;
+  color: white;
+}
+
+.return-button {
+  background: #333;
+  color: white;
+}
+
+button:hover {
+  transform: translateY(-1px); /* Animación más sutil */
+}
+
+button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+/* Mensajes */
+.message {
+  text-align: center;
+  margin-bottom: 10px;
+  padding: 8px;
+  font-size: 14px;
+  border-radius: 8px;
+}
+
+.message.success {
+  color: #4e54c8;
+  background: rgba(78, 84, 200, 0.1);
+}
+
+.message.error {
+  color: #d32f2f;
+  background: rgba(255, 0, 0, 0.1);
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .registro-container {
+    padding: 15px;
+    margin: 20px auto;
+    max-height: 90%;
   }
-  
-  .registro-container:hover {
-    box-shadow: var(--shadow-hover);
-    transform: translateY(-3px); /* Elevación suave al pasar el mouse */
+
+  .form-title {
+    font-size: 1.5rem;
   }
-  
-  /* Formulario de registro */
-  .registro-form {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
+
+  input {
+    font-size: 12px;
   }
-  
-  /* Título del formulario */
-  .registro-form h2 {
-    text-align: center;
-    font-size: 1.8rem;
-    color: var(--secondary-color);
-    margin-bottom: var(--spacing-medium);
-  }
-  
-  /* Grupos de formulario */
-  .form-group {
-    margin-bottom: var(--spacing-small);
-  }
-  
-  .form-group label {
-    font-weight: bold;
-    color: var(--primary-color);
-    margin-bottom: 5px;
-    display: block;
-  }
-  
-  .form-group input {
-    padding: 10px;
-    font-size: 14px;
-    border: 1px solid var(--primary-color);
-    border-radius: var(--border-radius);
-    width: 100%;
-    box-sizing: border-box;
-    background-color: var(--form-bg-color);
-    transition: border-color 0.3s ease, background-color 0.3s ease;
-  }
-  
-  .form-group input:focus {
-    border-color: var(--primary-hover-color);
-    background-color: rgba(0, 120, 212, 0.1); /* Azul claro translúcido */
-    outline: none; /* Elimina el borde del navegador */
-  }
-  
-  /* Mensajes de éxito y error */
-  .message {
-    text-align: center; /* Alinea el texto al centro */
-    margin: 0 auto; /* Centra el mensaje dentro del contenedor */
-    margin-bottom: var(--spacing-small);
-    padding: 10px;
-    border-radius: var(--border-radius);
-    width: 100%; /* Asegura que el mensaje ocupe todo el ancho disponible */
-    box-sizing: border-box; /* Incluye el padding y el borde en el ancho total */
-  }
-  
-  
-  .message.success {
-    color: var(--primary-color);
-    background-color: rgba(0, 120, 212, 0.1); /* Fondo azul claro */
-    border: 1px solid var(--primary-color);
-  }
-  
-  .message.error {
-    color: var(--error-text-color);
-    background-color: var(--error-bg-color);
-    border: 1px solid var(--error-border-color);
-  }
-  
-  /* Botones */
+
   button {
-    padding: var(--spacing-small);
-    background-color: var(--primary-color);
-    color: var(--text-color);
-    border: none;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    margin-top: var(--spacing-small);
-    width: 100%;
+    font-size: 12px;
   }
-  
-  button:hover {
-    background-color: var(--primary-hover-color);
-    transform: translateY(-2px); /* Elevación al pasar el mouse */
-  }
-  
-  button.return-button {
-    background-color: var(--secondary-color);
-    color: white;
-  }
-  
-  button.return-button:hover {
-    background-color: var(--primary-hover-color);
-  }
-  
-  button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-  }
-  
-  /* Diseño responsivo */
-  @media (max-width: 768px) {
-    .registro-container {
-      padding: var(--spacing-small);
-      margin: 20px auto;
-    }
-  
-    .registro-form h2 {
-      font-size: 1.5rem;
-    }
-  }
-  
+}

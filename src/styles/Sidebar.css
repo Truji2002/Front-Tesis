@@ -1,108 +1,92 @@
+/* Sidebar */
 .sidebar {
-  position: fixed; /* Fijo en la pantalla */
+  width: 200px; /* Ancho fijo */
+  height: 100vh; /* Asegura que ocupe toda la altura de la ventana */
+  background: linear-gradient(9deg, var(--primary-color), var(--secondary-color));
+  color: white;
+  position: fixed;
   top: 0;
   left: 0;
-  height: 100%; /* Ocupa toda la altura */
-  width: 250px; /* Ancho fijo */
-  background-color: var(--secondary-color); /* Fondo gris oscuro */
   padding: var(--spacing-medium);
-  box-shadow: var(--shadow-light); /* Sombra ligera */
   display: flex;
-  flex-direction: column; /* Acomoda elementos en columna */
-  justify-content: space-between; /* Espaciado entre contenido principal y "Cerrar sesión" */
-  font-family: var(--font-family);
-  z-index: 10; /* Asegura que esté siempre visible */
-  overflow-y: auto; /* Scroll si hay mucho contenido */
+  flex-direction: column;
+  align-items: flex-start; /* Alinea elementos al inicio */
+  justify-content: flex-start; /* Asegura que las opciones estén en la parte superior */
+  box-shadow: var(--shadow-light);
+  z-index: 10;
+  margin: 0; /* Elimina márgenes */
 }
 
-/* Scroll personalizado para el Sidebar */
-.sidebar::-webkit-scrollbar {
-  width: 8px;
-}
-
-.sidebar::-webkit-scrollbar-thumb {
-  background-color: var(--primary-color); /* Color del scroll */
-  border-radius: 4px;
-}
-
-.sidebar::-webkit-scrollbar-track {
-  background-color: rgba(255, 255, 255, 0.1); /* Fondo del track */
-}
-
-/* Título del Sidebar */
-.sidebar h2 {
-  font-size: 1.5rem;
-  color: var(--form-bg-color); /* Texto blanco */
-  text-align: center;
-  margin-bottom: var(--spacing-medium);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Línea divisoria */
-  padding-bottom: var(--spacing-small);
-}
-
-/* Lista principal del menú */
+/* Reinicio de márgenes y relleno de listas */
 .sidebar ul {
   list-style: none;
   padding: 0;
   margin: 0;
-  flex-grow: 1; /* Ocupa todo el espacio disponible */
+  width: 100%; /* Ancho completo */
 }
 
 .sidebar ul li {
   margin-bottom: var(--spacing-small);
 }
 
-.sidebar ul li .menu-button {
+.menu-button {
   background: none;
-  color: var(--form-bg-color); /* Texto blanco */
   border: none;
-  font-size: 16px;
+  color: white;
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  font-weight: 500;
   text-align: left;
-  width: 100%;
-  cursor: pointer;
   padding: var(--spacing-small);
+  width: 100%; /* Asegura que ocupe todo el ancho */
+  cursor: pointer;
   border-radius: var(--border-radius);
-  transition: color 0.3s ease, background-color 0.3s ease, transform 0.2s ease;
+  gap: var(--spacing-small);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.sidebar ul li .menu-button:hover {
-  color: var(--primary-color); /* Azul principal al pasar el mouse */
-  background-color: rgba(255, 255, 255, 0.1); /* Fondo translúcido */
-  transform: translateX(5px); /* Desplazamiento sutil */
+.menu-button:hover {
+  background-color: rgba(255, 255, 255, 0.2); /* Fondo semitransparente */
+  color: white;
 }
 
-/* Submenú */
+.menu-button .icon {
+  font-size: 1.2rem;
+}
+
 .submenu {
-  margin-left: var(--spacing-small);
+  margin-left: var(--spacing-medium);
+  padding-top: var(--spacing-small);
 }
+.hero-section {
+  margin-top: 60px;
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 60px); /* pantalla completa (viewport) menos header */
+  overflow: hidden;
+}
+.hero-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Importante: no lo pongas en z-index negativo para ver si te tapa o no */
+  z-index: 0; /* si lo dejas en 0 debería funcionar, porque el header tiene 999 */
+}
+
 
 .submenu li {
-  color: var(--form-bg-color); /* Texto blanco */
+  padding: var(--spacing-small) 0;
+  font-size: 0.9rem;
+  color: white;
   cursor: pointer;
-  padding: var(--spacing-small);
-  transition: color 0.3s ease, background-color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .submenu li:hover {
-  color: var(--primary-color); /* Azul al pasar el mouse */
-  background-color: rgba(255, 255, 255, 0.1);
-  border-radius: var(--border-radius);
-}
-
-
-
-/* Diseño responsivo */
-@media (max-width: 768px) {
-  .sidebar {
-    width: 200px; /* Sidebar más estrecho */
-  }
-
-  .main-content {
-    margin-left: 200px; /* Ajusta el margen según el ancho del sidebar */
-  }
-}
-
-
-.sidebar ul li {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  padding-bottom: 10px;
+  background-color: rgba(255, 255, 255, 0.2); /* Fondo semitransparente */
+  color: white;
 }

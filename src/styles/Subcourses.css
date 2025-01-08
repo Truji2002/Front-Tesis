@@ -1,101 +1,269 @@
-.course-container {
-    margin: 10px;
-    padding: 50px;
-    background-color: #f9f9f9;
-    border-radius: 10px;
+/************************************
+ * Contenedor principal de la página
+ ************************************/
+.course-main-container {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+/************************************
+ * Encabezado superior: título + barra global
+ ************************************/
+.course-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* Info del curso (lado izquierdo) */
+.course-topbar > div:first-child {
+  flex: 1;
+}
+
+/************************************
+ * Barra de progreso global
+ ************************************/
+.global-progress-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.global-progress-bar {
+  position: relative;
+  width: 200px;
+  height: 20px;
+  background-color: #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.global-progress-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  background-color: #4caf50; /* Verde, ajusta a tu gusto */
+  transition: width 0.3s ease;
+}
+
+.global-progress-percent {
+  font-weight: bold;
+}
+
+/************************************
+ * Contenedor para sidebar y contenido
+ ************************************/
+.course-content-container {
+  display: flex;
+  gap: 20px;
+}
+
+/************************************
+ * Sidebar Izquierda
+ ************************************/
+.course-sidebar {
+  width: 300px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  height: calc(100vh - 150px); /* Ejemplo para que ocupe casi toda la pantalla */
+  overflow-y: auto;
+}
+
+/* Subcurso en la barra lateral */
+.sidebar-subcourse {
+  margin-bottom: 10px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+}
+
+.sidebar-subcourse-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  padding: 5px 0;
+}
+
+.sidebar-subcourse-header h3 {
+  font-size: 1rem;
+  margin: 0;
+}
+
+.sidebar-subcourse-header p {
+  font-size: 0.8rem;
+  color: #777;
+  margin: 0;
+}
+
+.sidebar-subcourse-header.active {
+  font-weight: bold;
+  color: #007bff;
+}
+
+/* Lista de módulos dentro del subcurso */
+.sidebar-module-list {
+  list-style: none;
+  margin: 10px 0 0 0;
+  padding: 0;
+}
+
+.sidebar-module-item {
+  font-size: 0.9rem;
+  padding: 6px 0;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.sidebar-module-item:hover {
+  background-color: #ebebeb;
+}
+
+.sidebar-module-item.selected {
+  background-color: #007bff;
+  color: #fff;
+  border-radius: 4px;
+  padding-left: 5px;
+}
+
+/************************************
+ * Panel Derecho: Detalles del módulo
+ ************************************/
+.course-details-panel {
+  flex: 1;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  min-height: 600px; /* Ajusta según prefieras */
+}
+
+.module-detail h3 {
+  margin-top: 0;
+}
+
+.module-media-container {
+  margin: 20px 0;
+  display: flex;
+  flex-direction: column; /* Apilar los elementos verticalmente */
+  gap: 20px; /* Espaciado entre cada elemento */
+}
+
+.media-wrapper {
+  text-align: center;
+  width: 100%;
+}
+
+.module-iframe {
+  width: 90%; /* Reduce el ancho máximo al 90% del contenedor */
+  max-width: 800px; /* Establece un ancho máximo */
+  height: 400px; /* Ajusta la altura */
+  border: none;
+  border-radius: 5px;
+  margin: 0 auto; /* Centra el iframe horizontalmente */
+}
+
+.module-image {
+  width: 90%; /* Reduce el ancho máximo al 90% del contenedor */
+  max-width: 800px; /* Establece un ancho máximo */
+  max-height: 400px; /* Limita la altura máxima */
+  object-fit: contain; /* Mantiene las proporciones */
+  border-radius: 5px;
+  margin: 0 auto; /* Centra la imagen horizontalmente */
+}
+
+
+h4 {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.course-main-container {
+  margin-top: 40px; /* Agrega un margen superior igual o mayor a la altura del header */
+  padding: 20px;
+}
+
+
+
+/* Botón Siguiente */
+.next-button {
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 0.9rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  display: inline-block;
+}
+
+.next-button:hover {
+  background-color: #218838;
+}
+
+/************************************
+ * Mensaje cuando no se ha seleccionado un módulo
+ ************************************/
+.no-module-selected {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #666;
+  font-style: italic;
+}
+
+/************************************
+ * Estado de Carga
+ ************************************/
+.student-courses-loading,
+.loading-overlay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+}
+
+/************************************
+ * Scroller si sidebar es muy largo
+ ************************************/
+.course-sidebar {
+  overflow-y: auto;
+}
+
+/************************************
+ * Ajustes Responsivos
+ ************************************/
+@media (max-width: 768px) {
+  .course-content-container {
+    flex-direction: column;
   }
-  
-  .course-header {
-    text-align: center;
+  .course-sidebar {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
     margin-bottom: 20px;
   }
-  
-  .course-header h1 {
-    font-size: 24px;
-    color: #333;
+  .course-details-panel {
+    min-height: auto;
   }
-  
-  .course-description {
-    font-size: 16px;
-    color: #666;
-  }
-  
-  .subcourses-container {
-    margin-top: 30px;
-  }
-  
-  .subcourses-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-  }
-  
-  .subcourse-card {
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    padding: 15px;
-    width: calc(50% - 10px);
-    cursor: pointer;
-    transition: transform 0.3s, box-shadow 0.3s;
-  }
-  
-  .subcourse-card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .subcourse-card.selected {
-    border-color: #007bff;
-    background-color: #e7f3ff;
-  }
-  
-  .modules-container {
-    margin-top: 30px;
-  }
-  
-  .modules-list {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-  
-  .module-card {
-    padding: 20px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-  }
-  
-  .module-content {
-    margin-top: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .module-iframe {
-    width: 80%;
-    height: 500px;
-    border: none;
-    border-radius: 5px;
-    margin-top: 10px;
-    
-  }
-  
-  .complete-button {
-    margin-top: 20px;
-    padding: 10px 10px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s;
-  }
-  
-  .complete-button:hover {
-    background-color: #218838;
-  }
-  
+}
+
+/* Módulos completados */
+.sidebar-module-item.completed {
+  background-color: #4caf50; /* Verde */
+  color: white;
+}
+.module-completed-icon {
+  color: #28a745;
+  margin-left: 8px;
+}
+
+
+

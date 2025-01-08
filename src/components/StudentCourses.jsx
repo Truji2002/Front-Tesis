@@ -1,18 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FaCertificate, FaCheckCircle, FaBook } from 'react-icons/fa';
 import '../styles/StudentCourses.css';
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
 
 const StudentCourses = () => {
   const [courses, setCourses] = useState([]);
-  const [studentId] = useState(localStorage.getItem('id'));
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  const fetchCourses = async () => {
+  const fetchStudentCourses = async () => {
     try {
       const token = localStorage.getItem('accessToken');
+      const studentId = localStorage.getItem('id');
+
+      if (!token || !studentId) {
+        throw new Error('Información de autenticación faltante.');
+      }
+
+      // Fetch progress data
       const progressResponse = await fetch(
-        `http://127.0.0.1:8000/api/progreso/?estudiante_id=${studentId}`,
+        `${API_BASE_URL}/api/progreso/?estudiante_id=${studentId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -22,56 +31,73 @@ const StudentCourses = () => {
       );
 
       if (!progressResponse.ok) {
-        throw new Error('Error al obtener el progreso del estudiante.');
+        throw new Error('Error al obtener los cursos asignados al estudiante.');
       }
 
       const progressData = await progressResponse.json();
-
       const courseIds = progressData.map((item) => item.curso);
-      const coursesResponse = await fetch(
-        `http://127.0.0.1:8000/api/cursos/?ids=${courseIds.join(',')}`,
-        {
+
+      if (courseIds.length === 0) {
+        setCourses([]);
+        setLoading(false);
+        return;
+      }
+
+      // Fetch course details for each course ID
+      const coursePromises = courseIds.map((id) =>
+        fetch(`${API_BASE_URL}/api/cursos/${id}/`, {
           headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
-        }
+        }).then(async (res) => {
+          if (!res.ok) {
+            const text = await res.text();
+            throw new Error(`Error al obtener el curso ${id}: ${text}`);
+          }
+          return res.json();
+        })
       );
 
-      if (!coursesResponse.ok) {
-        throw new Error('Error al obtener los detalles de los cursos.');
-      }
+      const assignedCourses = await Promise.all(coursePromises);
 
-      const coursesData = await coursesResponse.json();
-
-      const coursesWithProgress = coursesData.map((course) => {
-        const progress = progressData.find((p) => p.curso === course.id);
-        return {
+      // Combine progress data with course details
+      const combinedCourses = assignedCourses.map((course) => {
+        const progress = progressData.find((item) => item.curso === course.id);
+        const processedCourse = {
           ...course,
           progreso: progress ? progress.porcentajeCompletado : 0,
           completado: progress ? progress.completado : false,
+          prueba_id: course.prueba_id, // Directly from course API
+          has_prueba: course.has_prueba, // Directly from course API
         };
+        console.log('Processed Course:', processedCourse); // Debugging log
+        return processedCourse;
       });
 
-      setCourses(coursesWithProgress);
+      setCourses(combinedCourses);
       setLoading(false);
     } catch (error) {
-      console.error('Error fetching courses:', error);
+      console.error('Error fetching student courses:', error);
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchCourses();
-  }, [studentId]);
+    fetchStudentCourses();
+  }, []);
 
   const handleViewCertificate = async (courseId) => {
     try {
       const token = localStorage.getItem('accessToken');
       const studentId = localStorage.getItem('id');
 
+      if (!token || !studentId) {
+        throw new Error('Información de autenticación faltante.');
+      }
+
       const response = await fetch(
-        `http://127.0.0.1:8000/api/certificado/?curso_id=${courseId}&estudiante_id=${studentId}`,
+        `${API_BASE_URL}/api/certificado/?curso_id=${courseId}&estudiante_id=${studentId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -96,57 +122,95 @@ const StudentCourses = () => {
       window.URL.revokeObjectURL(url);
     } catch (error) {
       console.error('Error al descargar el certificado:', error);
-      alert('No se pudo descargar el certificado.');
     }
   };
 
-  if (loading) {
-    return <p>Cargando cursos...</p>;
-  }
-
   return (
-    <div className="student-courses-container">
-      <h2 className="student-courses-title">Mis Cursos</h2>
-      <div className="courses-grid">
-        {courses.map((course) => (
-          <div
-            className={`course-card ${course.completado ? 'completed' : 'in-progress'}`}
-            key={course.id}
-          >
-            <img
-              src={course.imagen || 'default-image.jpg'}
-              alt={`Imagen de ${course.titulo}`}
-              className="course-image"
-            />
-            <h3 className="course-title">{course.titulo}</h3>
-            <p className="course-description">{course.descripcion}</p>
-            <div className="progress-bar-container">
-              <div
-                className="progress-bar"
-                style={{ width: `${course.progreso}%` }}
-              >
-                <span className="progress-text">{course.progreso.toFixed(2)}%</span>
+    <div className="student-courses">
+      {/* SECCIÓN HÉROE */}
+      <div className="hero-section">
+        <img
+          src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExbW9pbG8weXdrbzFmemUzN2Q4ZGZiNjl4d214NHN3Ym5qNGp4OWRlbSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3o6ZsXhBzpoRApBkPK/giphy.webp"
+          alt="Bienvenido a Mis Cursos"
+          className="hero-image"
+        />
+        <div className="hero-overlay">
+          <h1 className="hero-title">Global QHSE</h1>
+          <p className="hero-subtitle">Explora y aprende con los cursos en línea</p>
+        </div>
+      </div>
 
-              </div>
-            </div>
-            <div className="course-buttons">
-              <button
-                className="btn-primary"
-                onClick={() => navigate(`/student/course/${course.id}`)}
-              >
-                Ir al Curso
-              </button>
-              {course.completado && (
-                <button
-                  className="btn-secondary"
-                  onClick={() => handleViewCertificate(course.id)}
-                >
-                  Ver Certificado
-                </button>
-              )}
-            </div>
+      {/* LISTA DE CURSOS */}
+      <div className="student-courses-container">
+        <h2 className="student-courses-title">Mis Cursos</h2>
+
+        {loading ? (
+          <div className="student-courses-loading">
+            <div className="spinner"></div>
+            <p>Cargando cursos...</p>
           </div>
-        ))}
+        ) : courses.length > 0 ? (
+          <ul className="courses-list">
+            {courses.map((course) => {
+              const progressBarColor = course.completado ? '#28a745' : '#FFC107'; // verde o amarillo
+              return (
+                <li className="course-row" key={course.id}>
+                  <div className="course-info">
+                    <h3 className="course-title">{course.titulo}</h3>
+                    <p className="course-description">{course.descripcion}</p>
+                    <div className="progress-bar-container">
+                      <div
+                        className="progress-bar"
+                        style={{
+                          width: `${course.progreso}%`,
+                          backgroundColor: progressBarColor,
+                        }}
+                      >
+                        <span className="progress-text">{course.progreso}%</span>
+                      </div>
+                    </div>
+                    <div className="course-buttons">
+                      <button
+                        className="btn-primary"
+                        onClick={() => navigate(`/student/course/${course.id}`)}
+                      >
+                        <FaBook className="button-icon" />
+                        Curso
+                      </button>
+                      {course.completado && (
+                        <button
+                          className="btn-secondary"
+                          onClick={() => handleViewCertificate(course.id)}
+                        >
+                          <FaCertificate className="button-icon" />
+                          Certificado
+                        </button>
+                      )}
+                      {course.has_prueba && !course.completado && (
+                        <button
+                          className="btn-secondary"
+                          onClick={() => navigate(`/student/test/${course.prueba_id}`)}
+                        >
+                          <FaCheckCircle className="button-icon" />
+                          Prueba
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                  <div className="course-image-container">
+                    <img
+                      src={course.imagen || 'https://via.placeholder.com/150x100.png?text=Curso'}
+                      alt={`Imagen de ${course.titulo}`}
+                      className="course-image"
+                    />
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        ) : (
+          <p className="sin-cursos">No tienes cursos asignados.</p>
+        )}
       </div>
     </div>
   );

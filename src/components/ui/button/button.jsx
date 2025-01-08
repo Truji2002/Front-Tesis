@@ -1,3 +1,4 @@
+// src/components/ui/button/Button.jsx
 import React from 'react';
 import PropTypes from 'prop-types';
 import './Button.css';
@@ -6,7 +7,7 @@ const Button = ({ children, onClick, type = 'button', className = '', disabled =
   <button
     type={type}
     onClick={onClick}
-    className={`button ${className}`}
+    className={`custom-button ${className}`}
     disabled={disabled}
   >
     {children}

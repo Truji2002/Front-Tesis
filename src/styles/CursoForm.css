@@ -1,90 +1,110 @@
 .curso-form {
-    max-width: 800px;
-    width: 80%;
-    margin: 0 auto;
-    padding: var(--spacing-medium);
-    background-color: var(--background-color);
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow-light);
-  }
-  
-  .curso-form h2 {
-    text-align: center;
-    color: var(--secondary-color);
-    margin-bottom: var(--spacing-medium);
-  }
-  
-  .form-group {
-    margin-bottom: var(--spacing-medium);
-  }
-  
-  .textarea {
-    width: 100%;
-    padding: var(--spacing-small);
-    border: 1px solid var(--border-color);
-    border-radius: var(--border-radius);
-    font-size: 1rem;
-    resize: none;
-  }
-  
-  textarea:focus,
-  input:focus {
-    outline: none;
-    border-color: var(--primary-color);
-  }
-  
-  button {
-    margin-top: var(--spacing-medium);
-    width: 100%; /* Botón a lo ancho del formulario */
-  }
-  
-  .image-preview {
-    margin-top: var(--spacing-medium);
-    text-align: center;
-  }
-  
-  .image-preview img {
-    max-width: 100%;
-    max-height: 200px; /* Aumenta el tamaño máximo */
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow-light);
-  }
-  
-  /* Estilos para centrar verticalmente */
-  body {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    background-color: var(--background-color-light);
-  }
-  .simulacion-group {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-top: 5rem;
-    
-  }
-  
-  .simulacion-group input[type="checkbox"] {
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-    accent-color: var(--primary-color, #007bff); /* Cambia el color al primario de tu diseño */
-  }
-  
-  .simulacion-group label {
-    font-size: 1.1rem;
-    color: #333;
-    font-weight: 500;
-  }
-  
-  .simulacion-group {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 0.5rem 1rem;
-    background-color: #f9f9f9;
-    width: fit-content;
-    margin: auto; /* Centra la sección */
-    margin-top: 1rem;
-  }
+  max-width: 600px;
+  width: 70%;
+  margin: 0 auto;
+  padding: var(--spacing-medium);
+  background-color: var(--background-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-light);
+}
+
+.curso-form h2 {
+  text-align: center;
+  color: var(--secondary-color);
+  margin-bottom: var(--spacing-medium);
+}
+
+.form-group {
+  margin-bottom: var(--spacing-medium);
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centra los elementos */
+}
+
+.form-group label {
+  width: 100%;
+  max-width: 400px; /* Ajuste para etiquetas */
+  text-align: left;
+  margin-bottom: 8px;
+}
+
+input,
+textarea {
+  width: 100%;
+  max-width: 400px; /* Reduce el ancho máximo */
+  padding: var(--spacing-small);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  resize: none;
+}
+
+textarea:focus,
+input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+/* Ajustes para la vista previa de imagen */
+.image-preview {
+  margin-top: var(--spacing-medium);
+  text-align: center;
+}
+
+.image-preview img {
+  max-width: 100%;
+  max-height: 150px; /* Reduce el tamaño máximo */
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-light);
+}
+
+.simulacion-group {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  background-color: #f9f9f9;
+  width: fit-content;
+  margin: auto; /* Centra la sección */
+}
+
+.simulacion-group input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: var(--primary-color, #007bff);
+}
+
+.simulacion-group label {
+  font-size: 1.1rem;
+  color: #333;
+  font-weight: 500;
+}
+
+/* Botón */
+.crear-curso-button-container {
+  text-align: center;
+  margin-top: var(--spacing-medium);
+}
+
+.crear-curso-button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: var(--border-radius);
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.crear-curso-button:hover {
+  background-color: var(--primary-hover-color);
+}
+
+.crear-curso-button:active {
+  transform: scale(0.95);
+}

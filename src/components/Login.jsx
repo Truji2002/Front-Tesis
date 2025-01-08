@@ -1,9 +1,14 @@
+/* src/components/Login.jsx */
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Button from './ui/button/button';
-import Input from './ui/input/input';
-import Label from './ui/label/label';
-import '../styles/Login.css';
+import Button from './ui/button/Button';
+import Input from './ui/input/Input';
+import Label from './ui/label/Label';
+import { showAlert } from './alerts';
+import '../styles/Login.css'; // Asegúrate de que este archivo exista
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const Login = ({ onSuccess }) => {
   const [email, setEmail] = useState('');
@@ -17,7 +22,7 @@ const Login = ({ onSuccess }) => {
     const timeoutId = setTimeout(() => controller.abort(), 5000);
 
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/login/`, {
+      const response = await fetch(`${API_BASE_URL}/api/login/`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -28,6 +33,11 @@ const Login = ({ onSuccess }) => {
       });
 
       if (!response.ok) {
+        if (response.status === 403) {
+          // Manejo específico para error 403
+          throw new Error('No cuenta con contratos vigentes.');
+        }
+
         const errorData = await response.json();
         throw new Error(errorData.detail || 'Error en la autenticación');
       }
@@ -37,7 +47,7 @@ const Login = ({ onSuccess }) => {
       if (error.name === 'AbortError') {
         throw new Error('Tiempo de espera excedido. Intente nuevamente.');
       }
-      throw error;
+      throw error; // Re-lanzar el error para ser manejado donde se llame
     } finally {
       clearTimeout(timeoutId);
     }
@@ -47,27 +57,28 @@ const Login = ({ onSuccess }) => {
     e.preventDefault();
     setError('');
     setLoading(true);
-  
+
     try {
       const response = await login({ email, password });
-  
+
       if (response && response.access) {
         // Guardar tokens y datos en localStorage
         localStorage.setItem('accessToken', response.access);
         localStorage.setItem('refreshToken', response.refresh);
         localStorage.setItem('nombre', response.first_name);
         localStorage.setItem('rol', response.rol);
-        localStorage.setItem('id',response.id);
+        localStorage.setItem('id', response.id);
         localStorage.setItem('codigoOrganizacion', response.codigoOrganizacion);
-        
+
         if (response.rol === 'instructor' && response.debeCambiarContraseña) {
-          
           localStorage.setItem('debeCambiarContraseña', 'true');
           navigate('/change-password'); // Redirige a la página de cambio
         } else {
           // Redirigir al dashboard principal
           localStorage.removeItem('debeCambiarContraseña');
-          onSuccess(); // Llama al callback
+          if (onSuccess) {
+            onSuccess(); // Llama al callback si existe
+          }
           navigate('/'); // Redirige al dashboard
         }
       } else {
@@ -80,53 +91,65 @@ const Login = ({ onSuccess }) => {
       setLoading(false);
     }
   };
+
   return (
-    <div className="login-container">
-      <form onSubmit={handleSubmit} className="login-form">
-        <h2>Iniciar Sesión</h2>
-        {error && <p className="error">{error}</p>}
+    <div className="login-wrapper">
+      <div className="login-left">
+        <form onSubmit={handleSubmit} className="login-form">
+          <h2>Iniciar Sesión</h2>
+          {error && <p className="error">{error}</p>}
 
-        <div className="form-group">
-          <Label htmlFor="email">Email</Label>
-          <Input
-            id="email"
-            name="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+          <div className="form-group">
+            <Label htmlFor="email">Correo Electrónico</Label>
+            <Input
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Ingresa tu correo electrónico"
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <Label htmlFor="password">Contraseña</Label>
+            <Input
+              id="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Ingresa tu contraseña"
+              required
+            />
+          </div>
+
+          <Button type="submit" className="btn-primary" disabled={loading}>
+            {loading ? 'Cargando...' : 'Ingresar'}
+          </Button>
+
+          <div className="links">
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                navigate('/forgot-password');
+              }}
+              className="forgot-password"
+            >
+              ¿Olvidaste tu contraseña?
+            </a>
+          </div>
+        </form>
+      </div>
+      <div className="login-right">
+        <div className="welcome-message">
+          <h2>¡Bienvenido!</h2>
+          <p>Regístrate con el código de tu organización</p>
+          <Button className="btn-secondary" onClick={() => navigate('/register')}>
+            Regístrate
+          </Button>
         </div>
-
-        <div className="form-group">
-          <Label htmlFor="password">Contraseña</Label>
-          <Input
-            id="password"
-            name="password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-
-        <Button type="submit" className="w-full" disabled={loading}>
-          {loading ? 'Cargando...' : 'Ingresar'}
-        </Button>
-
-        <p className="register-link">
-          ¿No tienes cuenta?{' '}
-          <a
-            href="#"
-            onClick={(e) => {
-              e.preventDefault();
-              navigate('/register');
-            }}
-          >
-            Regístrate con el código de tu organización
-          </a>
-        </p>
-      </form>
+      </div>
     </div>
   );
 };

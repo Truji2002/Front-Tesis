@@ -1,94 +1,258 @@
-/* Contenedor principal */
+/* Variables */
+:root {
+  --primary-color: #0056a3;
+  --secondary-color: #374250;
+  --success-color: #28a745; /* Color para botón "Crear Prueba" */
+  --info-color: #17a2b8; /* Color para botón "Ver Subcursos" */
+  --warning-color: #ffc107; /* Color para botón "Editar" */
+  --error-text-color: #dc3545; /* Añadido para el color de cancelación de Swal */
+  --text-color: #ffffff;
+  --background-color: #f9f9f9;
+  --card-bg: #ffffff;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --font-family: 'Roboto', sans-serif;
+
+  /* Variables para tamaños de botones pequeños */
+  --button-padding-vertical: 4px;
+  --button-padding-horizontal: 12px;
+  --button-font-size: 0.8rem;
+  --button-border-radius: 4px;
+}
+
+
+
+/* Contenedor General */
 .lista-cursos-container {
-    max-width: 1050px;
-    margin: 20px auto;
-    padding: var(--spacing-medium);
-    background-color: var(--background-color);
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow-light);
-  }
+  max-width: 1300px; /* Ancho máximo adecuado */
+  margin: 0 auto; /* Centrar horizontalmente */
+  padding: 30px; /* Aumentado de 20px a 30px */
+  font-family: var(--font-family);
+  background-color: var(--background-color);
+  width: 100%; /* Ocupa el 100% del ancho disponible hasta max-width */
+  box-sizing: border-box; /* Incluir padding en el ancho total */
+  /* border: 2px solid red; */ /* Temporal: Elimina esto después de verificar */
+}
+
+/* Barra estilizada */
+.bar {
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+  padding: 20px 0;
+  color: white;
+  text-align: center;
+  border-radius: 8px;
+  margin-bottom: 30px;
+}
+
+.bar h2 {
+  margin: 0;
+  font-size: 2rem; /* Tamaño reducido */
+  font-weight: bold;
+  letter-spacing: 1.2px;
+  color: white;
+}
+
+/* Botón de crear curso */
+.create-button-container {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.create-button-container .primary {
+  padding: var(--button-padding-vertical) var(--button-padding-horizontal);
+  font-size: var(--button-font-size); /* Tamaño reducido */
+  border-radius: var(--button-border-radius);
+  background-color: var(--primary-color);
+  color: white; /* Asegura que el texto sea blanco */
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+
+  /* Nuevos estilos añadidos */
+  width: 200px; /* Ancho definido */
+  display: block; /* Permite centrar el botón con margin auto */
+  margin: 0 auto; /* Centra el botón horizontalmente */
+  text-align: center; /* Centra el texto dentro del botón */
+}
+
+.create-button-container .primary:hover {
+  background-color: #003d7a;
+}
+
+.create-button-container .primary:active {
+  transform: scale(0.98);
+}
+
+/* Grid de cursos */
+.cursos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 20px;
+}
+
+/* Tarjeta de curso */
+.curso-card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  box-shadow: 0 4px 10px var(--shadow-color);
+  padding: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.curso-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px var(--shadow-color);
+}
+
+.curso-card h3 {
+  color: var(--primary-color);
+  margin: 10px 0 10px 0; /* Margen superior e inferior ajustado */
+  font-size: 1.5rem; /* Tamaño reducido */
+  font-weight: bold;
+}
+
+.curso-card p {
+  color: #333; /* Mejor legibilidad para el texto */
+  margin-bottom: 10px;
+  font-size: 1rem; /* Tamaño reducido */
+  line-height: 1.4;
+}
+
+/* Contenedor de acciones del curso */
+.curso-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+/* Estilos de los botones */
+.curso-actions .info,
+.curso-actions .warning,
+.curso-actions .success {
+  padding: var(--button-padding-vertical) var(--button-padding-horizontal); /* Tamaño ajustado */
+  font-size: var(--button-font-size); /* Tamaño reducido */
+  border-radius: var(--button-border-radius);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  flex: 1; /* Para que los botones tengan el mismo ancho */
+  box-sizing: border-box; /* Incluir padding en el ancho total */
+}
+
+/* Botón de información ("Ver Subcursos") */
+.curso-actions .info {
+  background: var(--info-color);
+}
+
+.curso-actions .info:hover {
+  background: #117a8b;
+}
+
+.curso-actions .info:active {
+  transform: scale(0.98);
+}
+
+/* Botón de advertencia ("Editar") */
+.curso-actions .warning {
+  background: var(--warning-color);
+}
+
+.curso-actions .warning:hover {
+  background: #e0a800;
+}
+
+.curso-actions .warning:active {
+  transform: scale(0.98);
+}
+
+/* Botón de éxito ("Crear Prueba") */
+.curso-actions .success {
+  background: var(--success-color);
+}
+
+.curso-actions .success:hover {
+  background: #1e7e34;
+}
+
+.curso-actions .success:active {
+  transform: scale(0.98);
+}
+
+/* Estilos para la imagen del curso */
+/* Estilos para la imagen del curso */
+.curso-imagen {
+  width: 100%;
+  height: 150px; /* Altura reducida de 200px a 150px */
+  overflow: hidden;
+  border-radius: 8px; /* Bordes redondeados para la imagen */
+  margin-bottom: 15px; /* Espacio debajo de la imagen */
   
-  /* Título principal */
-  .lista-cursos-container h2 {
-    text-align: center;
-    margin-bottom: var(--spacing-large);
-    font-size: 1.8rem;
-    color: var(--secondary-color);
-    font-weight: bold;
-  }
+  /* Añadido para centrar la imagen */
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center;     /* Centra verticalmente */
+}
+
+.curso-imagen img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain; /* Mantiene la proporción de la imagen sin recortar */
   
-  /* Tabla de cursos */
-  .cursos-table {
+  /* Opcional: Añadir margen si deseas un pequeño espacio alrededor de la imagen */
+  /* margin: 5px; */
+}
+
+/* Mensaje de no cursos */
+.no-cursos {
+  text-align: center;
+  color: var(--secondary-color);
+  font-size: 1rem; /* Tamaño reducido */
+  margin-top: 20px;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+  .cursos-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .curso-actions {
+    flex-direction: column;
+  }
+
+  .curso-actions .info,
+  .curso-actions .warning,
+  .curso-actions .success {
     width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-    margin-top: var(--spacing-medium);
-    box-shadow: var(--shadow-light);
-    border-radius: var(--border-radius);
-    overflow: hidden; /* Bordes redondeados */
   }
-  
-  .cursos-table thead {
-    background-color: var(--background-color);
-    color: var(--secondary-color);
+
+  .bar h2 {
+    font-size: 1.5rem;
+  }
+
+  .create-button-container {
     text-align: center;
   }
-  
-  .cursos-table th,
-  .cursos-table td {
-    padding: var(--spacing-small);
-    border-bottom: 1px solid var(--border-color);
-    text-align: center;
-    border-bottom: 1px solid #ddd;
+
+  .create-button-container .primary {
+    width: 100%; /* En pantallas pequeñas, ocupa todo el ancho */
   }
-  
-  .cursos-table th {
-    font-size: 1rem;
-    font-weight: bold;
-    
+
+  /* Ajustar la altura de la imagen en pantallas pequeñas */
+  .curso-imagen {
+    height: 120px; /* Altura aún más pequeña para dispositivos móviles */
   }
-  
-  .cursos-table td {
-    font-size: 0.9rem;
+
+  /* Ajustar el tamaño del título y párrafos en pantallas pequeñas */
+  .curso-card h3 {
+    font-size: 1.2rem; /* Tamaño reducido en pantallas pequeñas */
   }
-  
-  .cursos-table tr:hover td {
-    background-color: rgba(0, 120, 212, 0.1); /* Efecto hover */
+
+  .curso-card p {
+    font-size: 0.9rem; /* Tamaño reducido en pantallas pequeñas */
   }
-  
-  .cursos-table tr:last-child td {
-    border-bottom: none; /* Elimina borde de la última fila */
-  }
-  
-  /* Botones en la tabla */
-  .cursos-table button {
-    padding: var(--spacing-small);
-    font-size: 0.9rem;
-    border: none;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-  }
-  
-  .cursos-table button:hover {
-    transform: translateY(-2px);
-  }
-  
-  .cursos-table button.primary {
-    background-color: var(--primary-color);
-    color: white;
-  }
-  
-  .cursos-table button.primary:hover {
-    background-color: var(--primary-hover-color);
-  }
-  
-  .cursos-table button.secondary {
-    background-color: var(--secondary-color);
-    color: white;
-  }
-  
-  .cursos-table button.secondary:hover {
-    background-color: var(--secondary-hover-color);
-  }
-  
+}

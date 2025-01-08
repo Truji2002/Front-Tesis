@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import Button from './ui/button/button';
+import Button from './ui/button/Button';
 import { showAlert } from './alerts';
 import '../styles/ListaSubcursos.css';
 import Swal from 'sweetalert2';
@@ -125,7 +125,7 @@ const ListaSubcursos = () => {
                 <td>{subcurso.cantidad_modulos}</td>
                 
                 <td>
-                  <Button onClick={() => handleVerModulos(subcurso.id)}>Ver Módulos</Button>
+                  
                   <Button onClick={() => handleEditarSubcurso(subcurso.id)}>Editar</Button>
                   <Button onClick={() => handleEliminarSubcurso(subcurso.id)} className="danger">
                     Eliminar

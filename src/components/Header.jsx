@@ -8,18 +8,17 @@ const Header = ({ onLogout }) => {
 
   const handleLogout = () => {
     onLogout();
-    localStorage.clear(); // Limpiar el almacenamiento local
+    localStorage.clear();
     navigate('/login');
   };
 
   const handleUserProfile = () => {
-    navigate('/profile'); // Redirigir al perfil del usuario
+    navigate('/profile');
   };
 
   return (
     <header className="header-container">
       <div className="header-content">
-        {/* Acciones del Header */}
         <div className="header-actions">
           <button className="user-icon" onClick={handleUserProfile}>
             <FaUserCircle size={30} />

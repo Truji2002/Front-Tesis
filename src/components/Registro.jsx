@@ -1,8 +1,10 @@
+// src/components/Registro.jsx
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Importa useNavigate
-import Button from './ui/button/button';
-import Input from './ui/input/input';
-import Label from './ui/label/label';
+import { useNavigate } from 'react-router-dom';
+import Button from './ui/button/Button';
+import Input from './ui/input/Input';
+import Label from './ui/label/Label';
+import { FaUser, FaEnvelope, FaLock, FaKey, FaBuilding } from 'react-icons/fa';
 import '../styles/Registro.css';
 
 const Registro = () => {
@@ -13,17 +15,18 @@ const Registro = () => {
     password: '',
     confirmPassword: '',
     codigoOrganizacion: '',
-    asignadoSimulacion: false,
   });
   const [message, setMessage] = useState('');
-  const [isError, setIsError] = useState(false); // Estado para indicar si el mensaje es un error
+  const [isError, setIsError] = useState(false);
   const [passwordError, setPasswordError] = useState('');
-  const navigate = useNavigate(); // Define useNavigate para la navegación
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
   };
 
@@ -32,13 +35,12 @@ const Registro = () => {
     setMessage('');
     setPasswordError('');
     setIsError(false);
+    setLoading(true);
 
-    // Verificar que las contraseñas coincidan
     if (formData.password !== formData.confirmPassword) {
       setPasswordError('Las contraseñas no coinciden');
       setIsError(true);
-
-      // Eliminar automáticamente el mensaje después de 5 segundos
+      setLoading(false);
       setTimeout(() => setPasswordError(''), 5000);
       return;
     }
@@ -56,14 +58,13 @@ const Registro = () => {
           email: formData.email,
           password: formData.password,
           codigoOrganizacion: formData.codigoOrganizacion,
-          asignadoSimulacion: formData.asignadoSimulacion,
         }),
       });
 
       if (response.ok) {
-        setMessage('Registro exitoso.');
+        setMessage('Registro exitoso. Redirigiendo al inicio de sesión...');
         setIsError(false);
-        setTimeout(() => navigate('/login'), 2000);
+        setTimeout(() => navigate('/login'), 3000);
         setFormData({
           first_name: '',
           last_name: '',
@@ -71,12 +72,10 @@ const Registro = () => {
           password: '',
           confirmPassword: '',
           codigoOrganizacion: '',
-          asignadoSimulacion: false,
         });
       } else {
         const errorData = await response.json();
 
-        // Manejo de errores: Formatea el mensaje correctamente
         if (errorData.email) {
           setMessage(`Error: ${errorData.email[0]}`);
         } else if (errorData.error) {
@@ -90,103 +89,136 @@ const Registro = () => {
           setMessage('Error desconocido al registrar.');
         }
         setIsError(true);
-
-        // Eliminar automáticamente el mensaje después de 5 segundos
         setTimeout(() => setMessage(''), 5000);
       }
     } catch (error) {
       console.error('Error durante el registro:', error);
       setMessage('Error al intentar registrar. Inténtalo de nuevo más tarde.');
       setIsError(true);
-
-      // Eliminar automáticamente el mensaje después de 5 segundos
       setTimeout(() => setMessage(''), 5000);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="registro-container">
-      <form onSubmit={handleSubmit} className="registro-form">
-        <h2>Registro</h2>
-        {message && (
-          <p className={`message ${isError ? 'error' : 'success'}`}>
-            {message}
-          </p>
-        )}
-        {passwordError && <p className="error">{passwordError}</p>}
-        <div className="form-group">
-          <Label htmlFor="first_name">Nombre</Label>
-          <Input
-            id="first_name"
-            name="first_name"
-            type="text"
-            value={formData.first_name}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <Label htmlFor="last_name">Apellido</Label>
-          <Input
-            id="last_name"
-            name="last_name"
-            type="text"
-            value={formData.last_name}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <Label htmlFor="email">Email</Label>
-          <Input
-            id="email"
-            name="email"
-            type="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <Label htmlFor="password">Contraseña</Label>
-          <Input
-            id="password"
-            name="password"
-            type="password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <Label htmlFor="confirmPassword">Confirmar Contraseña</Label>
-          <Input
-            id="confirmPassword"
-            name="confirmPassword"
-            type="password"
-            value={formData.confirmPassword}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <Label htmlFor="codigoOrganizacion">Código de Organización</Label>
-          <Input
-            id="codigoOrganizacion"
-            name="codigoOrganizacion"
-            type="text"
-            value={formData.codigoOrganizacion}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <Button type="submit" className="w-full">
-          Registrarse
-        </Button>
-        <Button type="button" className="w-full return-button" onClick={() => navigate('/login')}>
-          Volver al Login
-        </Button>
-      </form>
+    <div className="registro-background">
+      <div className="registro-container">
+        <form onSubmit={handleSubmit} className="registro-form">
+          <h2 className="form-title">Registro</h2>
+          {message && (
+            <p className={`message ${isError ? 'error' : 'success'}`}>
+              {message}
+            </p>
+          )}
+          {passwordError && <p className="error-message">{passwordError}</p>}
+
+          {/* Nombre y Apellido */}
+          <div className="form-row">
+            <div className="form-group">
+              <Label htmlFor="first_name">
+                <FaUser className="icon-inline" /> Nombre
+              </Label>
+              <Input
+                id="first_name"
+                name="first_name"
+                type="text"
+                value={formData.first_name}
+                onChange={handleChange}
+                placeholder="Ingresa tu nombre"
+                required
+              />
+            </div>
+            <div className="form-group">
+              <Label htmlFor="last_name">
+                <FaUser className="icon-inline" /> Apellido
+              </Label>
+              <Input
+                id="last_name"
+                name="last_name"
+                type="text"
+                value={formData.last_name}
+                onChange={handleChange}
+                placeholder="Ingresa tu apellido"
+                required
+              />
+            </div>
+          </div>
+
+          <div className="form-group">
+            <Label htmlFor="email">
+              <FaEnvelope className="icon-inline" /> Email
+            </Label>
+            <Input
+              id="email"
+              name="email"
+              type="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="Ingresa tu correo electrónico"
+              required
+            />
+          </div>
+
+          {/* Contraseña y Confirmar Contraseña */}
+          <div className="form-row">
+            <div className="form-group">
+              <Label htmlFor="password">
+                <FaLock className="icon-inline" /> Contraseña
+              </Label>
+              <Input
+                id="password"
+                name="password"
+                type="password"
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="Ingresa tu contraseña"
+                required
+              />
+            </div>
+            <div className="form-group">
+              <Label htmlFor="confirmPassword">
+                <FaKey className="icon-inline" /> Confirmar
+              </Label>
+              <Input
+                id="confirmPassword"
+                name="confirmPassword"
+                type="password"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                placeholder="Confirma tu contraseña"
+                required
+              />
+            </div>
+          </div>
+
+          <div className="form-group">
+            <Label htmlFor="codigoOrganizacion">
+              <FaBuilding className="icon-inline" /> Código de Organización
+            </Label>
+            <Input
+              id="codigoOrganizacion"
+              name="codigoOrganizacion"
+              type="text"
+              value={formData.codigoOrganizacion}
+              onChange={handleChange}
+              placeholder="Ingresa tu código de organización"
+              required
+            />
+          </div>
+
+          <Button type="submit" className="submit-button" disabled={loading}>
+            {loading ? 'Registrando...' : 'Registrarse'}
+          </Button>
+          <Button
+            type="button"
+            className="return-button"
+            onClick={() => navigate('/login')}
+          >
+            Volver al Login
+          </Button>
+        </form>
+      </div>
     </div>
   );
 };

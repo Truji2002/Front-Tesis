@@ -16,12 +16,12 @@
   --border-radius: 8px;
   --spacing-small: 10px;
   --spacing-medium: 20px;
-  --logout-bg-color: #e74c3c; 
-  --logout-hover-color: #c0392b; 
-  --secondary-button-bg: #2c3e50; 
+  --logout-bg-color: #e74c3c;
+  --logout-hover-color: #c0392b;
+  --secondary-button-bg: #2c3e50;
   --secondary-button-hover-bg: #1a252f;
 }
-
+ 
 /* Reset y base */
 html,
 body {
@@ -39,7 +39,7 @@ body {
   min-height: 100vh;
   background-color: var(--background-color);
 }
-
+ 
 /* Títulos */
 h1,
 h2,
@@ -48,21 +48,21 @@ h3 {
   color: var(--secondary-color);
   font-weight: bold;
 }
-
+ 
 h1 {
   font-size: 2rem;
   margin-bottom: var(--spacing-medium);
 }
-
+ 
 h2 {
   font-size: 1.8rem;
   margin-bottom: var(--spacing-small);
 }
-
+ 
 h3 {
   font-size: 1.5rem;
 }
-
+ 
 /* Enlaces */
 a {
   font-weight: 500;
@@ -70,11 +70,11 @@ a {
   text-decoration: none;
   transition: color 0.3s ease;
 }
-
+ 
 a:hover {
   color: var(--primary-hover-color);
 }
-
+ 
 /* Botones */
 button {
   font-family: var(--font-family);
@@ -85,31 +85,31 @@ button {
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
-
+ 
 button.primary {
   background-color: var(--primary-color);
   color: white;
 }
-
+ 
 button.primary:hover {
   background-color: var(--primary-hover-color);
   transform: translateY(-2px);
 }
-
+ 
 button.secondary {
   background-color: var(--secondary-button-bg); /* Rojo de acción secundaria */
   color: white;
 }
-
+ 
 button.secondary:hover {
   background-color: var(--secondary-button-hover);
 }
-
+ 
 button:disabled {
   background-color: #cccccc;
   cursor: not-allowed;
 }
-
+ 
 /* Tablas */
 .table-container {
   width: 100%;
@@ -117,23 +117,23 @@ button:disabled {
   border-collapse: collapse;
   box-shadow: var(--shadow-light);
 }
-
+ 
 .table-container th,
 .table-container td {
   padding: var(--spacing-small);
   border: 1px solid #ddd;
   text-align: left;
 }
-
+ 
 .table-container th {
   background-color: var(--primary-color);
   color: white;
 }
-
+ 
 .table-container tr:nth-child(even) {
   background-color: #f2f2f2;
 }
-
+ 
 /* Layout General */
 .main-layout {
   display: flex;
@@ -160,33 +160,37 @@ header {
 }
 /* Sidebar */
 .sidebar {
-  width: 250px;
-  background-color: var(--secondary-color);
+  width: 230px;
+  height: 100vh;
+  background: linear-gradient(9deg, var(--primary-color), var(--secondary-color));
   color: white;
-  padding: var(--spacing-medium);
   position: fixed;
   top: 60px;
-  bottom: 0;
+  left: 0;
+  padding: var(--spacing-medium);
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Distribuye el contenido */
+  justify-content: flex-start; /* Asegura que el contenido esté en la parte superior */
+  align-items: flex-start;
+  box-shadow: var(--shadow-light);
+  z-index: 10;
 }
-
+ 
 .sidebar h2 {
   font-size: 1.5rem;
   margin-bottom: var(--spacing-medium);
   color: white;
 }
-
+ 
 .sidebar a {
   color: white;
   transition: color 0.3s ease; /* Transición suave */
 }
-
+ 
 .sidebar a:hover {
   color: var(--primary-color);
 }
-
+ 
 .main-content {
   margin-left: 250px;
   padding: var(--spacing-medium);
@@ -195,9 +199,9 @@ header {
   flex: 1;
   overflow-y: auto;
   background-color: var(--background-color); /* Fondo claro */
-  border-left: 1px solid #ddd; /* Línea divisoria */
+  border-left: 3px solid #ddd; /* Línea divisoria */
 }
-
+ 
 .footer {
   display: flex;
   justify-content: center;
@@ -206,10 +210,10 @@ header {
   background-color: var(--background-color); /* Fondo oscuro */
   color: var(--secondary-color); /* Texto blanco */
   font-size: 0.9rem;
-  
+ 
   flex-shrink: 0;
 }
-
+ 
 .no-sidebar {
   margin-left: 0; /* Sin espacio reservado para el Sidebar */
   width: 100%; /* Ancho completo */

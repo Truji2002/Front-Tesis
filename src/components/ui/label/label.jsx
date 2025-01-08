@@ -1,9 +1,10 @@
+// src/components/ui/label/Label.jsx
 import React from 'react';
 import PropTypes from 'prop-types';
 import './Label.css';
 
 const Label = ({ htmlFor, children }) => (
-  <label htmlFor={htmlFor} className="label">
+  <label htmlFor={htmlFor} className="custom-label">
     {children}
   </label>
 );

@@ -17,19 +17,30 @@ const AdministrarPreguntas = () => {
   const token = localStorage.getItem("accessToken");
 
   useEffect(() => {
+    console.log("pruebaId:", pruebaId); // Depuración
     fetchPreguntas();
   }, [pruebaId]);
 
   const fetchPreguntas = async () => {
     try {
+      if (!pruebaId) {
+        throw new Error("ID de prueba no proporcionado.");
+      }
+
       const response = await fetch(
         `http://127.0.0.1:8000/api/preguntas/?prueba=${pruebaId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      if (!response.ok) throw new Error("Error al cargar las preguntas");
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Error al cargar las preguntas");
+      }
+
       const data = await response.json();
+      console.log("Preguntas recibidas:", data); // Depuración
       setPreguntas(data);
     } catch (err) {
       setError(err.message);
@@ -40,7 +51,12 @@ const AdministrarPreguntas = () => {
     setCurrentPregunta(pregunta);
     setFormData(
       pregunta
-        ? { ...pregunta }
+        ? {
+            pregunta: pregunta.pregunta,
+            opcionesRespuestas: pregunta.opcionesRespuestas,
+            respuestaCorrecta: pregunta.respuestaCorrecta,
+            puntajePregunta: pregunta.puntajePregunta,
+          }
         : { pregunta: "", opcionesRespuestas: "", respuestaCorrecta: "", puntajePregunta: 10 }
     );
     setOpenDialog(true);
@@ -49,6 +65,12 @@ const AdministrarPreguntas = () => {
   const handleCloseDialog = () => {
     setOpenDialog(false);
     setCurrentPregunta(null);
+    setFormData({
+      pregunta: "",
+      opcionesRespuestas: "",
+      respuestaCorrecta: "",
+      puntajePregunta: 10,
+    });
   };
 
   const handleFormChange = (e) => {
@@ -72,7 +94,11 @@ const AdministrarPreguntas = () => {
         body: JSON.stringify({ ...formData, prueba: pruebaId }),
       });
 
-      if (!response.ok) throw new Error("Error al guardar la pregunta");
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Error al guardar la pregunta");
+      }
+
       fetchPreguntas();
       handleCloseDialog();
     } catch (err) {
@@ -89,7 +115,11 @@ const AdministrarPreguntas = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      if (!response.ok) throw new Error("Error al eliminar la pregunta");
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Error al eliminar la pregunta");
+      }
+
       fetchPreguntas();
     } catch (err) {
       setError(err.message);
@@ -114,28 +144,34 @@ const AdministrarPreguntas = () => {
           </tr>
         </thead>
         <tbody>
-          {preguntas.map((pregunta) => (
-            <tr key={pregunta.id}>
-              <td>{pregunta.pregunta}</td>
-              <td>{pregunta.opcionesRespuestas.split(";").join(", ")}</td>
-              <td>{pregunta.respuestaCorrecta}</td>
-              <td>{pregunta.puntajePregunta}</td>
-              <td>
-                <button
-                  className="edit-button"
-                  onClick={() => handleOpenDialog(pregunta)}
-                >
-                  Editar
-                </button>
-                <button
-                  className="delete-button"
-                  onClick={() => handleDelete(pregunta.id)}
-                >
-                  Eliminar
-                </button>
-              </td>
+          {preguntas.length > 0 ? (
+            preguntas.map((pregunta) => (
+              <tr key={pregunta.id}>
+                <td>{pregunta.pregunta}</td>
+                <td>{pregunta.opcionesRespuestas.split(";").join(", ")}</td>
+                <td>{pregunta.respuestaCorrecta}</td>
+                <td>{pregunta.puntajePregunta}</td>
+                <td>
+                  <button
+                    className="edit-button"
+                    onClick={() => handleOpenDialog(pregunta)}
+                  >
+                    Editar
+                  </button>
+                  <button
+                    className="delete-button"
+                    onClick={() => handleDelete(pregunta.id)}
+                  >
+                    Eliminar
+                  </button>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="5">No hay preguntas disponibles para esta prueba.</td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
 
@@ -170,6 +206,7 @@ const AdministrarPreguntas = () => {
               placeholder="Puntaje"
               value={formData.puntajePregunta}
               onChange={handleFormChange}
+              min="1"
             />
             <div className="dialog-actions">
               <button onClick={handleCloseDialog}>Cancelar</button>

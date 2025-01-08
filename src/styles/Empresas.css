@@ -1,195 +1,279 @@
-/* Contenedor principal */
+/* Variables */
+:root {
+  --primary-color: #0056a3;
+  --secondary-color: #374250;
+  --danger-color: #dc3545;
+  --warning-color: #ffc107;
+  --text-color: #ffffff;
+  --background-color: #f9f9f9;
+  --form-bg: #ffffff;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --font-family: 'Roboto', sans-serif;
+
+  /* Tamaños de fuente reducidos */
+  --font-size-small: 0.7rem; /* 11.2px */
+  --font-size-medium: 0.85rem; /* 13.6px */
+
+  /* Espaciados reducidos */
+  --spacing-small: 4px;
+  --spacing-medium: 6px;
+  --spacing-large: 12px;
+
+  /* Bordes */
+  --border-radius: 4px;
+}
+
+/* Contenedor General */
 .empresas-container {
-    padding: var(--spacing-medium);
-    background-color: var(--background-color);
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow-light);
-    max-width: 1200px;
-    margin: 20px auto;
-    font-family: var(--font-family);
-  }
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: var(--spacing-large);
+  font-family: var(--font-family);
+  background-color: var(--background-color);
+  box-sizing: border-box;
+}
+
+/* Título Principal */
+.empresas-container h2 {
+  text-align: center;
+  color: var(--primary-color);
+  margin-bottom: var(--spacing-large);
+  font-size: 1.4rem;
+}
+
+/* Contenedor Flex para Formulario e Imagen */
+.empresa-form-image-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--spacing-large);
+  margin-bottom: var(--spacing-large);
+}
+
+/* Formulario de Empresas */
+.empresa-form {
+  background-color: var(--form-bg);
+  padding: var(--spacing-medium);
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 6px var(--shadow-color);
+  flex: 1;
+  max-width: 500px;
+}
+
+/* Reducir la distancia entre los campos */
+.form-row {
+  display: flex;
+  gap: 16px; /* Espacio entre columnas */
+  margin-bottom: 8px; /* Espacio entre filas */
+}
+
+.form-row .form-group {
+  flex: 1; /* Cada columna ocupa el mismo ancho */
+}
+
+/* Etiquetas del Formulario */
+.empresa-form label {
+  display: block;
+  margin-bottom: var(--spacing-small);
+  font-weight: bold;
+  color: #333;
+  font-size: var(--font-size-small);
+}
+
+/* Reducir el tamaño de los campos de entrada */
+.empresa-form input {
+  width: 100%;
+  padding: 4px 6px; /* Reducir el padding interno */
+  font-size: var(--font-size-small); /* Reducir el tamaño de la fuente */
+  height: 28px; /* Reducir la altura del campo */
+  border: 1px solid #ccc;
+  border-radius: var(--border-radius);
+  box-sizing: border-box; /* Asegura que el padding no aumente el ancho total */
+}
+
+/* Estado de Enfoque de los Campos de Entrada */
+.empresa-form input:focus {
+  border-color: var(--primary-color);
+  outline: none;
+}
+
+/* Reducir el tamaño de los botones */
+.empresa-form button {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  padding: 6px 12px; /* Reducir el padding interno del botón */
+  font-size: 0.8rem; /* Ajuste del tamaño de la fuente */
+  height: 36px; /* Ajuste de la altura */
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  width: auto; /* Ajuste de tamaño automático */
+  max-width: 250px; /* Tamaño máximo definido para el botón */
+  display: block; /* Hace que el botón sea un bloque */
+  margin: 0 auto; /* Centra el botón horizontalmente */
+}
+
+.empresa-form button:hover {
+  background-color: #003d7a;
+}
+
+.empresa-form button:active {
+  transform: scale(0.98);
+}
+
+/* Imagen al lado del Formulario */
+.empresa-form-image {
+  flex: 0.5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: var(--spacing-large);
+}
+
+.empresa-form-image img {
+  width: 100%;
+  height: 100%;
+  max-height: 400px;
+  object-fit: cover;
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 6px var(--shadow-color);
+  transition: transform 0.3s ease;
+}
+
+.empresa-form-image img:hover {
+  transform: scale(1.02);
+}
+
+/* Barra de Búsqueda */
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-small);
+  margin-bottom: var(--spacing-large);
+}
+
+.search-bar label {
+  font-weight: bold;
+  color: #333;
+  font-size: var(--font-size-medium);
+}
+
+.search-bar input {
+  flex: 1;
+  padding: 4px 6px; /* Reducir el padding interno */
+  font-size: var(--font-size-small);
+  border: 1px solid #ccc;
+  border-radius: var(--border-radius);
+  box-sizing: border-box;
+}
+
+.search-bar input:focus {
+  border-color: var(--primary-color);
+  outline: none;
+}
+
+/* Tabla de Empresas */
+.empresa-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-size-small);
+  margin-top: var(--spacing-medium); /* Espacio superior para separar la tabla del contenido anterior */
+  border-radius: var(--border-radius); /* Bordes redondeados para la tabla */
+  overflow: hidden; /* Ocultar bordes fuera de la tabla */
+}
+
+.empresa-table th,
+.empresa-table td {
+  padding: var(--spacing-small) 8px; /* Ajuste del padding para mayor espacio interno */
+  text-align: left;
+  font-size: var(--font-size-small);
+  border-bottom: 1px solid #ddd; /* Bordes suaves debajo de las celdas */
+}
+
+.empresa-table th {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  font-size: var(--font-size-medium);
+  font-weight: 600;
+}
+
+.empresa-table tr:nth-child(even) {
+  background-color: #f9f9f9; /* Sombreado más claro para las filas pares */
+}
+
+.empresa-table tr:hover {
+  background-color: #f1f1f1; /* Efecto de hover más suave */
+}
+
+.empresa-table button {
+  margin-right: var(--spacing-small);
+  padding: 6px 12px; /* Ajustar tamaño del padding */
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-size: var(--font-size-small);
+  color: var(--text-color); /* Asegura que el texto del botón sea blanco */
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  background-color: var(--warning-color); /* Botón de editar */
+}
+
+.empresa-table button:hover {
+  background-color: #d39e00;
   
-  /* Título principal */
-  .empresas-container h2 {
-    text-align: center;
-    font-size: 2rem;
-    color: var(--secondary-color);
-    margin-bottom: var(--spacing-medium);
-  }
   
-  /* Formulario */
-  .empresa-form {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: var(--spacing-medium);
-    margin-bottom: var(--spacing-large);
-    justify-items: center; 
+}
+
+.empresa-table .danger {
+  background-color: var(--danger-color);
+  color: white;
+  background:#a71d2a;
+ 
+}
+
+.empresa-table .danger:hover {
+  background-color: #a71d2a;
+}
+
+.empresa-table button:last-child {
+  margin-right: 0;
+}
+
+.empresa-table button:not(.danger) {
+  background-color: var(--warning-color);
+  color: white;
+ 
+  background: #e4b31d;
+}
+
+/* Mensaje de No Empresas */
+.empresa-table tbody tr td[colspan="7"] {
+  text-align: center;
+  color: var(--secondary-color);
+  font-size: var(--font-size-small);
+  padding: var(--spacing-small);
+}
+
+/* Agregar sombra a la tabla */
+.empresa-table {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra sutil debajo de la tabla */
+}
+
+/* Responsividad */
+@media (max-width: 992px) {
+  .empresa-table th, .empresa-table td {
+    padding: 8px; /* Aumentar el padding para mayor comodidad en pantallas pequeñas */
   }
-  
-  .form-group {
-    display: flex;
-    flex-direction: column;
+}
+
+@media (max-width: 600px) {
+  .empresa-table th, .empresa-table td {
+    padding: 6px; /* Ajustar padding en pantallas más pequeñas */
+    font-size: 0.6rem;
   }
-  
-  .form-group label {
-    font-weight: bold;
-    color: var(--primary-color);
-    margin-bottom: var(--spacing-small);
+
+  .empresa-table button {
+    padding: 4px 8px;
+    font-size: 0.6rem;
   }
-  
-  .form-group input {
-    padding: var(--spacing-small);
-    border: 1px solid var(--primary-color);
-    border-radius: var(--border-radius);
-    font-size: 1rem;
-    box-sizing: border-box;
-  }
-  
-  .form-group input:focus {
-    outline: none;
-    border-color: var(--primary-hover-color);
-    box-shadow: 0 0 4px rgba(0, 120, 212, 0.5);
-  }
-  
-  /* Botón principal */
-  .empresa-form button {
-    grid-column: 1 / -1; /* Ocupa todo el ancho del grid */
-    justify-self: center; /* Asegura que el botón esté centrado */
-  }
-  
-  button {
-    padding: var(--spacing-small);
-    font-size: 1rem;
-    font-weight: bold;
-    border: none;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    justify-self: center; 
-  }
-  
-  button:hover {
-    transform: translateY(-2px);
-  }
-  
-  /* Botón de peligro */
-  button.danger {
-    background-color: var(--logout-bg-color);
-    color: white;
-  }
-  
-  button.danger:hover {
-    background-color: var(--logout-hover-color);
-  }
-  
-  /* Tabla */
-  .empresa-table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-    margin-top: var(--spacing-medium);
-    box-shadow: var(--shadow-light);
-    border-radius: var(--border-radius);
-    overflow: hidden; /* Asegura que los bordes redondeados funcionen */
-  }
-  
-  .empresa-table thead {
-    background-color: var(--background-color);
-    color: var(--secondary-color);;
-    text-align: center;
-  }
-  
-  .empresa-table th,
-  .empresa-table td {
-    padding: var(--spacing-small);
-    border-bottom: 1px solid #ddd;
-  }
-  
-  .empresa-table th {
-    font-size: 1rem;
-    font-weight: bold;
-  }
-  
-  .empresa-table td {
-    font-size: 0.9rem;
-  }
-  
-  .empresa-table tr:hover td {
-    background-color: rgba(0, 120, 212, 0.1); /* Efecto hover en las filas */
-  }
-  
-  .empresa-table tr:last-child td {
-    border-bottom: none; /* Elimina el borde inferior de la última fila */
-  }
-  
-  /* Alertas */
-  .alert {
-    margin-bottom: var(--spacing-medium);
-    padding: var(--spacing-small);
-    border-radius: var(--border-radius);
-    font-size: 1rem;
-    text-align: center;
-  }
-  
-  .alert.success {
-    background-color: rgba(0, 200, 0, 0.1);
-    border: 1px solid var(--primary-color);
-    color: var(--primary-color);
-  }
-  
-  .alert.error {
-    background-color: rgba(255, 0, 0, 0.1);
-    border: 1px solid var(--logout-bg-color);
-    color: var(--logout-bg-color);
-  }
-  
-  .alert.warning {
-    background-color: rgba(255, 165, 0, 0.1);
-    border: 1px solid #ffa500;
-    color: #ffa500;
-  }
-  
-  /* Responsividad */
-  @media (max-width: 768px) {
-    .empresa-form {
-      grid-template-columns: 1fr;
-    }
-  
-    .empresa-table th,
-    .empresa-table td {
-      font-size: 0.85rem;
-    }
-  }
-  
-  .search-bar {
-    margin: 20px 0;
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-small);
-    width: 100%;
-  }
-  
-  .search-bar input {
-    width: 100%;
-    max-width: 100%;
-    padding: var(--spacing-small);
-    font-size: 1rem;
-    border: 1px solid var(--primary-color);
-    border-radius: var(--border-radius);
-    box-sizing: border-box;
-  }
-  
-  .search-bar input:focus {
-    outline: none;
-    border-color: var(--primary-hover-color);
-    box-shadow: 0 0 4px rgba(0, 120, 212, 0.5);
-  }
-  
-  /* Espaciado */
-  .empresa-form {
-    margin-bottom: var(--spacing-large);
-  }
-  
-  .empresa-table {
-    margin-top: var(--spacing-large);
-  }
+}

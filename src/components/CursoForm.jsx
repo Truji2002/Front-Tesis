@@ -1,7 +1,9 @@
+// src/components/CursoForm.jsx
+
 import React, { useState, useEffect } from 'react';
-import Button from './ui/button/button';
-import Input from './ui/input/input';
-import Label from './ui/label/label';
+import Button from './ui/button/Button';
+import Input from './ui/input/Input';
+import Label from './ui/label/Label';
 import { showAlert } from './alerts';
 import '../styles/CursoForm.css';
 import Swal from 'sweetalert2';
@@ -96,7 +98,10 @@ const CursoForm = ({ isEdit, curso, onSubmit }) => {
         body: payload,
       });
 
-      if (!response.ok) throw new Error('Error al guardar el curso.');
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || 'Error al guardar el curso.');
+      }
 
       showAlert(
         'Éxito',
@@ -111,7 +116,7 @@ const CursoForm = ({ isEdit, curso, onSubmit }) => {
   };
 
   return (
-    <form className="curso-form" onSubmit={handleSubmit}>
+    <form className="curso-form" onSubmit={handleSubmit} id="curso-form">
       <h2>{isEdit ? 'Editar Curso' : 'Crear Curso'}</h2>
 
       <div className="form-group">
@@ -139,44 +144,41 @@ const CursoForm = ({ isEdit, curso, onSubmit }) => {
       </div>
 
       <div className="form-group">
-        <Label htmlFor="imagen">Imagen</Label>
-        <Input
-          id="imagen"
-          name="imagen"
-          type="file"
-          accept="image/*"
-          onChange={handleFileChange}
-        />
+  <Label htmlFor="imagen">Imagen</Label>
+  <Input
+    id="imagen"
+    name="imagen"
+    type="file"
+    accept="image/*"
+    onChange={handleFileChange}
+  />
+  <div className="image-preview">
+    {imagePreview ? (
+      <img src={imagePreview} alt="Vista previa de la imagen seleccionada" />
+    ) : currentImage ? (
+      <img src={currentImage} alt="Imagen actual del curso" />
+    ) : (
+      <p>No se ha cargado ninguna imagen</p>
+    )}
+  </div>
+</div>
+
+<div className="form-group simulacion-group">
+  <Label htmlFor="simulacion">¿Incluye simulación?</Label>
+  <Input
+    id="simulacion"
+    name="simulacion"
+    type="checkbox"
+    checked={formData.simulacion}
+    onChange={handleCheckboxChange}
+  />
+</div>
+
+      <div className="crear-curso-button-container">
+        <Button type="submit" className="crear-curso-button">
+          {isEdit ? 'Modificar Curso' : 'Crear Curso'}
+        </Button>
       </div>
-
-   
-
-      {/* Mostrar la imagen actual si no hay una nueva seleccionada */}
-      <div className="image-preview">
-        {imagePreview ? (
-          <img src={imagePreview} alt="Vista previa de la imagen seleccionada" />
-        ) : currentImage ? (
-          <img src={currentImage} alt="Imagen actual del curso" />
-        ) : (
-          <p>No se ha cargado ninguna imagen</p>
-        )}
-      </div>
-
-      <div className="form-group simulacion-group">
-      <label htmlFor="simulacion">¿Incluye simulación?</label>
-      <input
-        id="simulacion"
-        name="simulacion"
-        type="checkbox"
-        checked={formData.simulacion}
-        onChange={(e) => setFormData({ ...formData, simulacion: e.target.checked })}
-      />
-
-    </div>
-
-      <Button type="submit" className="w-full">
-        {isEdit ? 'Actualizar Curso' : 'Crear Curso'}
-      </Button>
     </form>
   );
 };

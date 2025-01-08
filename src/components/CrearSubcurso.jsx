@@ -1,18 +1,24 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import SubcursoForm from './SubcursoForm';
+import '../styles/CrearSubcurso.css';
 
 const CrearSubcurso = () => {
   const navigate = useNavigate();
 
   const handleSubmit = () => {
-    // Navega de vuelta a la lista de subcursos después de crear
-    navigate(-1); // O navega a una ruta específica, como `/cursos/:id/subcursos`
+    navigate(-1); // Navega de vuelta
   };
 
   return (
-    <div className="crear-subcurso-container">
-      <SubcursoForm onSubmit={handleSubmit} isEdit={false} />
+    <div className="crear-subcurso-page">
+      {/* Encabezado */}
+      
+
+      {/* Contenedor del formulario */}
+      <div className="crear-subcurso-form-container">
+        <SubcursoForm onSubmit={handleSubmit} isEdit={false} />
+      </div>
     </div>
   );
 };

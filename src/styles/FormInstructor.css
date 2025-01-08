@@ -1,129 +1,88 @@
-/* Contenedor principal del formulario */
+/* Estilo general del formulario */
 .form-instructor {
-    background-color: var(--form-bg-color);
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow-light);
-    padding: var(--spacing-medium);
-    max-width: 800px; /* Ajusta el ancho máximo del formulario */
-    margin: 20px auto; /* Centra el formulario horizontalmente */
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-medium); /* Espacio entre los elementos del formulario */
-  }
-  
-  /* Título del formulario */
-  .form-instructor h2 {
-    text-align: center;
-    font-size: 1.8rem;
-    color: var(--secondary-color);
-    margin-bottom: var(--spacing-medium);
-  }
-  
-  /* Grupos del formulario */
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-small); /* Espacio entre el label y el input */
-  }
-  
-  /* Label */
-  .form-group label {
-    font-weight: bold;
-    color: var(--primary-color);
-  }
-  
-  /* Input */
-  .form-group input,
+  max-width: 800px;
+  margin: 0 auto;
+  padding: var(--spacing-medium);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-light);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-medium);
+  background-color: #f9f9f9; /* Fondo claro */
+}
+
+/* Botón con tamaño definido y centrado */
+.form-button {
+  width: 200px; /* Ancho fijo */
+  height: 50px; /* Altura fija */
+  background-color: var(--primary-color); /* Color de fondo */
+  color: white; /* Color del texto */
+  font-weight: bold; /* Texto en negrita */
+  font-size: 1rem; /* Tamaño del texto */
+  border: none; /* Sin borde */
+  border-radius: var(--border-radius); /* Bordes redondeados */
+  cursor: pointer; /* Indicador de clic */
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  display: block; /* Convertir el botón en un elemento de bloque */
+  margin: 0 auto; /* Centrar horizontalmente */
+  text-align: center; /* Asegurar que el texto esté centrado */
+}
+
+/* Efecto al pasar el mouse */
+.form-button:hover {
+  background-color: var(--primary-hover-color); /* Color al pasar el mouse */
+  transform: translateY(-2px); /* Efecto de desplazamiento */
+}
+
+/* Estilo para botón deshabilitado */
+.form-button:disabled {
+  background-color: #cccccc; /* Color de fondo deshabilitado */
+  cursor: not-allowed; /* Cambiar cursor a no permitido */
+}
+
+
+/* Título del formulario */
+.form-instructor h2 {
+  text-align: center;
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: var(--spacing-medium);
+}
+
+/* Grupos del formulario */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-small);
+}
+
+/* Estilo para el <select> */
+.form-group select {
+  width: 230px; /* Ancho fijo */
+  max-width:50%; /* Asegurarse de que no exceda el contenedor */
+  height: 40px; /* Altura fija */
+  padding: 5px 10px; /* Espaciado interno */
+  font-size: 1rem; /* Tamaño de fuente estándar */
+  border: 1px solid #ccc; /* Borde gris claro */
+  border-radius: 5px; /* Bordes redondeados */
+  background-color: #fff; /* Fondo blanco */
+  box-sizing: border-box; /* Incluir el padding en el tamaño total */
+  appearance: none; /* Quitar estilos por defecto del navegador */
+  cursor: pointer; /* Cambiar el cursor a "puntero" */
+}
+
+/* Efecto al pasar el mouse y enfoque */
+.form-group select:hover,
+.form-group select:focus {
+  outline: none;
+  border-color: #007bff; /* Azul cuando está enfocado */
+  box-shadow: 0 0 4px rgba(0, 120, 212, 0.5); /* Efecto de sombra */
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
   .form-group select {
-    padding: var(--spacing-small);
-    font-size: 1rem;
-    border: 1px solid var(--primary-color);
-    border-radius: var(--border-radius);
-    box-sizing: border-box;
+    width: 100%; /* Asegura que se ajuste en pantallas pequeñas */
+    font-size: 0.9rem; /* Tamaño de fuente reducido */
   }
-  
-  /* Enfocar inputs y select */
-  .form-group input:focus,
-  .form-group select:focus {
-    outline: none;
-    border-color: var(--primary-hover-color);
-    box-shadow: 0 0 4px rgba(0, 120, 212, 0.5);
-  }
-  
-  /* Botón principal */
-  button.w-full {
-    background-color: var(--primary-color);
-    color: white;
-    font-weight: bold;
-    padding: var(--spacing-small);
-    font-size: 1rem;
-    border: none;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-  }
-  
-  button.w-full:hover {
-    background-color: var(--primary-hover-color);
-    transform: translateY(-2px);
-  }
-  
-  /* Botón deshabilitado */
-  button:disabled {
-    background-color: #cccccc;
-    cursor: not-allowed;
-  }
-  
-  /* Responsividad */
-  @media (max-width: 768px) {
-    .form-instructor {
-      padding: var(--spacing-small);
-      gap: var(--spacing-small);
-    }
-  
-    .form-group input,
-    .form-group select {
-      font-size: 0.9rem;
-    }
-  
-    button.w-full {
-      font-size: 0.9rem;
-      padding: var(--spacing-small);
-    }
-  }
-  .form-group {
-    margin-bottom: 20px;
-  }
-  
-  .form-group label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 8px;
-  }
-  
-  .form-group input[type="checkbox"] {
-    margin-right: 10px;
-  }
-  
-  .cursos-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .cursos-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  .cursos-item input[type="checkbox"] {
-    width: 20px;
-    height: 20px;
-  }
-  
-  .cursos-item label {
-    font-size: 16px;
-    line-height: 20px;
-  }
-  
+}

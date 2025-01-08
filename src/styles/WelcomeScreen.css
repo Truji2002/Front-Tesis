@@ -1,0 +1,232 @@
+/* Variables */
+:root {
+  --primary-color: #0b244b; /* Azul oscuro más profesional */
+  --secondary-color: #374250; /* Azul secundario ligeramente más oscuro */
+  --background-color: #f8f9fa;
+  --text-color: #ffffff;
+  --font-family: 'Lora', serif; /* Tipografía profesional para el título */
+  --font-secondary: 'Roboto', sans-serif; /* Tipografía moderna para el subtítulo */
+}
+
+/* General */
+body {
+  font-family: var(--font-secondary);
+  margin: 0;
+  padding: 0;
+  background: var(--background-color);
+}
+
+.welcome-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: var(--text-color);
+}
+
+/* Banner */
+.welcome-banner {
+  background: white; /* Fondo blanco */
+  color: var(--primary-color); /* Texto azul oscuro */
+  padding: 40px 20px;
+  text-align: center;
+  width: 100%;
+  border: 3px solid; /* Borde del encabezado */
+  border-image-source: linear-gradient(90deg, var(--primary-color), var(--secondary-color)); /* Gradiente para el borde */
+  border-image-slice: 1; /* Asegura que el gradiente abarque todo el borde */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+  margin-bottom: 20px; /* Espaciado entre encabezado y barra */
+}
+
+.welcome-banner-content h1 {
+  font-size: 36px; /* Tamaño equilibrado */
+  margin-bottom: 10px;
+  font-weight: 700;
+  text-transform: capitalize;
+  letter-spacing: 1.5px; /* Espaciado elegante */
+  font-family: 'Lora', Arial, Helvetica, sans-serif; /* Fuente profesional */
+  color: var(--primary-color); /* Azul oscuro */
+}
+
+.welcome-banner-content p {
+  font-size: 16px; /* Tamaño reducido */
+  margin: 0;
+  font-weight: 400; /* Peso medio */
+  color: var(--secondary-color); /* Azul más claro para subtítulos */
+  letter-spacing: 0.5px;
+  line-height: 1.5; /* Mejora la legibilidad */
+  font-family: 'Roboto', sans-serif; /* Fuente secundaria */
+}
+
+/* Barra de servicios */
+.services-bar {
+  background: linear-gradient(90deg, #000610, #2d66af);
+  color: white;
+  text-align: center;
+  padding: 20px 0; /* Espaciado reducido */
+  width: 100%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px; /* Espaciado con las tarjetas */
+}
+
+.services-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.services-content h2 {
+  font-size: 24px; /* Tamaño más pequeño */
+  font-weight: 700;
+  margin-bottom: 15px;
+  font-family: 'Roboto', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: white; /* Texto blanco */
+}
+
+.services-list {
+  display: flex;
+  justify-content: center;
+  gap: 30px; /* Espaciado reducido */
+  flex-wrap: wrap;
+}
+
+.service-item {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Espaciado reducido */
+  font-size: 14px; /* Tamaño de fuente más pequeño */
+  font-weight: 500;
+  font-family: 'Roboto', sans-serif;
+  transition: transform 0.3s ease, color 0.3s ease;
+  color: white; /* Texto blanco */
+}
+
+.service-item:hover {
+  transform: scale(1.05);
+  color: #f0f0f0; /* Gris claro al hover */
+}
+
+.service-icon {
+  font-size: 20px; /* Tamaño reducido para íconos */
+  color: white; /* Ícono blanco */
+  transition: color 0.3s ease;
+}
+
+.service-item:hover .service-icon {
+  color: #f0f0f0; /* Ícono gris claro al hover */
+}
+
+
+
+
+/* Botón (si se necesita en otras partes) */
+.cta-button {
+  background: white;
+  color: var(--primary-color);
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.cta-button:hover {
+  background: #f0f0f0;
+}
+
+/* Sección de contenido */
+.section-title {
+  font-size: 28px;
+  margin: 40px 0 20px;
+  color: var(--primary-color);
+}
+
+/* Tarjetas */
+.welcome-content {
+  margin-top: 5px;
+}
+
+.welcome-cards {
+  display: flex;
+  gap: 10px; /* Espaciado reducido */
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.welcome-card {
+  background: white;
+  border-radius: 8px; /* Bordes redondeados más suaves */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+  padding: 15px; /* Espaciado reducido */
+  max-width: 300px; /* Ancho ajustado */
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.welcome-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Sombra más intensa al hover */
+}
+
+.welcome-card img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px; /* Bordes redondeados para las imágenes */
+  margin-bottom: 10px; /* Espaciado reducido */
+}
+
+.welcome-card h3 {
+  margin: 10px 0;
+  font-size: 15px;
+  color: rgb(8, 34, 101);
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+}
+
+.welcome-card p {
+  font-size: 12px;
+  color: #555;
+  line-height: 1.4;
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+}
+
+/* Sección de destacados */
+.highlight-section {
+  background: #fff;
+  padding: 40px 20px;
+  width: 100%;
+}
+
+.highlights {
+  display: flex;
+  justify-content: space-around;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.highlight-item {
+  max-width: 250px;
+  text-align: center;
+}
+
+.highlight-icon {
+  font-size: 40px;
+  color: var(--primary-color);
+  margin-bottom: 10px;
+}
+
+.highlight-item h3 {
+  margin: 10px 0;
+  font-size: 18px;
+  color: var(--text-color);
+}
+
+.highlight-item p {
+  font-size: 14px;
+  color: #666;
+}
+
+

@@ -1,0 +1,44 @@
+/* SubcursoForm.css */
+
+/* Contenedor de botones */
+.form-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* Reducir el espaciado entre botones */
+  }
+  
+  /* Botones pequeños */
+  .small-button {
+    padding: 4px 12px; /* Reducir el padding para hacer los botones más pequeños */
+    font-size: 0.7rem; /* Reducir el tamaño de la fuente */
+    border-radius: 4px; /* Reducir el radio de los bordes */
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .small-button:active {
+    transform: scale(0.98);
+  }
+  
+  /* Botón primario */
+  .small-button.btn-primary {
+    background-color: #0056a3;
+    color: #fff;
+  }
+  
+  .small-button.btn-primary:hover {
+    background-color: #003d7a;
+  }
+  
+  /* Botón secundario */
+  .small-button.btn-secondary {
+    background-color: #ccc;
+    color: #333;
+  }
+  
+  .small-button.btn-secondary:hover {
+    background-color: #aaa;
+  }
+  

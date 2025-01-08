@@ -1,0 +1,235 @@
+/* src/styles/AdministrarPrueba.css */
+
+/* Variables */
+:root {
+  --primary-color: #007bff; /* Azul */
+  --primary-hover-color: #0056b3; /* Azul oscuro */
+  --secondary-color: #6c757d; /* Gris */
+  --danger-color: #dc3545; /* Rojo */
+  --success-color: #28a745; /* Verde */
+  --warning-color: #ffc107; /* Amarillo */
+  --text-color: #ffffff; /* Blanco */
+  --form-bg-color: #ffffff; /* Blanco */
+  --shadow-light: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+  --border-radius: 4px; /* Bordes redondeados */
+
+  /* Tamaños de fuente */
+  --font-size-small: 0.8rem; /* 12.8px */
+  --font-size-medium: 0.9rem; /* 14.4px */
+  --font-size-large: 1rem; /* 16px */
+
+  /* Espaciados */
+  --spacing-small: 6px;
+  --spacing-medium: 12px;
+  --spacing-large: 18px;
+}
+
+/* Contenedor del Formulario */
+.administrar-prueba-container {
+  margin: 20px auto; /* Centrado horizontalmente */
+  max-width: 800px; /* Ancho máximo */
+  padding: var(--spacing-large);
+  background-color: var(--form-bg-color); /* Fondo blanco */
+  box-shadow: var(--shadow-light); /* Sombra ligera */
+  border-radius: var(--border-radius); /* Bordes redondeados */
+}
+
+/* Títulos Centrados */
+.administrar-prueba-container h2,
+.administrar-prueba-container h3 {
+  text-align: center;
+  color: var(--primary-color);
+  margin-bottom: var(--spacing-large);
+}
+
+/* Formulario */
+.formulario-prueba {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centrar los elementos del formulario */
+}
+
+.formulario-prueba .form-group {
+  width: 100%;
+  max-width: 400px; /* Limitar el ancho de los campos del formulario */
+  margin-bottom: var(--spacing-large);
+}
+
+.formulario-prueba label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #333;
+  text-align: left;
+}
+
+.formulario-prueba input[type="number"],
+.formulario-prueba input[type="text"],
+.formulario-prueba input[type="email"],
+.formulario-prueba input[type="file"] {
+  width: 100%;
+  padding: 6px 10px; /* Reducido padding */
+  font-size: var(--font-size-medium);
+  border: 1px solid #ccc;
+  border-radius: var(--border-radius);
+  box-sizing: border-box;
+}
+
+/* Mensajes de Error */
+.error-message {
+  color: red;
+  text-align: center;
+  margin-bottom: var(--spacing-medium);
+}
+
+/* Agrupación de Botones de Actualizar y Eliminar */
+.botones-actualizar-eliminar {
+  display: flex;
+  justify-content: center; /* Centrar los botones horizontalmente */
+  gap: var(--spacing-small);
+  margin-top: var(--spacing-medium);
+}
+
+/* Agrupación de Botones de Editar y Eliminar Pregunta */
+.botones-editar-eliminar-pregunta {
+  display: flex;
+  justify-content: center; /* Centrar los botones */
+  gap: var(--spacing-small);
+  margin-top: var(--spacing-small);
+}
+
+/* Botones */
+.btn {
+  padding: 4px 8px; /* Tamaño más pequeño */
+  font-size: var(--font-size-small); /* Tamaño de fuente más pequeño */
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+  color: var(--text-color);
+  min-width: 80px; /* Reducido min-width */
+  max-width: 120px; /* Reducido max-width */
+  width: auto; /* Ajuste automático al contenido */
+  text-align: center;
+  color: white;
+}
+
+/* Clases Específicas de Botones */
+.btn-primary {
+  background-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-hover-color);
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background-color: var(--secondary-color);
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+  transform: translateY(-2px);
+}
+
+.btn-danger {
+  background-color: var(--danger-color);
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+  transform: translateY(-2px);
+}
+
+.btn-success {
+  background-color: var(--success-color);
+}
+
+.btn-success:hover {
+  background-color: #218838;
+  transform: translateY(-2px);
+}
+
+.btn-warning {
+  background-color: var(--warning-color);
+}
+
+.btn-warning:hover {
+  background-color: #e0a800;
+  transform: translateY(-2px);
+}
+
+/* Botón Agregar Pregunta */
+.boton-agregar-pregunta {
+  display: flex;
+  justify-content: center;
+  margin-bottom: var(--spacing-large);
+}
+
+/* Botón Volver a Cursos */
+.boton-volver-cursos {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--spacing-large);
+}
+
+/* Lista de Preguntas */
+.preguntas-lista {
+  list-style: none;
+  padding: 0;
+}
+
+.preguntas-lista .pregunta-item {
+  margin-bottom: var(--spacing-large);
+  padding: var(--spacing-medium);
+  border: 1px solid #ddd;
+  border-radius: var(--border-radius);
+  background-color: #ffffff;
+  text-align: left; /* Alinear el texto a la izquierda */
+}
+
+/* Previsualizaciones */
+.preview-section {
+  margin-top: 10px; /* Reducido margen superior */
+  text-align: center;
+}
+
+.preview-section iframe,
+.preview-section img {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-top: 5px; /* Reducido margen superior */
+  max-width: 100%;
+  height: auto;
+}
+
+/* Mensajes de Carga y Sin Preguntas */
+.loading,
+.sin-preguntas {
+  text-align: center;
+  font-size: var(--font-size-medium);
+  color: #555;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+  .administrar-prueba-container {
+    padding: var(--spacing-medium);
+  }
+
+  .formulario-prueba .form-group {
+    max-width: 100%;
+  }
+
+  .btn {
+    width: 100%; /* Botones ocupan todo el ancho disponible */
+    max-width: 250px; /* Limitar el ancho máximo */
+    color: white;
+  }
+
+  .preguntas-lista .pregunta-item {
+    padding: var(--spacing-small);
+  }
+}

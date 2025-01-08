@@ -1,0 +1,163 @@
+/* src/styles/CursoForm.css */
+
+/* Contenedor del formulario */
+.curso-form {
+  max-width: 800px;
+  width: 70%;
+  margin: 0 auto;
+  padding: var(--spacing-medium);
+  background-color: var(--background-color, #ffffff);
+  border-radius: var(--border-radius, 12px);
+  box-shadow: var(--shadow-light, 0 4px 8px rgba(0, 0, 0, 0.1));
+  display: flex;
+  flex-direction: column;
+}
+
+/* Encabezado del formulario */
+.curso-form h2 {
+  text-align: center;
+  color: var(--secondary-color, #0056a3);
+  margin-bottom: var(--spacing-medium, 20px);
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+/* Agrupación de campos */
+.form-group {
+  margin-bottom: var(--spacing-medium, 20px);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Etiquetas */
+.form-group label {
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #333333;
+}
+
+/* Campos de entrada */
+.input-field,
+.textarea-field {
+  padding: var(--spacing-small, 10px 12px);
+  border: 1px solid var(--border-color, #ccc);
+  border-radius: var(--border-radius, 6px);
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+/* Campos de entrada al enfocar */
+.input-field:focus,
+.textarea-field:focus {
+  outline: none;
+  border-color: var(--primary-color, #0056a3);
+  box-shadow: 0 0 5px rgba(0, 86, 163, 0.3);
+}
+
+/* Tamaño del textarea */
+.textarea-field {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Vista previa de la imagen */
+.image-preview {
+  margin-top: var(--spacing-medium, 20px);
+  text-align: center;
+}
+
+/* Estilo para la sección de vista previa de imagen */
+.image-preview {
+  margin-top: var(--spacing-medium, 20px);
+  text-align: center;
+  margin-bottom: 20px; /* Añadido para separar de la sección siguiente */
+}
+
+/* Estilo para la sección de simulación */
+.simulacion-group {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: var(--spacing-medium, 20px);
+  padding: 0.5rem 1rem;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: fit-content;
+  margin: auto; /* Centra la sección */
+}
+
+.simulacion-group input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: var(--primary-color, #007bff);
+}
+
+.simulacion-group label {
+  font-size: 1.1rem;
+  color: #333;
+  font-weight: 500;
+}
+
+/* Ajuste global para separar las secciones */
+.form-group {
+  margin-bottom: var(--spacing-medium, 20px);
+}
+
+/* Botón de envío */
+.crear-curso-button-container {
+  text-align: center;
+  margin-top: var(--spacing-medium, 20px);
+}
+
+.crear-curso-button {
+  padding: var(--spacing-small, 12px 24px);
+  font-size: 1rem;
+  border-radius: var(--border-radius, 8px);
+  background-color: var(--primary-color, #0056a3);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  width: 150px;
+  height: 50px;
+  font-weight: bold;
+}
+
+.crear-curso-button:hover {
+  background-color: var(--primary-hover-color, #003d7a);
+}
+
+.crear-curso-button:active {
+  transform: scale(0.95);
+}
+
+/* Mensajes de error */
+.error-message {
+  color: red;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+  .curso-form {
+    padding: var(--spacing-small, 20px);
+  }
+
+  .curso-form h2 {
+    font-size: 1.75rem;
+  }
+
+  .crear-curso-button {
+    width: 100%;
+    height: auto;
+    padding: var(--spacing-small, 12px 0);
+  }
+
+  .simulacion-group {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}

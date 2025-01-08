@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/ListaPruebas.css"; // Ajusta la ruta según la ubicación real del archivo CSS
-import Button from "./ui/button/button"; // Asegúrate de que el componente Button esté correctamente importado
+import Button from "./ui/button/Button"; // Asegúrate de que el componente Button esté correctamente importado
 
 const ListaPruebas = () => {
   const [pruebas, setPruebas] = useState([]);

@@ -1,146 +1,155 @@
-/* Asegura que el contenedor ocupe el espacio central */
+/* Importar fuentes desde Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap');
+
+/* Variables CSS */
+:root {
+  
+  --primary-color: #ff416c;
+  --secondary-color: #ff4b2b;
+  --text-color: #333;
+  
+  --background-color: #f8f9fa;
+  --border-radius: 8px;
+  --font-family: 'Poppins', sans-serif;
+}
+
+/* General */
+body, html, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--background-color);
+  font-family: var(--font-family);
+}
+
+/* Contenedor principal */
+.login-wrapper {
+  display: flex;
+  width: 800px;
+  height: 500px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  background: #fff;
+}
+
+/* Panel izquierdo */
+.login-left {
+  flex: 1;
+  padding: 40px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+}
+
+.login-left h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+input {
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: var(--border-radius);
+  font-size: 14px;
+  color: var(--text-color);
+  transition: 0.3s;
+}
+
+input:focus {
+  border-color: var(--primary-color);
+  outline: none;
+}
+
+button {
+  padding: 12px 20px;
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+  color: #fff;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.3s;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+/* Enlaces adicionales */
+.additional-links {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #666;
+}
+
+.additional-links a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.additional-links a:hover {
+  text-decoration: underline;
+}
+
+/* Panel derecho */
+.login-right {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+  color: #fff;
+  text-align: center;
+  padding: 40px;
+}
+
+.login-right h2 {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.login-right p {
+  font-size: 14px;
+  margin: 15px 0 30px;
+}
+
+.login-right button {
+  background: #fff;
+  color: var(--primary-color);
+  border: none;
+  padding: 12px 20px;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.login-right button:hover {
+  background: #f0f0f0;
+}
+
 #root {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  width: 100vw;
-  background-color: var(--background-color); /* Fondo general */
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-/* Estilo del contenedor del formulario */
-.login-container {
-  width: 100%;
-  max-width: 400px; /* Ancho máximo del formulario */
-  padding: 30px;
-  border: 1px solid var(--primary-color); /* Borde usando color primario */
-  border-radius: 8px;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); /* Sombras suaves */
-  background-color: var(--form-bg-color); /* Fondo del formulario */
-  transition: box-shadow 0.3s ease, transform 0.2s ease; /* Animaciones */
-  display: flex;
-  flex-direction: column; /* Asegura que los elementos estén alineados verticalmente */
-  align-items: center; /* Centra los elementos en el contenedor */
-}
-
-.login-container:hover {
-  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.15); /* Sombra más prominente al pasar el mouse */
-  transform: translateY(-3px); /* Efecto de elevación */
-}
-
-/* Estilo del formulario */
-.login-form {
-  width: 100%;
-  display: flex;
-  flex-direction: column; /* Los elementos del formulario se organizan verticalmente */
-}
-
-/* Título del formulario */
-.login-form h2 {
-  text-align: center;
-  font-size: 1.8em;
-  color: var(--secondary-color); /* Título en color secundario */
-  margin-bottom: 20px;
-}
-
-/* Estilo para cada grupo de formulario */
-.form-group {
-  margin-bottom: 20px; /* Espaciado entre grupos */
-  width: 100%;
-}
-
-.form-group label {
-  font-weight: bold;
-  color: var(--primary-color); /* Usa color primario para el texto del label */
-  margin-bottom: 8px;
-  display: block;
-}
-
-.form-group input {
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid var(--primary-color); /* Borde usando color primario */
-  border-radius: 4px;
-  width: 100%;
-  box-sizing: border-box;
-  background-color: var(--form-bg-color);
-  transition: border-color 0.3s ease, background-color 0.3s ease;
-}
-
-.form-group input:focus {
-  border-color: var(--primary-hover-color); /* Borde azul oscuro */
-  background-color: rgba(0, 120, 212, 0.1); /* Azul claro translúcido */
-  outline: none; /* Elimina el contorno predeterminado */
-  transition: background-color 0.3s ease, border-color 0.3s ease; /* Animación */
-}
-
-/* Estilo del botón */
-button {
-  padding: 12px;
-  background-color: var(--primary-color); /* Botón primario */
-  color: var(--text-color); /* Texto blanco */
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  border: none;
-  border-radius: 4px;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  text-align: center;
-}
-
-button:hover {
-  background-color: var(--primary-hover-color); /* Hover del botón */
-  transform: translateY(-2px); /* Efecto de elevación */
-}
-
-button:disabled {
-  background-color: #ccc; /* Gris claro */
-  cursor: not-allowed; /* Cambia el cursor a "no permitido" */
-}
-
-/* Estilo de mensaje de error */
-.error {
-  background-color: var(--error-bg-color); /* Fondo de error */
-  color: var(--error-text-color); /* Texto de error */
-  padding: 10px;
-  border-radius: 4px;
-  font-size: 14px;
-  margin-bottom: 15px;
-  text-align: center;
-  border: 1px solid var(--error-border-color); /* Borde del error */
-}
-
-/* Estilo de enlace de registro */
-.register-link {
-  color: var(--secondary-color);
-  margin-top: 10px;
-  text-align: center;
-  font-size: 0.9em;
-}
-
-.register-link a {
-  color: var(--primary-color); /* Color del enlace */
-  text-decoration: none;
-  font-weight: bold;
-  transition: color 0.3s ease, border-bottom 0.3s ease;
-}
-
-.register-link a:hover {
-  color: var(--primary-hover-color); /* Hover del enlace */
-  border-bottom: 1px solid var(--primary-hover-color); /* Subrayado al hacer hover */
-}
-
-/* Estilo responsivo */
-@media (max-width: 768px) {
-  .login-container {
-    padding: 20px;
-    margin: 0 10px; /* Espaciado lateral en pantallas pequeñas */
-  }
-
-  .login-form h2 {
-    font-size: 1.5em; /* Tamaño más pequeño para títulos */
-  }
+  background: 
+    url('https://plus.unsplash.com/premium_photo-1661504973995-826ab0725658?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
