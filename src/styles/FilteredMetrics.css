@@ -1,0 +1,48 @@
+.filtered-metrics-container {
+    padding: 20px;
+    font-family: "Arial", sans-serif;
+    color: #333;
+  }
+  
+  h1 {
+    text-align: center;
+    color: #03A9F4;
+  }
+  
+  .filters {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .filters input {
+    margin: 0 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 200px;
+  }
+  
+  .filters button {
+    padding: 10px 20px;
+    background-color: #03A9F4;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .filters button:hover {
+    background-color: #0288D1;
+  }
+  
+  .charts {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .chart {
+    width: 70%;
+  }
+  

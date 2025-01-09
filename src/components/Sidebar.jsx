@@ -79,7 +79,16 @@ const Sidebar = () => {
 
         {/* Métricas (común a todos los roles) */}
         <li>
-          <button className="menu-button" onClick={() => navigate('/dashboard')}>
+          <button
+            className="menu-button"
+            onClick={() => {
+              if (role === 'admin') {
+                navigate('/dashboard'); // Ruta para el administrador
+              } else if (role === 'instructor') {
+                navigate('/metrics'); // Ruta para el instructor
+              }
+            }}
+          >
             Métricas
           </button>
         </li>
