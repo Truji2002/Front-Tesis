@@ -29,6 +29,8 @@ import EditarPregunta from "./components/EditarPregunta.jsx";
 import CrearPregunta from "./components/CrearPregunta.jsx";
 import AdministrarPreguntas from "./components/AdministrarPreguntas.jsx";
 import TakeTest from './components/TakeTest';
+import InstructorMetrics from "./components/InstructorMetrics";
+import Dashboard from './components/Dashboard';
 
 import ContractsManagement from './components/ContractsManagment.jsx';
 
@@ -121,7 +123,8 @@ function App() {
           <Route path="preguntas/crear" element={<CrearPregunta />} />
           <Route path="preguntas/edit/:id" element={<EditarPregunta />} />
           <Route path="administrar-preguntas/:id" element={<AdministrarPreguntas />} />
-
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="metrics" element={<InstructorMetrics />} />
           <Route path="/instructor/:id/contracts" element={<ContractsManagement />} />
         </Route>
 

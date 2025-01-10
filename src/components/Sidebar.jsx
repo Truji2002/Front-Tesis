@@ -70,10 +70,28 @@ const Sidebar = () => {
             )}
           </li>
         )}
+
+        {/* Opción de Estudiantes para el rol instructor */}
+        {role === 'instructor' && (
+          <li>
+            <button className="menu-button" onClick={() => navigate('/students')}>
+            Progreso Estudiantes
+            </button>
+          </li>
+         
+        )}
+        
+        {/* Métricas (común a todos los roles) */}
         <li>
           <button
             className="menu-button"
-            onClick={() => navigate('/metrics')}
+            onClick={() => {
+              if (role === 'admin') {
+                navigate('/dashboard'); // Ruta para el administrador
+              } else if (role === 'instructor') {
+                navigate('/metrics'); // Ruta para el instructor
+              }
+            }}
           >
             <FaChartLine className="icon" />
             Métricas
