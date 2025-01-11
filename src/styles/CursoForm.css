@@ -38,7 +38,11 @@ textarea {
   font-size: 1rem;
   resize: none;
 }
-
+textarea {
+  height: 150px;
+  border: 1px solid var(--primary-color);
+  border-radius: var(--border-radius);
+}
 textarea:focus,
 input:focus {
   outline: none;
@@ -69,6 +73,7 @@ input:focus {
   background-color: #f9f9f9;
   width: fit-content;
   margin: auto; /* Centra la sección */
+  
 }
 
 .simulacion-group input[type="checkbox"] {
@@ -76,12 +81,14 @@ input:focus {
   height: 20px;
   cursor: pointer;
   accent-color: var(--primary-color, #007bff);
+  
 }
 
 .simulacion-group label {
   font-size: 1.1rem;
   color: #333;
   font-weight: 500;
+  
 }
 
 /* Botón */
@@ -107,4 +114,35 @@ input:focus {
 
 .crear-curso-button:active {
   transform: scale(0.95);
+}
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  color: white;
+  font-size: 1.2rem;
+}
+
+/* Spinner */
+.spinner {
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-top: 4px solid white;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }

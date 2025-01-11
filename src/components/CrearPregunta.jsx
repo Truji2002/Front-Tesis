@@ -1,10 +1,10 @@
-// src/components/CrearPregunta.jsx
-
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Button from './ui/button/Button';
 import { showAlert } from './alerts';
 import '../styles/CrearPregunta.css';
+import Swal from 'sweetalert2';
+
 
 const CrearPregunta = () => {
   const navigate = useNavigate();
@@ -28,6 +28,20 @@ const CrearPregunta = () => {
       showAlert('Error', 'ID de prueba no proporcionado.', 'error');
       return;
     }
+
+    // Confirmación con SweetAlert
+    const confirm = await Swal.fire({
+      title: 'Confirmación',
+      text: '¿Está seguro de que desea crear esta pregunta?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, crear',
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: '#4CAF50',
+      cancelButtonColor: '#F44336',
+    });
+
+    if (!confirm.isConfirmed) return;
 
     try {
       const response = await fetch('http://127.0.0.1:8000/api/preguntas/', {
@@ -160,9 +174,11 @@ const CrearPregunta = () => {
           />
         </div>
         {error && <div className="error-message">{error}</div>}
-        <Button type="submit" className="primary">
-          Crear Pregunta
-        </Button>
+        <div className="button-container">
+          <Button type="submit" className="primary">
+            Crear Pregunta
+          </Button>
+        </div>
       </form>
     </div>
   );

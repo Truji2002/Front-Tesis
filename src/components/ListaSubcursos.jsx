@@ -138,12 +138,17 @@ const ListaSubcursos = () => {
       ) : (
         <p>No se encontraron subcursos.</p>
       )}
-      <Button onClick={handleCrearSubcurso} className="primary">
-        Crear Subcurso
+      <div className="botones-container">
+      <Button onClick={handleCrearSubcurso} className="volver-button">
+        + Crear Subcurso
       </Button>
+      </div>
+      <div className="botones-container">
       <Button onClick={() => navigate('/courses/list')} className="volver-button">
         Volver a Cursos
       </Button>
+      </div>
+      
     </div>
   );
 };

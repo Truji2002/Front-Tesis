@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { showAlert } from './alerts';
 import '../styles/CrearPrueba.css';
+import Swal from 'sweetalert2';
 
 const CrearPrueba = () => {
   const navigate = useNavigate();

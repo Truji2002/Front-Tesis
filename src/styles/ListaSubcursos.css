@@ -85,6 +85,7 @@
 
 .volver-button {
    
+    width: 200px;
     color: white; /* Color del texto */
     background-color: var(--secondary-button-bg); /* Fondo del botón */
    
@@ -95,3 +96,9 @@
     transform: translateY(-2px); /* Efecto de elevación */
 }
 
+.botones-container {
+    display: flex;
+    justify-content: center; /* Centra los botones horizontalmente */
+    gap: var(--spacing-small); /* Espaciado entre los botones */
+    margin-top: var(--spacing-small); /* Espacio superior */
+}

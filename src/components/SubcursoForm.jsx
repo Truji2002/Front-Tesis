@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import Button from './ui/button/Button';
-import Input from './ui/input/Input';
-import Label from './ui/label/Label';
+import Input from './ui/input/input';
+import Label from './ui/label/label';
 import { showAlert } from './alerts';
 import '../styles/SubcursoForm.css';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -318,7 +318,7 @@ const SubcursoForm = ({ isEdit, subcurso, onSubmit, initialModulos = [] }) => {
         <Button
           type="button"
           onClick={() => navigate(-1)}
-          className="btn btn-secondary btn-small"
+          className="btn btn-primary btn-small"
         >
           Regresar
         </Button>

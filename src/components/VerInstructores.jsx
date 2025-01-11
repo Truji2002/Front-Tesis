@@ -1,5 +1,3 @@
-// src/components/VerInstructores.jsx
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { showAlert } from './alerts';
@@ -225,31 +223,20 @@ const VerInstructores = () => {
                 <td>{instructor.email}</td>
                 <td>{instructor.empresa_nombre}</td>
                 <td>
-                <Button
-  onClick={() => handleEdit(instructor.id)}
-  className="btn-edit"
->
-  Editar
-</Button>
-<Button
-  onClick={() => handleEliminar(instructor.id)}
-  className="btn-delete"
->
-  Eliminar
-</Button>
-<Button
-  onClick={() => handleCambiar(instructor)}
-  className="btn-change"
->
-  Cambiar
-</Button>
-<Button
-  onClick={() => handleGestionarContrato(instructor.id)}
-  className="btn-manage"
->
-  Gestionar Contratos
-</Button>
-
+                  <div className="actions-container">
+                    <Button onClick={() => handleEdit(instructor.id)} className="btn-edit">
+                      Editar
+                    </Button>
+                    <Button onClick={() => handleEliminar(instructor.id)} className="btn-delete">
+                      Eliminar
+                    </Button>
+                    <Button onClick={() => handleCambiar(instructor)} className="btn-change">
+                      Cambiar
+                    </Button>
+                    <Button onClick={() => handleGestionarContrato(instructor.id)} className="btn-manage">
+                      Gestionar Contratos
+                    </Button>
+                  </div>
                 </td>
               </tr>
             ))

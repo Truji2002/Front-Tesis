@@ -14,7 +14,7 @@
 /* Botón con tamaño definido y centrado */
 .form-button {
   width: 200px; /* Ancho fijo */
-  height: 50px; /* Altura fija */
+  height: 40px; /* Altura fija */
   background-color: var(--primary-color); /* Color de fondo */
   color: white; /* Color del texto */
   font-weight: bold; /* Texto en negrita */
@@ -27,6 +27,7 @@
   margin: 0 auto; /* Centrar horizontalmente */
   text-align: center; /* Asegurar que el texto esté centrado */
 }
+
 
 /* Efecto al pasar el mouse */
 .form-button:hover {

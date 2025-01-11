@@ -3,28 +3,28 @@ import axios from "axios";
 import { Bar, Pie } from "react-chartjs-2";
 import "chart.js/auto";
 import "../styles/InstructorMetrics.css";
- 
+
 function InstructorMetrics() {
   const [loading, setLoading] = useState(true);
   const [generalData, setGeneralData] = useState(null);
   const [finalizationData, setFinalizationData] = useState(null);
   const [error, setError] = useState(null);
- 
-  // Tomar tokens e IDs de localStorage
+
+  // Obtener tokens e IDs de localStorage
   const token = localStorage.getItem("accessToken");
   const instructorId = localStorage.getItem("id"); // Asumimos que aquí guardaste el ID del instructor
- 
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const params = { instructor_id: instructorId };
         const headers = { Authorization: `Bearer ${token}` };
- 
+
         const [generalRes, finalizationRes] = await Promise.all([
           axios.get("http://localhost:8000/api/metricas-instructor/", { params, headers }),
           axios.get("http://localhost:8000/api/metricas-instructor-finalizacion/", { params, headers }),
         ]);
- 
+
         setGeneralData(generalRes.data);
         setFinalizationData(finalizationRes.data);
         setLoading(false);
@@ -34,40 +34,27 @@ function InstructorMetrics() {
         setLoading(false);
       }
     };
- 
+
     fetchData();
   }, [token, instructorId]);
- 
+
   if (loading) {
     return <div className="loader">Cargando métricas...</div>;
   }
- 
+
   if (error) {
     return <div className="error-message">{error}</div>;
   }
- 
+
   if (!generalData || !finalizationData) {
     return <div className="error-message">No hay datos disponibles.</div>;
   }
- 
-  // --------------------------------------------------------------------------------
+
   // Desestructurar métricas principales
-  // --------------------------------------------------------------------------------
   const { instructor_metrics, empresa_metrics } = generalData;
-  // Ejemplo:
-  // instructor_metrics: {
-  //   total_estudiantes, total_certificados, total_pruebas, pruebas_aprobadas, ...
-  //   tasa_certificacion, tasa_aprobacion
-  // }
-  // empresa_metrics: {
-  //   nombre_empresa, total_instructores, total_estudiantes, ...
-  //   tasa_certificacion, tasa_aprobacion
-  // }
- 
-  // --------------------------------------------------------------------------------
+
   // Preparar datos para gráficas
-  // --------------------------------------------------------------------------------
- 
+
   // 1) BarChart comparando Tasa Certificación y Tasa Aprobación (Instructor vs. Empresa)
   const barData = {
     labels: ["Tasa de Certificación (%)", "Tasa de Aprobación (%)"],
@@ -90,13 +77,38 @@ function InstructorMetrics() {
       },
     ],
   };
- 
-  // 2) PieChart para ver la relación entre Estudiantes Activos vs. Inactivos (del Instructor)
-  //    Se asume que total_estudiantes son todos y que estudiantes_activos están en instructor_metrics.
+
+  const barOptions = {
+    responsive: true,
+    maintainAspectRatio: false, // Permitir control de tamaño vía CSS
+    plugins: {
+      legend: {
+        position: "top",
+        labels: {
+          font: {
+            size: 14,
+            weight: "bold",
+          },
+          color: "#333",
+        },
+      },
+      title: {
+        display: true,
+        text: "Comparativa de Tasas (Instructor vs. Empresa)",
+        font: {
+          size: 16,
+          weight: "bold",
+        },
+        color: "#333",
+      },
+    },
+  };
+
+  // 2) PieChart para Estudiantes Activos vs. Inactivos (Instructor)
   const totalEst = instructor_metrics.total_estudiantes;
   const activosEst = instructor_metrics.estudiantes_activos;
   const inactivosEst = totalEst - activosEst < 0 ? 0 : totalEst - activosEst;
- 
+
   const pieData = {
     labels: ["Activos", "Inactivos"],
     datasets: [
@@ -106,45 +118,85 @@ function InstructorMetrics() {
       },
     ],
   };
- 
-  // Lógica para empresa
-const totalEstEmp = empresa_metrics.total_estudiantes;
-const activosEstEmp = empresa_metrics.estudiantes_activos;
-const inactivosEstEmp = totalEstEmp - activosEstEmp < 0 ? 0 : totalEstEmp - activosEstEmp;
- 
-const pieDataEmpresa = {
-  labels: ["Activos", "Inactivos"],
-  datasets: [
-    {
-      data: [activosEstEmp, inactivosEstEmp],
-      backgroundColor: ["#FF6384", "#FFCE56"],
+
+  const pieOptions = {
+    responsive: true,
+    maintainAspectRatio: false, // Permitir control de tamaño vía CSS
+    plugins: {
+      legend: {
+        position: "bottom",
+        labels: {
+          font: {
+            size: 14,
+            weight: "bold",
+          },
+          color: "#333",
+        },
+      },
+      title: {
+        display: true,
+        text: "Estudiantes Activos vs Inactivos (Instructor)",
+        font: {
+          size: 16,
+          weight: "bold",
+        },
+        color: "#333",
+      },
     },
-  ],
-};
- 
-  // --------------------------------------------------------------------------------
+  };
+
+  // 3) PieChart para Estudiantes Activos vs. Inactivos (Empresa)
+  const totalEstEmp = empresa_metrics.total_estudiantes;
+  const activosEstEmp = empresa_metrics.estudiantes_activos;
+  const inactivosEstEmp = totalEstEmp - activosEstEmp < 0 ? 0 : totalEstEmp - activosEstEmp;
+
+  const pieDataEmpresa = {
+    labels: ["Activos", "Inactivos"],
+    datasets: [
+      {
+        data: [activosEstEmp, inactivosEstEmp],
+        backgroundColor: ["#FF6384", "#FFCE56"],
+      },
+    ],
+  };
+
+  const pieOptionsEmpresa = {
+    responsive: true,
+    maintainAspectRatio: false, // Permitir control de tamaño vía CSS
+    plugins: {
+      legend: {
+        position: "bottom",
+        labels: {
+          font: {
+            size: 14,
+            weight: "bold",
+          },
+          color: "#333",
+        },
+      },
+      title: {
+        display: true,
+        text: "Estudiantes Activos vs Inactivos (Empresa)",
+        font: {
+          size: 16,
+          weight: "bold",
+        },
+        color: "#333",
+      },
+    },
+  };
+
   // Preparar datos de Finalización (mayor/menor)
-  // --------------------------------------------------------------------------------
-  // finalizationData: {
-  //   "cursos_instructor": {
-  //       "curso_mayor_finalizacion": {...},
-  //       "curso_menor_finalizacion": {...}
-  //   },
-  //   "cursos_empresa": {
-  //       "curso_mayor_finalizacion": {...},
-  //       "curso_menor_finalizacion": {...}
-  //   }
-  // }
   const { cursos_instructor, cursos_empresa } = finalizationData;
- 
+
   return (
     <div className="metrics-container">
- 
+
       {/* TÍTULO PRINCIPAL */}
       <h1>Métricas del Instructor</h1>
       <p className="subtitle">Instructor: {instructor_metrics.instructor_email}</p>
       <p className="subtitle">Empresa: {empresa_metrics.nombre_empresa}</p>
- 
+
       {/* SECCIÓN DE INDICADORES RÁPIDOS */}
       <div className="cards-container">
         <div className="card">
@@ -164,7 +216,7 @@ const pieDataEmpresa = {
           <p>{instructor_metrics.pruebas_aprobadas}</p>
         </div>
       </div>
- 
+
       {/* TARJETAS: MÉTRICAS DE LA EMPRESA */}
       <div className="cards-container">
         <div className="card">
@@ -184,28 +236,28 @@ const pieDataEmpresa = {
           <p>{empresa_metrics.pruebas_aprobadas}</p>
         </div>
       </div>
- 
-      {/* GRÁFICO BARRAS: COMPARA TASAS */}
-      <div className="chart-section">
-        <h2>Comparativa de Tasas (Instructor vs. Empresa)</h2>
-        <Bar data={barData} />
+
+      {/* SECCIÓN DE GRÁFICOS */}
+      <div className="charts-container">
+        {/* GRÁFICO BARRAS: COMPARA TASAS */}
+        <div className="chart-section">
+          <Bar data={barData} options={barOptions} />
+        </div>
+
+        {/* GRÁFICO PIE: DISTRIBUCIÓN DE ESTUDIANTES ACTIVOS/INACTIVOS (Instructor) */}
+        <div className="chart-section">
+          <Pie data={pieData} options={pieOptions} />
+        </div>
+
+        {/* GRÁFICO PIE: DISTRIBUCIÓN DE ESTUDIANTES ACTIVOS/INACTIVOS (Empresa) */}
+        <div className="chart-section">
+          <Pie data={pieDataEmpresa} options={pieOptionsEmpresa} />
+        </div>
       </div>
- 
-      {/* GRÁFICO PIE: DISTRIBUCIÓN DE ESTUDIANTES ACTIVOS/INACTIVOS */}
-      <div className="chart-section">
-        <h2>Estudiantes Activos vs Inactivos (Instructor)</h2>
-        <Pie data={pieData} />
-      </div>
- 
-      {/* GRÁFICO PIE: DISTRIBUCIÓN DE ESTUDIANTES ACTIVOS/INACTIVOS */}
-      <div className="chart-section">
-        <h2>Estudiantes Activos vs Inactivos (Empresa)</h2>
-        <Pie data={pieDataEmpresa} />
-      </div>
- 
+
       {/* SECCIÓN DE CURSOS (MAYOR/MENOR FINALIZACIÓN) */}
       <div className="finalization-section">
-        <h2>Tasa de finalización (INSTRUCTOR)</h2>
+        <h2>Tasa de finalización (Instructor)</h2>
         {cursos_instructor.curso_mayor_finalizacion ? (
           <div className="finalization-card">
             <p>
@@ -220,8 +272,8 @@ const pieDataEmpresa = {
         ) : (
           <p>No hay datos de finalización para este instructor</p>
         )}
- 
-        <h2>Tasa de finalización (EMPRESA)</h2>
+
+        <h2>Tasa de finalización (Eempresa)</h2>
         {cursos_empresa.curso_mayor_finalizacion ? (
           <div className="finalization-card">
             <p>
@@ -240,5 +292,5 @@ const pieDataEmpresa = {
     </div>
   );
 }
- 
+
 export default InstructorMetrics;

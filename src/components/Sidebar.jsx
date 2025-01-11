@@ -5,6 +5,7 @@ import {
   FaBuilding,
   FaUserTie,
   FaChartLine,
+  FaGraduationCap ,
 } from 'react-icons/fa';
 import '../styles/Sidebar.css';
 
@@ -75,7 +76,9 @@ const Sidebar = () => {
         {role === 'instructor' && (
           <li>
             <button className="menu-button" onClick={() => navigate('/students')}>
+            <FaGraduationCap className="icon" />
             Progreso Estudiantes
+
             </button>
           </li>
          

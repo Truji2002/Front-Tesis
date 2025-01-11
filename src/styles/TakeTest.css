@@ -127,20 +127,19 @@
   }
   
   .btn-primary {
-    background-color: #2563eb; /* Azul */
+    background-color: var(--secondary-button-bg);
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));;
     color: #ffffff;
-    padding: 14px 30px;
+    padding: 14px 80px;
     border: none;
     border-radius: 8px;
     font-size: 1.1rem;
+    margin-bottom: 8px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
   }
   
-  .btn-primary:hover {
-    background-color: #1d4ed8;
-    transform: translateY(-2px);
-  }
+ 
   
   .btn-primary:active {
     transform: translateY(0);

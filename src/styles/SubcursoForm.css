@@ -86,15 +86,17 @@
   color: #333;
 }
 
+
 .form-group input[type="text"],
-.form-group input[type="email"],
 .form-group input[type="file"] {
-  padding: 6px 10px; /* Reducido padding */
+  padding: 10px 10px; /* Reducido padding */
   font-size: var(--font-size-medium);
   border: 1px solid #ccc;
   border-radius: var(--border-radius);
   box-sizing: border-box;
   width: 100%;
+  border: 1px solid var(--primary-color);
+  border-radius: var(--border-radius);
 }
 
 /* Contenedor de Botones para Módulos */

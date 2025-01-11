@@ -14,7 +14,7 @@ const MainLayout = ({ onLogout }) => {
         {role !== "estudiante" && <Sidebar />} {/* Sidebar solo para roles diferentes de estudiante */}
         <main className={`main-content ${role === "estudiante" ? "no-sidebar" : ""}`}>
           <Outlet /> {/* Renderizar rutas hijas */}
-          <footer className="footer">© 2024 - Global QHSE</footer>
+          <footer className="footer">© 2025 - Global QHSE</footer>
         </main>
       </div>
     </div>

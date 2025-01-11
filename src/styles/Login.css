@@ -48,7 +48,7 @@ body, html, #root {
 }
 
 .login-left h2 {
-  margin: 0;
+  margin: 50;
   font-size: 24px;
   font-weight: 600;
   color: var(--text-color);
@@ -133,10 +133,10 @@ button:hover {
   background: #fff;
   color: var(--primary-color);
   border: none;
-  padding: 12px 20px;
+  padding: 14px 50px;
   border-radius: var(--border-radius);
   cursor: pointer;
-  font-size: 14px;
+  font-size:  1.1rem;
 }
 
 .login-right button:hover {

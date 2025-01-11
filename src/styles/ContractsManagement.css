@@ -31,6 +31,7 @@
     display: flex;
     justify-content: flex-end;
     margin-bottom: 20px;
+    width: 200px;
   }
   
   .contracts-table {
@@ -42,6 +43,11 @@
   .contracts-table thead {
     background-color: var(--primary-color);
     color: white;
+  }
+
+  .danger-desactivar{
+    width: 195px;
+    background: var(--logout-bg-color);
   }
   
   .contracts-table th,
@@ -133,4 +139,138 @@
       flex-direction: column;
     }
   }
+  .form-group .multiple-select {
+    max-width: 100%; /* Ocupa todo el ancho */
+    height: auto;
+    min-height: 120px; /* Altura mínima para mostrar varias opciones */
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    outline: none;
+    background: #f9f9f9;
+    border: 1px solid var(--primary-color);
+    border-radius: var(--border-radius);
+  }
   
+  .form-group .multiple-select:hover {
+    border-color: #2196F3;
+    background: #fff;
+  }
+  
+  .form-group .multiple-select:focus {
+    border-color: #4CAF50;
+    box-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+  }
+  
+  .form-group .multiple-select option {
+    padding: 10px;
+    background: #fff;
+    border: 1px solid var(--primary-color);
+  }
+  
+  .form-group .multiple-select option:hover {
+    background: #f0f0f0; /* Fondo claro al pasar el cursor */
+  }
+
+
+  .react-select-container {
+    width: 100%; /* Asegura que ocupe todo el ancho del contenedor */
+    font-size: 1rem;
+    border: 1px solid var(--primary-color);
+    border-radius: var(--border-radius);
+  }
+  
+  .react-select__control {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc; /* Borde inicial */
+    border-radius: 5px; /* Bordes redondeados */
+    padding: 2.3px; /* Espaciado interno */
+    box-shadow: none; /* Elimina sombras */
+    transition: border-color 0.3s, box-shadow 0.3s; /* Transición suave */
+    background-color: #f9f9f9; /* Fondo claro */
+    border: 1px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    
+    
+  }
+  
+  .react-select__control:hover {
+    border-color: #2196F3; /* Color del borde al pasar el mouse */
+  }
+  
+  .react-select__control--is-focused {
+    border-color: #4CAF50; /* Color del borde al enfocar */
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.4); /* Sombra verde */
+  }
+  
+  .react-select__value-container {
+    padding: 0 8px; /* Espaciado interno para las etiquetas */
+  }
+  
+  .react-select__placeholder {
+    color: #aaa; /* Color del texto de placeholder */
+  }
+  
+  .react-select__menu {
+    border-radius: 5px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    margin-top: 5px;
+    z-index: 1000; /* Asegura que se superponga a otros elementos */
+  }
+  
+  .react-select__menu-list {
+    max-height: 200px; /* Altura máxima para evitar que sea demasiado largo */
+    overflow-y: auto; /* Scroll en caso de exceso de contenido */
+  }
+  
+  .react-select__option {
+    padding: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  
+  .react-select__option--is-focused {
+    background-color: #e3f2fd; /* Fondo azul claro al pasar el mouse */
+    color: #000; /* Color del texto */
+  }
+  
+  .react-select__option--is-selected {
+    background-color: #4CAF50; /* Fondo verde al seleccionar */
+    color: #fff; /* Texto blanco */
+  }
+  
+  .react-select__multi-value {
+    background-color: #e0f7fa; /* Fondo claro para etiquetas */
+    border-radius: 3px;
+    padding: 2px 5px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .react-select__multi-value__label {
+    font-size: 0.9rem;
+    color: #00796b; /* Texto verde */
+  }
+  
+  .react-select__multi-value__remove {
+    cursor: pointer;
+    color: #004d40; /* Icono de eliminar */
+  }
+  
+  .react-select__multi-value__remove:hover {
+    background-color: #d32f2f; /* Fondo rojo al pasar el mouse */
+    color: #fff; /* Texto blanco */
+  }
+
+  .is-submitting {
+    pointer-events: none; /* Desactiva las interacciones */
+    opacity: 0.5; /* Reduce la opacidad */
+  }
+
+  .contracts-management-container.loading {
+    pointer-events: none; /* Desactiva todas las interacciones */
+    opacity: 0.6; /* Reduce la opacidad para indicar inactividad */
+  }

@@ -97,3 +97,29 @@
     border-color: #4CAF50; /* Cambia el color del borde al enfocar */
     box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3); /* Sombra verde sutil */
   }
+
+  .chart-section {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    height: 500px; /* Altura fija para todos los gráficos */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Asegura que los gráficos llenen el contenedor */
+  .chart-section canvas {
+    max-width: 100%;
+    max-height: 100%;
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  .chart-section h3 {
+    text-align: center;
+    margin-bottom: 10px; /* Reducir margen para mayor espacio para el gráfico */
+  }

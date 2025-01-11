@@ -13,7 +13,7 @@
   --font-family: 'Roboto', sans-serif;
 
   /* Variables para tamaños de botones pequeños */
-  --button-padding-vertical: 4px;
+  --button-padding-vertical: 8px;
   --button-padding-horizontal: 12px;
   --button-font-size: 0.8rem;
   --button-border-radius: 4px;
@@ -58,6 +58,7 @@
 }
 
 .create-button-container .primary {
+  font-weight: bold;
   padding: var(--button-padding-vertical) var(--button-padding-horizontal);
   font-size: var(--button-font-size); /* Tamaño reducido */
   border-radius: var(--button-border-radius);

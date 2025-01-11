@@ -1,9 +1,8 @@
-/* src/components/EditarPregunta.jsx */
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import Button from './ui/button/Button';
-import Label from './ui/label/Label';
+import Label from './ui/label/label';
 import { showAlert } from './alerts';
 import '../styles/EditarPregunta.css'; // Asegúrate de que este archivo exista
 
@@ -47,20 +46,33 @@ const EditarPregunta = () => {
     e.preventDefault();
     setError(null);
 
-    // Filtrar opciones vacías
     const opcionesFiltradas = Object.fromEntries(
       Object.entries(opcionesRespuestas).filter(([_, valor]) => valor.trim() !== '')
     );
 
+    // Confirmación con SweetAlert
+    const confirm = await Swal.fire({
+      title: 'Confirmación',
+      text: '¿Está seguro de que desea actualizar esta pregunta?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, actualizar',
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: '#4CAF50',
+      cancelButtonColor: '#F44336',
+    });
+
+    if (!confirm.isConfirmed) return;
+
     try {
       const response = await fetch(`http://127.0.0.1:8000/api/preguntas/${id}/`, {
-        method: 'PATCH', // Usar PATCH para actualizaciones parciales
+        method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          prueba: pruebaId, // Incluir el ID de la prueba
+          prueba: pruebaId,
           pregunta,
           opcionesRespuestas: opcionesFiltradas,
           respuestaCorrecta,
@@ -71,7 +83,6 @@ const EditarPregunta = () => {
       if (response.ok) {
         const data = await response.json();
         showAlert('Éxito', 'Pregunta actualizada correctamente.', 'success');
-        // Redirigir a la vista de administración de la prueba
         navigate(`/pruebas/admin/${data.prueba}`);
       } else {
         const errorData = await response.json();
@@ -82,17 +93,10 @@ const EditarPregunta = () => {
       setError('Error al conectar con el servidor.');
       showAlert('Error', 'Error al conectar con el servidor.', 'error');
     }
-    console.log('Payload pregunta:', JSON.stringify({
-      prueba: pruebaId,
-      pregunta,
-      opcionesRespuestas: opcionesFiltradas,
-      respuestaCorrecta,
-      puntajePregunta: parseInt(puntajePregunta, 10),
-    }));
   };
 
   return (
-    <div className="editar-pregunta-container">
+    <div className="crear-pregunta-container">
       <h2>Editar Pregunta</h2>
       <form onSubmit={handleActualizarPregunta} className="formulario-pregunta">
         <div className="form-group">
@@ -178,8 +182,8 @@ const EditarPregunta = () => {
           />
         </div>
         {error && <div className="error-message">{error}</div>}
-        <div className="botones-actualizar-pregunta">
-          <Button type="submit" className="btn btn-primary btn-small">
+        <div className="button-container">
+          <Button type="submit" className="primary">
             Actualizar Pregunta
           </Button>
         </div>

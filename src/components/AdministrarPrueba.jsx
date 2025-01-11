@@ -1,7 +1,6 @@
-/* src/components/AdministrarPrueba.jsx */
-
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import Button from './ui/button/Button';
 import { showAlert } from './alerts';
 import '../styles/AdministrarPrueba.css';
@@ -47,15 +46,28 @@ const AdministrarPrueba = () => {
     e.preventDefault();
     setError(null);
 
+    const confirm = await Swal.fire({
+      title: 'Confirmación',
+      text: '¿Está seguro de que desea actualizar esta prueba?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, actualizar',
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: '#4CAF50',
+      cancelButtonColor: '#F44336',
+    });
+
+    if (!confirm.isConfirmed) return;
+
     try {
       const response = await fetch(`http://127.0.0.1:8000/api/pruebas/${pruebaId}/`, {
-        method: 'PATCH', // Método HTTP correcto para actualizaciones parciales
+        method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          duracion: parseInt(duracion, 10), // Solo enviamos 'duracion'
+          duracion: parseInt(duracion, 10),
         }),
       });
 
@@ -72,11 +84,21 @@ const AdministrarPrueba = () => {
       setError('Error al conectar con el servidor.');
       showAlert('Error', 'Error al conectar con el servidor.', 'error');
     }
-    console.log('Payload subcursoData:', JSON.stringify(pruebaData));
   };
 
   const handleEliminarPrueba = async () => {
-    if (!window.confirm('¿Estás seguro de que deseas eliminar esta prueba?')) return;
+    const confirm = await Swal.fire({
+      title: 'Confirmación',
+      text: '¿Está seguro de que desea eliminar esta prueba? Esta acción no se puede deshacer.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: '#F44336',
+      cancelButtonColor: '#6c757d',
+    });
+
+    if (!confirm.isConfirmed) return;
 
     try {
       const response = await fetch(`http://127.0.0.1:8000/api/pruebas/${pruebaId}/`, {
@@ -98,16 +120,19 @@ const AdministrarPrueba = () => {
     }
   };
 
-  const handleAgregarPregunta = () => {
-    navigate(`/preguntas/crear?pruebaId=${pruebaId}`);
-  };
-
-  const handleEditarPregunta = (preguntaId) => {
-    navigate(`/preguntas/edit/${preguntaId}`);
-  };
-
   const handleEliminarPregunta = async (preguntaId) => {
-    if (!window.confirm('¿Estás seguro de que deseas eliminar esta pregunta?')) return;
+    const confirm = await Swal.fire({
+      title: 'Confirmación',
+      text: '¿Está seguro de que desea eliminar esta pregunta?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: '#F44336',
+      cancelButtonColor: '#6c757d',
+    });
+
+    if (!confirm.isConfirmed) return;
 
     try {
       const response = await fetch(`http://127.0.0.1:8000/api/preguntas/${preguntaId}/`, {
@@ -127,6 +152,14 @@ const AdministrarPrueba = () => {
     } catch (err) {
       showAlert('Error', 'Error al conectar con el servidor.', 'error');
     }
+  };
+
+  const handleAgregarPregunta = () => {
+    navigate(`/preguntas/crear?pruebaId=${pruebaId}`);
+  };
+
+  const handleEditarPregunta = (preguntaId) => {
+    navigate(`/preguntas/edit/${preguntaId}`);
   };
 
   const handleVolverACursos = () => {
@@ -152,7 +185,7 @@ const AdministrarPrueba = () => {
         </div>
         {error && <div className="error-message">{error}</div>}
         <div className="botones-actualizar-eliminar">
-          <Button type="submit" className="btn btn-primary btn-small">
+          <Button type="submit" className="btn btn-primary-actualizar btn-small">
             Actualizar Prueba
           </Button>
           <Button

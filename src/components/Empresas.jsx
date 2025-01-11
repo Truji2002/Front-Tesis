@@ -3,8 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { showAlert } from './alerts';
 import Swal from 'sweetalert2';
 import Button from './ui/button/Button';
-import Input from './ui/input/Input';
-import Label from './ui/label/Label';
+import Input from './ui/input/input';
+import Label from './ui/label/label';
 import '../styles/Empresas.css';
 
 // URL de la imagen que deseas mostrar al lado del formulario

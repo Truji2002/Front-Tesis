@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import { showAlert } from './alerts';
 import Button from './ui/button/Button';
-import Input from './ui/input/Input';
-import Label from './ui/label/Label';
+import Input from './ui/input/input';
+import Label from './ui/label/label';
 import '../styles/FormInstructor.css';
+
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const FormInstructor = ({ isEdit, instructor, onSubmit }) => {
@@ -16,6 +17,7 @@ const FormInstructor = ({ isEdit, instructor, onSubmit }) => {
   });
 
   const [empresas, setEmpresas] = useState([]);
+  const [loading, setLoading] = useState(false); // Estado para rastrear la solicitud
   const token = localStorage.getItem('accessToken');
 
   useEffect(() => {
@@ -72,6 +74,8 @@ const FormInstructor = ({ isEdit, instructor, onSubmit }) => {
 
     if (!validateForm()) return;
 
+    setLoading(true); // Bloquear el botón al iniciar la solicitud
+
     const payload = {
       first_name: formData.first_name,
       last_name: formData.last_name,
@@ -107,6 +111,8 @@ const FormInstructor = ({ isEdit, instructor, onSubmit }) => {
       onSubmit();
     } catch (error) {
       showAlert('Error', error.message || 'No se pudo completar la operación.', 'error');
+    } finally {
+      setLoading(false); // Liberar el botón al finalizar la solicitud
     }
   };
 
@@ -149,41 +155,35 @@ const FormInstructor = ({ isEdit, instructor, onSubmit }) => {
         />
       </div>
 
-     
       <div className="form-group">
-  <Label htmlFor="empresa">Empresa</Label>
-  <select
-    id="empresa"
-    name="empresa"
-    value={formData.empresa}
-    onChange={handleInputChange}
-    disabled={isEdit}
-    required
-    className="form-select"
-  >
-    <option value="">Seleccione una empresa</option>
-    {empresas.map((empresa) => (
-      <option key={empresa.id} value={empresa.id}>
-        {empresa.nombre}
-      </option>
-    ))}
-  </select>
-</div>
+        <Label htmlFor="empresa">Empresa</Label>
+        <select
+          id="empresa"
+          name="empresa"
+          value={formData.empresa}
+          onChange={handleInputChange}
+          disabled={isEdit}
+          required
+          className="form-select"
+        >
+          <option value="">Seleccione una empresa</option>
+          {empresas.map((empresa) => (
+            <option key={empresa.id} value={empresa.id}>
+              {empresa.nombre}
+            </option>
+          ))}
+        </select>
+      </div>
 
-
-      <Button type="submit" className="form-button">
-      {isEdit ? 'Actualizar Instructor' : 'Crear Instructor'}
+      <Button
+        type="submit"
+        className="form-button"
+        disabled={loading} // Deshabilitar el botón mientras está cargando
+      >
+        {loading ? 'Procesando...' : isEdit ? 'Actualizar Instructor' : 'Crear Instructor'}
       </Button>
 
-      {isEdit && (
-        <Button
-          type="button"
-          className="manage-contracts-button"
-          onClick={() => window.location.href = `/instructor/${instructor.id}/contracts`}
-        >
-          Administrar Contratos
-        </Button>
-      )}
+      
     </form>
   );
 };

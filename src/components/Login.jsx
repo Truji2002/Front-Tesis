@@ -3,8 +3,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from './ui/button/Button';
-import Input from './ui/input/Input';
-import Label from './ui/label/Label';
+import Input from './ui/input/input';
+import Label from './ui/label/label';
 import { showAlert } from './alerts';
 import '../styles/Login.css'; // Asegúrate de que este archivo exista
 
@@ -104,6 +104,7 @@ const Login = ({ onSuccess }) => {
             <Input
               id="email"
               type="email"
+              name="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Ingresa tu correo electrónico"
@@ -116,6 +117,7 @@ const Login = ({ onSuccess }) => {
             <Input
               id="password"
               type="password"
+              name="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Ingresa tu contraseña"

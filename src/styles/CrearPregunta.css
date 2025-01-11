@@ -1,5 +1,6 @@
 .crear-pregunta-container {
-    max-width: 600px;
+    max-width: 900px;
+    width: 40%;
     margin: 0 auto;
     padding: 20px;
     background-color: #f9f9f9;
@@ -16,7 +17,7 @@
   .formulario-pregunta {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 10px;
   }
   
   .form-group {
@@ -31,14 +32,16 @@
   }
   
   .input-text, .input-area {
-    padding: 10px;
+    padding: 2px;
     border: 1px solid #ddd;
     border-radius: 5px;
     font-size: 14px;
   }
   
   .input-area {
-    min-height: 60px;
+    height: 60px;
+    border: 1px solid var(--primary-color);
+    border-radius: var(--border-radius);
   }
   
   .input-text:focus, .input-area:focus {
@@ -54,7 +57,7 @@
   }
   
   button.primary {
-    width: 100%;
+    width: 35%;
     padding: 10px;
     background-color: #007bff;
     color: #fff;
@@ -68,4 +71,10 @@
   button.primary:hover {
     background-color: #0056b3;
   }
-  
+  .button-container {
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente (opcional si necesitas centrar también en el eje Y) */
+    width: 100%; /* Asegura que el contenedor ocupe todo el ancho */
+    margin-top: 5px; /* Espaciado opcional para separar el botón de otros elementos */
+  }

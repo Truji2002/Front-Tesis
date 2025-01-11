@@ -2,8 +2,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from './ui/button/Button';
-import Input from './ui/input/Input';
-import Label from './ui/label/Label';
+import Input from './ui/input/input';
+import Label from './ui/label/label';
 import { FaUser, FaEnvelope, FaLock, FaKey, FaBuilding } from 'react-icons/fa';
 import '../styles/Registro.css';
 

@@ -1,0 +1,108 @@
+.change-password-container {
+    background-color: #fff; /* Fondo blanco para el contenedor */
+    max-width: 400px;
+    margin: 50px auto; /* Centrado vertical y horizontal */
+    padding: 30px 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Título del Formulario */
+  .change-password-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--text-color);
+    font-size: 1.8rem;
+    font-weight: 700;
+  }
+  
+  /* -- GRUPOS DE FORMULARIO -- */
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  /* Etiquetas */
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--label-color);
+    font-size: 1rem;
+    font-weight: 600;
+  }
+  
+  /* Campos de Entrada */
+  .form-group input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--input-border);
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+  }
+  
+  .form-group input:focus {
+    border-color: var(--input-focus-border);
+    outline: none;
+    box-shadow: 0 0 5px rgba(71, 161, 243, 0.5);
+  }
+  
+  /* Botón de Envío */
+  .change-password-container button {
+    width: 100%;
+    padding: 12px 0;
+    background-color: var(--button-bg);
+    
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .change-password-container button:disabled {
+    background-color: #95a5a6;
+    cursor: not-allowed;
+  }
+  
+  .change-password-container button:hover:not(:disabled) {
+    background-color: var(--button-hover-bg);
+  }
+  
+  /* -- Mensajes de Error y Éxito (Opcional) -- */
+  .alert {
+    padding: 10px 15px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    font-size: 0.95rem;
+  }
+  
+  .alert.error {
+    background-color: var(--error-color);
+    color: #fff;
+  }
+  
+  .alert.success {
+    background-color: var(--success-color);
+    color: #fff;
+  }
+  
+  /* -- RESPONSIVIDAD -- */
+  @media (max-width: 480px) {
+    .change-password-container {
+      margin: 20px;
+      padding: 20px 15px;
+    }
+  
+    .change-password-container h2 {
+      font-size: 1.5rem;
+    }
+  
+    .form-group input {
+      padding: 8px 10px;
+    }
+  
+    .change-password-container button {
+      padding: 10px 0;
+    }
+  }

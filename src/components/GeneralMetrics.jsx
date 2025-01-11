@@ -104,6 +104,7 @@ const GeneralMetrics = () => {
   };
   const barOptions = {
     responsive: true,
+    maintainAspectRatio: false, 
     plugins: {
       legend: {
         position: "top",
@@ -142,6 +143,7 @@ const GeneralMetrics = () => {
  
   const pieOptions = {
     responsive: true,
+    maintainAspectRatio: false, 
     plugins: {
       legend: {
         position: "bottom",
@@ -166,21 +168,25 @@ const GeneralMetrics = () => {
   };
  
   const finalizationBarData = {
-    labels: ["Mayor Finalización", "Menor Finalización"],
+    labels: [
+      `Mayor Finalización: ${finalizationData?.curso_mayor_finalizacion?.titulo || "Sin título"}`,
+      `Menor Finalización: ${finalizationData?.curso_menor_finalizacion?.titulo || "Sin título"}`
+    ],
     datasets: [
       {
         label: "Tasa de Finalización (%)",
         data: [
           finalizationData?.curso_mayor_finalizacion?.tasa_finalizacion || 0,
-          finalizationData?.curso_menor_finalizacion?.tasa_finalizacion || 0,
+          finalizationData?.curso_menor_finalizacion?.tasa_finalizacion || 0
         ],
-        backgroundColor: ["#42A5F5", "#FFA726"],
-      },
-    ],
+        backgroundColor: ["#42A5F5", "#FFA726"]
+      }
+    ]
   };
  
   const finalizationBarOptions = {
     responsive: true,
+    maintainAspectRatio: false, 
     plugins: {
       legend: {
         position: "top",

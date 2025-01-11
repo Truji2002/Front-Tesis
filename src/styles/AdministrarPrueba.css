@@ -73,6 +73,8 @@
   border: 1px solid #ccc;
   border-radius: var(--border-radius);
   box-sizing: border-box;
+  border: 1px solid var(--primary-color);
+  border-radius: var(--border-radius);
 }
 
 /* Mensajes de Error */
@@ -100,7 +102,7 @@
 
 /* Botones */
 .btn {
-  padding: 4px 8px; /* Tamaño más pequeño */
+  padding: 14px 80px; /* Tamaño más pequeño */
   font-size: var(--font-size-small); /* Tamaño de fuente más pequeño */
   border: none;
   border-radius: var(--border-radius);
@@ -126,6 +128,7 @@
 
 .btn-secondary {
   background-color: var(--secondary-color);
+  
 }
 
 .btn-secondary:hover {
@@ -135,6 +138,12 @@
 
 .btn-danger {
   background-color: var(--danger-color);
+  padding: 6px 2px;
+  
+}
+
+.btn-primary-actualizar{
+  padding: 14px 4px;
 }
 
 .btn-danger:hover {
@@ -144,6 +153,7 @@
 
 .btn-success {
   background-color: var(--success-color);
+  padding: 14px 4px;
 }
 
 .btn-success:hover {
@@ -153,6 +163,7 @@
 
 .btn-warning {
   background-color: var(--warning-color);
+  padding: 14px 4px;
 }
 
 .btn-warning:hover {
@@ -187,6 +198,8 @@
   border-radius: var(--border-radius);
   background-color: #ffffff;
   text-align: left; /* Alinear el texto a la izquierda */
+  border: 1px solid var(--primary-color);
+    border-radius: var(--border-radius);
 }
 
 /* Previsualizaciones */
@@ -212,6 +225,7 @@
   font-size: var(--font-size-medium);
   color: #555;
 }
+
 
 /* Responsividad */
 @media (max-width: 768px) {

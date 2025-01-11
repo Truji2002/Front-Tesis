@@ -9,7 +9,7 @@ const StudentLayout = ({  onLogout }) => {
       <Header onLogout={onLogout} />
       <main className="main-content no-sidebar"> {/* Asegúrate de usar no-sidebar */}
       <Outlet />
-        <footer className="footer">© 2024 - Global QHSE</footer>
+        <footer className="footer">© 2025 - Global QHSE</footer>
       </main>
       
     </div>

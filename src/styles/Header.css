@@ -40,7 +40,7 @@
   }
   
   .logout-button {
-    padding: 14px 20px; /* Tamaño ajustado */
+    padding: 11px 18px; /* Tamaño ajustado */
     white-space: nowrap;
     background-color: var(--logout-bg-color); /* Fondo del botón */
     color: white; /* Texto blanco */
