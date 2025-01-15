@@ -257,7 +257,7 @@ function InstructorMetrics() {
 
       {/* SECCIÓN DE CURSOS (MAYOR/MENOR FINALIZACIÓN) */}
       <div className="finalization-section">
-        <h2>Tasa de finalización (Instructor)</h2>
+        <h2>Tasa de finalización (INSTRUCTOR)</h2>
         {cursos_instructor.curso_mayor_finalizacion ? (
           <div className="finalization-card">
             <p>
@@ -273,7 +273,7 @@ function InstructorMetrics() {
           <p>No hay datos de finalización para este instructor</p>
         )}
 
-        <h2>Tasa de finalización (Eempresa)</h2>
+        <h2>Tasa de finalización (EMPRESA)</h2>
         {cursos_empresa.curso_mayor_finalizacion ? (
           <div className="finalization-card">
             <p>
