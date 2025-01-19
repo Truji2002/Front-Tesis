@@ -10,24 +10,53 @@ const CursoForm = ({ isEdit, curso, onSubmit }) => {
   const [formData, setFormData] = useState({
     titulo: '',
     descripcion: '',
-    imagen: null, // Aquí se guardará el archivo seleccionado
-    simulacion: false, // Nuevo campo
+    imagen: null,
+    simulacion: false,
   });
 
   const [imagePreview, setImagePreview] = useState(null); // Vista previa de la nueva imagen
   const [currentImage, setCurrentImage] = useState(null); // Imagen actual del curso
+  const [cursoActivo, setCursoActivo] = useState(false); // Estado para determinar si el curso está activo
 
   useEffect(() => {
     if (isEdit && curso) {
       setFormData({
         titulo: curso.titulo || '',
         descripcion: curso.descripcion || '',
-        imagen: null, // Nueva imagen no cargada aún
-        simulacion: curso.simulacion || false, // Cargar el valor del campo simulación
+        imagen: null,
+        simulacion: curso.simulacion || false,
       });
-      setCurrentImage(curso.imagen); // Cargar la imagen actual desde la API
+      setCurrentImage(curso.imagen);
+
+      // Verificar si el curso está activo
+      checkContratoActivo(curso.id);
     }
   }, [isEdit, curso]);
+
+  const checkContratoActivo = async (cursoId) => {
+    try {
+      const token = localStorage.getItem('accessToken');
+      const response = await fetch(
+        `http://127.0.0.1:8000/api/progreso/verificar-contrato-activo/?curso_id=${cursoId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('Error al verificar el contrato activo.');
+      }
+
+      const data = await response.json();
+      setCursoActivo(data.activo); // Actualiza el estado según el campo "activo"
+    } catch (error) {
+      console.error('Error al verificar contrato activo:', error);
+      setCursoActivo(false); // Por defecto, asume que no está activo si hay un error
+    }
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -52,6 +81,11 @@ const CursoForm = ({ isEdit, curso, onSubmit }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (cursoActivo) {
+      showAlert('Advertencia', 'No puedes modificar este curso porque está activo.', 'warning');
+      return;
+    }
 
     if (!formData.titulo || !formData.descripcion) {
       showAlert('Error', 'Por favor, complete todos los campos obligatorios.', 'error');
@@ -115,6 +149,13 @@ const CursoForm = ({ isEdit, curso, onSubmit }) => {
 
   return (
     <form className="curso-form" onSubmit={handleSubmit} id="curso-form">
+      {/* Mostrar mensaje de advertencia si el curso está activo */}
+      {cursoActivo && (
+        <div className="alert alert-warning">
+          No puedes modificar este curso porque está activo.
+        </div>
+      )}
+
       <h2>{isEdit ? 'Editar Curso' : 'Crear Curso'}</h2>
 
       <div className="form-group">
@@ -124,6 +165,7 @@ const CursoForm = ({ isEdit, curso, onSubmit }) => {
           name="titulo"
           value={formData.titulo}
           onChange={handleInputChange}
+          disabled={cursoActivo} // Deshabilitar si el curso está activo
           required
         />
       </div>
@@ -137,43 +179,50 @@ const CursoForm = ({ isEdit, curso, onSubmit }) => {
           onChange={handleInputChange}
           rows="4"
           className="textarea"
+          disabled={cursoActivo} // Deshabilitar si el curso está activo
           required
         />
       </div>
 
       <div className="form-group">
-  <Label htmlFor="imagen">Imagen</Label>
-  <Input
-    id="imagen"
-    name="imagen"
-    type="file"
-    accept="image/*"
-    onChange={handleFileChange}
-  />
-  <div className="image-preview">
-    {imagePreview ? (
-      <img src={imagePreview} alt="Vista previa de la imagen seleccionada" />
-    ) : currentImage ? (
-      <img src={currentImage} alt="Imagen actual del curso" />
-    ) : (
-      <p>No se ha cargado ninguna imagen</p>
-    )}
-  </div>
-</div>
+        <Label htmlFor="imagen">Imagen</Label>
+        <Input
+          id="imagen"
+          name="imagen"
+          type="file"
+          accept="image/*"
+          onChange={handleFileChange}
+          disabled={cursoActivo} // Deshabilitar si el curso está activo
+        />
+        <div className="image-preview">
+          {imagePreview ? (
+            <img src={imagePreview} alt="Vista previa de la imagen seleccionada" />
+          ) : currentImage ? (
+            <img src={currentImage} alt="Imagen actual del curso" />
+          ) : (
+            <p>No se ha cargado ninguna imagen</p>
+          )}
+        </div>
+      </div>
 
-<div className="form-group simulacion-group">
-  <Label htmlFor="simulacion">¿Incluye simulación?</Label>
-  <Input
-    id="simulacion"
-    name="simulacion"
-    type="checkbox"
-    checked={formData.simulacion}
-    onChange={handleCheckboxChange}
-  />
-</div>
+      <div className="form-group simulacion-group">
+        <Label htmlFor="simulacion">¿Incluye simulación?</Label>
+        <Input
+          id="simulacion"
+          name="simulacion"
+          type="checkbox"
+          checked={formData.simulacion}
+          onChange={handleCheckboxChange}
+          disabled={cursoActivo} // Deshabilitar si el curso está activo
+        />
+      </div>
 
       <div className="crear-curso-button-container">
-        <Button type="submit" className="crear-curso-button">
+        <Button
+          type="submit"
+          className="crear-curso-button"
+          disabled={cursoActivo} // Deshabilitar el botón si el curso está activo
+        >
           {isEdit ? 'Modificar Curso' : 'Crear Curso'}
         </Button>
       </div>

@@ -204,6 +204,7 @@
   height: auto;
 }
 
+
 /* Responsividad */
 @media (max-width: 768px) {
   .subcurso-form {

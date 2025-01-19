@@ -14,7 +14,7 @@ const ContractsManagement = () => {
   const [courses, setCourses] = useState([]);
   const [instructor, setInstructor] = useState(null);
   const [showForm, setShowForm] = useState(false);
-  const [loading, setLoading] = useState(false); // Nuevo estado para manejar el bloqueo
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     cursos: [],
     fechaInicioCapacitacion: "",
@@ -28,7 +28,6 @@ const ContractsManagement = () => {
     Authorization: `Bearer ${token}`,
   });
 
-  // Fetch instructor details
   const fetchInstructor = async (id) => {
     try {
       const response = await fetch(`${API_BASE_URL}/api/instructores/${id}/`, {
@@ -43,7 +42,6 @@ const ContractsManagement = () => {
     }
   };
 
-  // Fetch contracts by instructor
   const fetchContracts = async (id) => {
     try {
       const response = await fetch(
@@ -59,7 +57,6 @@ const ContractsManagement = () => {
     }
   };
 
-  // Fetch courses
   const fetchCourses = async () => {
     try {
       const response = await fetch(`${API_BASE_URL}/api/cursos/`, {
@@ -71,6 +68,24 @@ const ContractsManagement = () => {
     } catch (error) {
       console.error("Error fetching courses:", error);
       Swal.fire("Error", "No se pudieron cargar los cursos.", "error");
+    }
+  };
+
+  const checkCourseHasTest = async (cursoId) => {
+    try {
+      const response = await fetch(
+        `${API_BASE_URL}/api/pruebas/verificar-prueba/?curso_id=${cursoId}`,
+        {
+          headers: getHeaders(),
+        }
+      );
+      if (!response.ok) throw new Error("Error al verificar si el curso tiene prueba.");
+      const data = await response.json();
+      return data.tiene_prueba;
+    } catch (error) {
+      console.error("Error checking course test:", error);
+      Swal.fire("Error", "No se pudo verificar si el curso tiene prueba.", "error");
+      return false;
     }
   };
 
@@ -94,7 +109,6 @@ const ContractsManagement = () => {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
-    // Confirmación con SweetAlert
     const confirm = await Swal.fire({
       title: "Confirmación",
       text: "¿Estás seguro de que deseas crear este contrato?",
@@ -115,7 +129,6 @@ const ContractsManagement = () => {
       fechaFinCapacitacion: formData.fechaFinCapacitacion,
     }));
 
-    // Bloquear la pantalla mientras se espera la respuesta de la API
     setLoading(true);
 
     try {
@@ -133,7 +146,7 @@ const ContractsManagement = () => {
     } catch (error) {
       Swal.fire("Error", "No se pudieron crear los contratos.", "error");
     } finally {
-      setLoading(false); // Desbloquear la pantalla
+      setLoading(false);
     }
   };
 
@@ -150,10 +163,27 @@ const ContractsManagement = () => {
 
       if (!response.ok) throw new Error("Error al desactivar el contrato.");
       Swal.fire("Éxito", "Contrato desactivado con éxito.", "success");
-      fetchContracts(id); // Recargar los contratos después de la desactivación
+      fetchContracts(id);
     } catch (error) {
       Swal.fire("Error", "No se pudo desactivar el contrato.", "error");
     }
+  };
+
+  const handleCourseSelection = async (selectedOptions) => {
+    const cursosSeleccionados = [...formData.cursos];
+    for (const option of selectedOptions) {
+      const tienePrueba = await checkCourseHasTest(option.value);
+      if (!tienePrueba) {
+        Swal.fire("Advertencia", `El curso "${option.label}" no tiene prueba asociada.`, "warning");
+      } else {
+        cursosSeleccionados.push(option.value);
+      }
+    }
+
+    setFormData({
+      ...formData,
+      cursos: cursosSeleccionados,
+    });
   };
 
   const courseOptions = courses.map((course) => ({
@@ -226,7 +256,7 @@ const ContractsManagement = () => {
               ))
             ) : (
               <tr>
-                <td colSpan="3">No hay contratos disponibles.</td>
+                <td colSpan="6">No hay contratos disponibles.</td>
               </tr>
             )}
           </tbody>
@@ -240,12 +270,7 @@ const ContractsManagement = () => {
               isMulti
               options={courseOptions}
               value={courseOptions.filter((opt) => formData.cursos.includes(opt.value))}
-              onChange={(selectedOptions) =>
-                setFormData({
-                  ...formData,
-                  cursos: selectedOptions.map((option) => option.value),
-                })
-              }
+              onChange={handleCourseSelection}
               placeholder="Selecciona cursos..."
               className="react-select-container"
               classNamePrefix="react-select"

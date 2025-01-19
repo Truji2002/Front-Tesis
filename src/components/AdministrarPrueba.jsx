@@ -13,7 +13,33 @@ const AdministrarPrueba = () => {
   const [prueba, setPrueba] = useState(null);
   const [preguntas, setPreguntas] = useState([]);
   const [duracion, setDuracion] = useState('');
+  const [cursoActivo, setCursoActivo] = useState(false); // Estado para determinar si el curso está activo
   const [error, setError] = useState(null);
+
+  // Verificar si el curso relacionado con la prueba está activo
+  const checkContratoActivo = async (cursoId) => {
+    try {
+      const response = await fetch(
+        `http://127.0.0.1:8000/api/progreso/verificar-contrato-activo/?curso_id=${cursoId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('Error al verificar el contrato activo.');
+      }
+
+      const data = await response.json();
+      setCursoActivo(data.activo); // Actualiza el estado según el campo "activo"
+    } catch (error) {
+      console.error('Error al verificar contrato activo:', error);
+      setCursoActivo(false); // Por defecto, asume que no está activo si hay un error
+    }
+  };
 
   useEffect(() => {
     if (!pruebaId) {
@@ -34,6 +60,11 @@ const AdministrarPrueba = () => {
         setPrueba(data);
         setDuracion(data.duracion);
         setPreguntas(data.preguntas);
+
+        // Verificar si el curso relacionado con la prueba está activo
+        if (data.curso) {
+          checkContratoActivo(data.curso);
+        }
       } catch (error) {
         showAlert('Error', 'No se pudo cargar la prueba.', 'error');
       }
@@ -45,6 +76,11 @@ const AdministrarPrueba = () => {
   const handleActualizarPrueba = async (e) => {
     e.preventDefault();
     setError(null);
+
+    if (cursoActivo) {
+      showAlert('Advertencia', 'No puedes modificar esta prueba porque el curso está activo.', 'warning');
+      return;
+    }
 
     const confirm = await Swal.fire({
       title: 'Confirmación',
@@ -87,6 +123,11 @@ const AdministrarPrueba = () => {
   };
 
   const handleEliminarPrueba = async () => {
+    if (cursoActivo) {
+      showAlert('Advertencia', 'No puedes eliminar esta prueba porque el curso está activo.', 'warning');
+      return;
+    }
+
     const confirm = await Swal.fire({
       title: 'Confirmación',
       text: '¿Está seguro de que desea eliminar esta prueba? Esta acción no se puede deshacer.',
@@ -121,6 +162,11 @@ const AdministrarPrueba = () => {
   };
 
   const handleEliminarPregunta = async (preguntaId) => {
+    if (cursoActivo) {
+      showAlert('Advertencia', 'No puedes eliminar preguntas porque el curso está activo.', 'warning');
+      return;
+    }
+
     const confirm = await Swal.fire({
       title: 'Confirmación',
       text: '¿Está seguro de que desea eliminar esta pregunta?',
@@ -155,10 +201,18 @@ const AdministrarPrueba = () => {
   };
 
   const handleAgregarPregunta = () => {
+    if (cursoActivo) {
+      showAlert('Advertencia', 'No puedes agregar preguntas porque el curso está activo.', 'warning');
+      return;
+    }
     navigate(`/preguntas/crear?pruebaId=${pruebaId}`);
   };
 
   const handleEditarPregunta = (preguntaId) => {
+    if (cursoActivo) {
+      showAlert('Advertencia', 'No puedes editar preguntas porque el curso está activo.', 'warning');
+      return;
+    }
     navigate(`/preguntas/edit/${preguntaId}`);
   };
 
@@ -171,6 +225,11 @@ const AdministrarPrueba = () => {
   return (
     <div className="administrar-prueba-container">
       <h2>Administrar Prueba</h2>
+      {cursoActivo && (
+        <div className="alert alert-warning">
+          Este curso está activo. No puedes modificar ni eliminar la prueba ni las preguntas asociadas.
+        </div>
+      )}
       <form onSubmit={handleActualizarPrueba} className="formulario-prueba">
         <div className="form-group">
           <label htmlFor="duracion">Duración (minutos):</label>
@@ -181,17 +240,23 @@ const AdministrarPrueba = () => {
             onChange={(e) => setDuracion(e.target.value)}
             required
             className="duracion-input"
+            disabled={cursoActivo} // Deshabilitar si el curso está activo
           />
         </div>
         {error && <div className="error-message">{error}</div>}
         <div className="botones-actualizar-eliminar">
-          <Button type="submit" className="btn btn-primary-actualizar btn-small">
+          <Button
+            type="submit"
+            className="btn btn-primary-actualizar btn-small"
+            disabled={cursoActivo} // Deshabilitar si el curso está activo
+          >
             Actualizar Prueba
           </Button>
           <Button
             type="button"
             onClick={handleEliminarPrueba}
             className="btn btn-danger btn-small"
+            disabled={cursoActivo} // Deshabilitar si el curso está activo
           >
             Eliminar Prueba
           </Button>
@@ -200,7 +265,11 @@ const AdministrarPrueba = () => {
 
       <h3>Preguntas</h3>
       <div className="boton-agregar-pregunta">
-        <Button onClick={handleAgregarPregunta} className="btn btn-success btn-small">
+        <Button
+          onClick={handleAgregarPregunta}
+          className="btn btn-success btn-small"
+          disabled={cursoActivo} // Deshabilitar si el curso está activo
+        >
           Agregar Pregunta
         </Button>
       </div>
@@ -231,12 +300,14 @@ const AdministrarPrueba = () => {
                 <Button
                   onClick={() => handleEditarPregunta(pregunta.id)}
                   className="btn btn-warning btn-small"
+                  disabled={cursoActivo} // Deshabilitar si el curso está activo
                 >
                   Editar
                 </Button>
                 <Button
                   onClick={() => handleEliminarPregunta(pregunta.id)}
                   className="btn btn-danger btn-small"
+                  disabled={cursoActivo} // Deshabilitar si el curso está activo
                 >
                   Eliminar
                 </Button>
