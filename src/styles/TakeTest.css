@@ -1,125 +1,184 @@
-/* TakeTest.css */
-
 .take-test-container {
-    max-width: 900px;
-    margin: 50px auto;
-    background-color: #ffffff;
-    padding: 40px;
-    border-radius: 12px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-  }
-  
-  .take-test-header {
-    text-align: center;
-    margin-bottom: 35px;
-  }
-  
-  .take-test-header h2 {
-    font-size: 2.5rem;
-    color: #1f2937;
-    margin-bottom: 15px;
-  }
-  
-  .take-test-header h3 {
-    font-size: 1.5rem;
-    color: #4b5563;
-    margin-bottom: 10px;
-  }
-  
-  .take-test-header p {
-    font-size: 1.1rem;
-    color: #6b7280;
-  }
-  
-  .timer-indicator {
-    text-align: center;
-    font-size: 1.2rem;
-    color: #dc2626; /* Rojo para alertas */
-    margin-bottom: 20px;
-    font-weight: bold;
-  }
-  
-  .progress-indicator {
-    margin-bottom: 30px;
-    font-weight: 600;
-    color: #374151;
-  }
-  
-  .progress-bar {
-    width: 100%;
-    height: 15px;
-    background-color: #e5e7eb;
-    border-radius: 7.5px;
-    overflow: hidden;
-    margin-top: 10px;
-  }
-  
-  .progress-bar-filled {
-    height: 100%;
-    background-color: #10b981; /* Verde */
-    transition: width 0.4s ease;
-  }
-  
-  .questions-form {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-  }
-  
-  .question-card {
-    background-color: #f3f4f6;
-    padding: 25px;
-    border-radius: 10px;
-    border: 1px solid #d1d5db;
-    transition: box-shadow 0.3s ease;
-  }
-  
-  .question-card:hover {
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
-  }
-  
-  .question-number {
-    font-size: 0.95rem;
-    color: #6b7280;
-    margin-bottom: 8px;
-  }
-  
-  .question-title {
-    font-size: 1.2rem;
-    color: #111827;
-    margin-bottom: 18px;
-  }
-  
-  .options-container {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  .option-label {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    cursor: pointer;
-    font-size: 1rem;
-    color: #374151;
-    transition: background-color 0.2s ease, border-radius 0.2s ease;
-  }
-  
-  .option-label:hover {
-    background-color: #e5e7eb;
-    border-radius: 5px;
-    padding: 5px;
-  }
-  
-  .option-label input[type='radio'] {
-    transform: scale(1.3);
-    cursor: pointer;
-  }
-  
-  .option-text {
-    margin-left: 6px;
-  }
+  max-width: 900px;
+  margin: 50px auto;
+  background-color: #f9fafb; /* Color de fondo más claro */
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.question-card p {
+  margin: 0; /* Elimina completamente el margen */
+  padding: 0; /* Asegúrate de que tampoco haya padding */
+  font-size: 1rem; /* Ajusta el tamaño si es necesario */
+  color: #1f2937; /* Color más oscuro para mejor contraste */
+  line-height: 1.6; /* Espaciado de línea para mayor legibilidad */
+  margin-bottom: 12px;
+}
+.take-test-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.take-test-header h2 {
+  font-size: 2.8rem;
+  font-weight: bold;
+  color: #1e293b; /* Color más oscuro para resaltar */
+  margin-bottom: 20px;
+}
+
+.take-test-header h3 {
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: #475569;
+  margin-bottom: 10px;
+}
+
+.take-test-header p {
+  font-size: 1.1rem;
+  color: #64748b;
+}
+
+.timer-indicator {
+  text-align: center;
+  font-size: 1.3rem;
+  color: #ef4444; /* Rojo más intenso para urgencia */
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.progress-indicator {
+  margin-bottom: 30px;
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: #1e293b;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 20px;
+  background-color: #e5e7eb;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+.progress-bar-filled {
+  height: 100%;
+  background-color: #22c55e; /* Verde más moderno */
+  transition: width 0.4s ease;
+}
+
+.questions-form {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.question-card {
+  background-color: #ffffff;
+  padding: 25px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.question-card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  transform: translateY(-4px);
+}
+
+.question-number {
+  font-size: 1rem;
+  color: #64748b;
+  margin-bottom: 8px;
+}
+
+.question-title {
+  font-size: 1.4rem;
+  color: #0f172a;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+.options-container {
+  display: flex;
+  flex-direction: column; /* Alineación en columna */
+  gap: 8px; /* Espaciado vertical entre opciones */
+  max-width: 400px; /* Ajusta el ancho máximo según necesites */
+  margin: 0 auto; /* Centra horizontalmente el contenedor */
+  font-family: 'Inter', sans-serif; /* Fuente limpia y moderna */
+}
+
+/* Etiqueta para cada opción */
+.option-label {
+  display: flex;
+  align-items: center;          /* Alinea verticalmente el ícono y el texto */
+  justify-content: center;      /* Centra el contenido horizontalmente */
+  position: relative;           /* Para poder posicionar el icono de check */
+  cursor: pointer;
+  background-color: #f9fafb;    /* Fondo claro */
+  color: #374151;               /* Color de texto */
+  font-size: 0.95rem;           /* Tamaño de texto */
+  font-weight: 500;
+  padding: 0px 0px;            /* Espaciado interno más amplio */
+  border: 1.5px solid #e5e7eb;  /* Borde */
+  border-radius: 6px;           /* Bordes redondeados */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); /* Sombra ligera */
+  transition: all 0.2s ease;    /* Transición suave */
+}
+
+/* Oculta el botón radio nativo */
+.option-label input[type='radio'] {
+  display: none;
+}
+
+/* Estilo al pasar el mouse sobre la opción */
+.option-label:hover {
+  background-color: #f3f4f6;    /* Color ligeramente más oscuro */
+  border-color: #d1d5db;        /* Borde más marcado */
+}
+
+/* Estilos para la opción seleccionada */
+.option-label input[type='radio']:checked + span {
+  background-color: #2563eb;          /* Fondo azul */
+  color: #ffffff;                     /* Texto blanco */
+  border-color: #2563eb;             /* Borde azul */
+  box-shadow: 0 2px 4px rgba(37, 99, 235, 0.3); /* Sombra suave */
+}
+
+/* Icono de check al estar seleccionada la opción */
+.option-label input[type='radio']:checked + span:before {
+  content: "✓";      /* Símbolo de check */
+  position: absolute;
+  left: 10px;        /* Ajusta la posición del ícono */
+  color: #ffffff;    /* Color del check */
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+/* Span que contiene el texto de la opción */
+.option-label span {
+  display: inline-block;
+  width: 100%;        /* Para que el texto ocupe todo el espacio del contenedor */
+  text-align: center; /* Centra el texto dentro del span */
+  font-weight: 400;   /* Peso de fuente más ligero */
+  padding: 4px 0;     /* Ajusta el espaciado interno vertical */
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+
+.submit-container {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.take-test-loading {
+  text-align: center;
+  margin-top: 150px;
+  font-size: 1.8rem;
+  color: #6b7280;
+}
   
   .submit-container {
     text-align: center;
@@ -139,7 +198,7 @@
     transition: background-color 0.3s ease, transform 0.2s ease;
   }
   
- 
+
   
   .btn-primary:active {
     transform: translateY(0);
@@ -156,4 +215,15 @@
     font-size: 1.8rem;
     color: #6b7280;
   }
+  .submit-btn {
+    width: 30%;
+    
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: center; /* Centrar horizontalmente */
+    align-items: center; /* Centrar verticalmente (si es necesario) */
+  }
+
   

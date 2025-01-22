@@ -19,7 +19,6 @@ const StudentCourses = () => {
         throw new Error('Información de autenticación faltante.');
       }
 
-      // Fetch progress data
       const progressResponse = await fetch(
         `${API_BASE_URL}/api/progreso/?estudiante_id=${studentId}`,
         {
@@ -43,7 +42,6 @@ const StudentCourses = () => {
         return;
       }
 
-      // Fetch course details for each course ID
       const coursePromises = courseIds.map((id) =>
         fetch(`${API_BASE_URL}/api/cursos/${id}/`, {
           headers: {
@@ -61,17 +59,17 @@ const StudentCourses = () => {
 
       const assignedCourses = await Promise.all(coursePromises);
 
-      // Combine progress data with course details
       const combinedCourses = assignedCourses.map((course) => {
         const progress = progressData.find((item) => item.curso === course.id);
         const processedCourse = {
           ...course,
           progreso: progress ? progress.porcentajeCompletado : 0,
           completado: progress ? progress.completado : false,
-          prueba_id: course.prueba_id, // Directly from course API
-          has_prueba: course.has_prueba, // Directly from course API
+          contenidoCompletado: progress ? progress.contenidoCompletado : null,
+          prueba_id: course.prueba_id,
+          has_prueba: course.has_prueba,
+          simulacion: course.simulacion, // Añadir simulación al curso
         };
-        console.log('Processed Course:', processedCourse); // Debugging log
         return processedCourse;
       });
 
@@ -152,26 +150,27 @@ const StudentCourses = () => {
         ) : courses.length > 0 ? (
           <ul className="courses-list">
             {courses.map((course) => {
-              const progressBarColor = course.completado ? '#28a745' : '#FFC107'; // verde o amarillo
+              const progressBarColor = course.completado ? '#28a745' : '#FFC107';
               return (
                 <li className="course-row" key={course.id}>
                   <div className="course-info">
                     <h3 className="course-title">{course.titulo}</h3>
+                    {course.simulacion && (
+                      <span className="simulation-label">Tiene Simulación</span>
+                    )}
                     <p className="course-description">{course.descripcion}</p>
                     <div className="progress-bar-container">
                       <div
-                        className="progress-bar"
-                        style={{
-                          width: `${course.progreso}%`,
-                          backgroundColor: progressBarColor,
-                        }}
+                        className="progress-bar-s"
+                        style={{ width: `${course.progreso}%` }}
+                        data-progress={course.progreso > 0 ? Math.min(course.progreso, 100) : "0"}
                       >
                         <span className="progress-text">{course.progreso}%</span>
                       </div>
                     </div>
                     <div className="course-buttons">
                       <button
-                        className="btn-primary"
+                        className="btn-primary-sc"
                         onClick={() => navigate(`/student/course/${course.id}`)}
                       >
                         <FaBook className="button-icon" />
@@ -179,16 +178,16 @@ const StudentCourses = () => {
                       </button>
                       {course.completado && (
                         <button
-                          className="btn-secondary"
+                          className="btn-green"
                           onClick={() => handleViewCertificate(course.id)}
                         >
                           <FaCertificate className="button-icon" />
                           Certificado
                         </button>
                       )}
-                      {course.has_prueba && !course.completado && (
+                      {course.has_prueba && course.contenidoCompletado && !course.completado && (
                         <button
-                          className="btn-secondary"
+                          className="btn-orange"
                           onClick={() => navigate(`/student/test/${course.prueba_id}`)}
                         >
                           <FaCheckCircle className="button-icon" />

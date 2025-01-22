@@ -10,18 +10,22 @@
 /************************************
  * Encabezado superior: título + barra global
  ************************************/
+
 .course-topbar {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
+  flex-direction: column; /* Cambia a columna */
+  align-items: flex-start; /* Alinea al inicio */
+  margin-bottom: 25px;
+  gap: 15px; /* Espacio entre elementos */
 }
 
-/* Info del curso (lado izquierdo) */
-.course-topbar > div:first-child {
-  flex: 1;
+/* Info del curso (se mantiene igual) */
+.course-info {
+  width: 100%; /* Toma todo el ancho */
 }
-
+p{
+  text-align: justify;
+}
 /************************************
  * Barra de progreso global
  ************************************/
@@ -29,15 +33,19 @@
   display: flex;
   align-items: center;
   gap: 10px;
+
+  padding-bottom: 15px;
 }
 
 .global-progress-bar {
   position: relative;
-  width: 200px;
-  height: 20px;
+  width: 1115px;
+  height: 24px;
   background-color: #e0e0e0;
   border-radius: 10px;
   overflow: hidden;
+
+  
 }
 
 .global-progress-fill {
@@ -56,11 +64,12 @@
 /************************************
  * Contenedor para sidebar y contenido
  ************************************/
-.course-content-container {
-  display: flex;
-  gap: 20px;
-}
 
+.course-content-container {
+  display: flex; /* Usamos flexbox para alinear los elementos horizontalmente */
+  align-items: stretch; /* Asegura que los hijos tengan la misma altura */
+  gap: 20px; /* Espaciado entre la barra lateral y el panel de detalles */
+}
 /************************************
  * Sidebar Izquierda
  ************************************/
@@ -70,7 +79,7 @@
   border: 1px solid #ddd;
   border-radius: 8px;
   padding: 10px;
-  height: calc(100vh - 150px); /* Ejemplo para que ocupe casi toda la pantalla */
+  
   overflow-y: auto;
 }
 
@@ -140,11 +149,15 @@
   border: 1px solid #ddd;
   border-radius: 8px;
   padding: 20px;
-  min-height: 600px; /* Ajusta según prefieras */
+  overflow-y: auto;
 }
 
 .module-detail h3 {
   margin-top: 0;
+}
+
+.module-detail {
+  text-align: center; /* Centrar el contenido dentro del contenedor */
 }
 
 .module-media-container {
@@ -192,7 +205,7 @@ h4 {
 
 /* Botón Siguiente */
 .next-button {
-  background-color: #28a745;
+  background: #28a745;
   color: #fff;
   border: none;
   padding: 10px 20px;
@@ -201,6 +214,7 @@ h4 {
   cursor: pointer;
   transition: background-color 0.3s;
   display: inline-block;
+  width:  17%;
 }
 
 .next-button:hover {

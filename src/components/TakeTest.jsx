@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { showAlert } from './alerts'; // Asegúrate de tener esta función implementada
 import Button from './ui/button/Button';
 import '../styles/TakeTest.css';
+import Swal from 'sweetalert2'; // Asegúrate de importar SweetAlert2
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
 
@@ -26,20 +27,38 @@ const TakeTest = () => {
     try {
       const token = localStorage.getItem('accessToken');
       if (!token) throw new Error('Token de autenticación no encontrado.');
-
+  
       const response = await fetch(`${API_BASE_URL}/api/pruebas/${pruebaId}/`, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
       });
-
+  
       if (!response.ok) throw new Error(`Error al obtener la prueba: ${response.statusText}`);
-
+  
       const data = await response.json();
       setPrueba(data);
       setQuestions(data.preguntas || []);
       setTimeLeft(data.duracion ? data.duracion * 60 : null); // Duración en segundos
+      
+      // Solicita los detalles del curso para obtener el título
+      if (data.curso) {
+        const courseResponse = await fetch(`${API_BASE_URL}/api/cursos/${data.curso}/`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+  
+        if (!courseResponse.ok) throw new Error('Error al obtener el título del curso.');
+  
+        const courseData = await courseResponse.json();
+        setPrueba((prev) => ({
+          ...prev,
+          curso_titulo: courseData.titulo,
+        }));
+      }
     } catch (error) {
       console.error('Error fetching prueba:', error);
       showAlert('Error', error.message, 'error');
@@ -47,6 +66,7 @@ const TakeTest = () => {
       setLoading(false);
     }
   };
+  
 
   // Timer logic
   useEffect(() => {
@@ -75,12 +95,26 @@ const TakeTest = () => {
   
     // Validar que todas las preguntas hayan sido respondidas
     if (Object.keys(userAnswers).length < questions.length) {
-      showAlert('Advertencia', 'Por favor, responde todas las preguntas antes de enviar.', 'warning');
+      Swal.fire({
+        title: 'Advertencia',
+        text: 'Por favor, responde todas las preguntas antes de enviar.',
+        icon: 'warning',
+        confirmButtonText: 'Entendido',
+      });
       return;
     }
   
-    const confirmed = window.confirm('¿Estás seguro de que deseas enviar tus respuestas?');
-    if (!confirmed) return;
+    // Confirmar antes de enviar respuestas
+    const confirmed = await Swal.fire({
+      title: 'Confirmación',
+      text: '¿Estás seguro de que deseas enviar tus respuestas?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, enviar',
+      cancelButtonText: 'Cancelar',
+    });
+  
+    if (!confirmed.isConfirmed) return;
   
     setSubmitting(true);
   
@@ -109,7 +143,12 @@ const TakeTest = () => {
     const studentId = parseInt(localStorage.getItem('id'), 10);
   
     if (!token || isNaN(studentId)) {
-      showAlert('Error', 'Problemas de autenticación. Por favor, inicia sesión nuevamente.', 'error');
+      Swal.fire({
+        title: 'Error',
+        text: 'Problemas de autenticación. Por favor, inicia sesión nuevamente.',
+        icon: 'error',
+        confirmButtonText: 'Ok',
+      });
       setSubmitting(false);
       navigate('/login');
       return;
@@ -138,16 +177,26 @@ const TakeTest = () => {
   
       const result = JSON.parse(text);
   
-      showAlert(
-        'Resultados de la Prueba',
-        `Calificación: ${scaledScore.toFixed(2)} / 10\n¿Aprobado? ${isApproved ? 'Sí' : 'No'}\nIntentos usados: ${result.intento || 'No disponible'}`,
-        'success'
-      );
+      Swal.fire({
+        title: 'Resultados de la Prueba',
+        html: `
+          <strong>Calificación:</strong> ${scaledScore.toFixed(2)} / 10<br>
+          <strong>¿Aprobado?:</strong> ${isApproved ? 'Sí' : 'No'}<br>
+          
+        `,
+        icon: isApproved ? 'success' : 'error', // Icono dinámico según el resultado
+        confirmButtonText: 'Finalizar',
+      });
   
       navigate('/student/courses');
     } catch (error) {
       console.error('Error al terminar la prueba:', error);
-      showAlert('Error', error.message, 'error');
+      Swal.fire({
+        title: 'Error',
+        text: error.message,
+        icon: 'error',
+        confirmButtonText: 'Ok',
+      });
     } finally {
       setSubmitting(false);
     }
@@ -159,7 +208,7 @@ const TakeTest = () => {
 
   return (
     <div className="take-test-container">
-      <h2>Tomar Prueba</h2>
+      <h2>Prueba</h2>
       {prueba && <h3>{prueba.curso_titulo || `Prueba ID: ${prueba.id}`}</h3>}
       {timeLeft !== null && (
         <p>
@@ -173,23 +222,27 @@ const TakeTest = () => {
             <p>
               Pregunta {idx + 1}: {q.pregunta}
             </p>
-            {Object.entries(q.opcionesRespuestas || {}).map(([key, value]) => (
-              <label key={key}>
-                <input
-                  type="radio"
-                  name={`question-${q.id}`}
-                  value={value}
-                  checked={userAnswers[q.id] === value}
-                  onChange={() => handleOptionChange(q.id, value)}
-                />
-                {value}
-              </label>
-            ))}
+            <div className="options-container">
+              {Object.entries(q.opcionesRespuestas || {}).map(([key, value]) => (
+                <label key={key} className="option-label">
+                  <input
+                    type="radio"
+                    name={`question-${q.id}`}
+                    value={value}
+                    checked={userAnswers[q.id] === value}
+                    onChange={() => handleOptionChange(q.id, value)}
+                  />
+                  <span>{value}</span>
+                </label>
+              ))}
+            </div>
           </div>
         ))}
-        <Button type="submit" disabled={submitting}>
-          {submitting ? 'Enviando...' : 'Enviar Respuestas'}
-        </Button>
+        <div className="button-container">
+          <Button className="submit-btn" type="submit" disabled={submitting}>
+            {submitting ? 'Enviando...' : 'Enviar Respuestas'}
+          </Button>
+        </div>
       </form>
     </div>
   );

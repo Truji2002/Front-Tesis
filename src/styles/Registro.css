@@ -71,14 +71,24 @@ button {
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
+.button-group {
+  display: flex;
+  flex-direction: column; /* Colocar los botones verticalmente */
+  align-items: center; /* Centrar los botones horizontalmente */
+  gap: 10px; /* Espaciado entre los botones */
+  width: 100%;
+}
+
 .submit-button {
   background: #4e54c8;
   color: white;
+  width: 60%; /* Botón más ancho pero no ocupa todo el espacio */
 }
 
 .return-button {
   background: #333;
   color: white;
+  width: 60%;
 }
 
 button:hover {

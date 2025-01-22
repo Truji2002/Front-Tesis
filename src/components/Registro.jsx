@@ -207,16 +207,18 @@ const Registro = () => {
             />
           </div>
 
-          <Button type="submit" className="submit-button" disabled={loading}>
-            {loading ? 'Registrando...' : 'Registrarse'}
-          </Button>
-          <Button
-            type="button"
-            className="return-button"
-            onClick={() => navigate('/login')}
-          >
-            Volver al Login
-          </Button>
+          <div className="button-group">
+            <Button type="submit" className="submit-button" disabled={loading}>
+              {loading ? 'Registrando...' : 'Registrarse'}
+            </Button>
+            <Button
+              type="button"
+              className="return-button"
+              onClick={() => navigate('/login')}
+            >
+              Volver al Login
+            </Button>
+          </div>
         </form>
       </div>
     </div>

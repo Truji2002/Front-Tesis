@@ -13,32 +13,27 @@ const Subcourses = () => {
   const [subcourses, setSubcourses] = useState([]);
   const [course, setCourse] = useState(null);
   const [modules, setModules] = useState({});
+  const [completedModules, setCompletedModules] = useState({});
   const [selectedSubcourse, setSelectedSubcourse] = useState(null);
   const [selectedModule, setSelectedModule] = useState(null);
-  const [completedModules, setCompletedModules] = useState({});
-  const [globalProgress, setGlobalProgress] = useState(0); // Progreso global de capacitación
+  const [globalProgress, setGlobalProgress] = useState(0);
   const [loading, setLoading] = useState(true);
 
   const studentId = localStorage.getItem('id');
   const token = localStorage.getItem('accessToken');
 
-  // Calcular progreso global basado en módulos completados
-  const calculateGlobalProgress = async () => {
-    try {
-      let totalModules = 0;
-      let completedModulesCount = 0;
+  const calculateGlobalProgress = () => {
+    let totalModules = 0;
+    let completedModulesCount = 0;
 
-      for (const subcourse of subcourses) {
-        const subcourseModules = modules[subcourse.id] || [];
-        totalModules += subcourseModules.length;
-        completedModulesCount += (completedModules[subcourse.id] || []).filter(Boolean).length;
-      }
-
-      const progress = totalModules > 0 ? (completedModulesCount / totalModules) * 100 : 0;
-      setGlobalProgress(progress);
-    } catch (error) {
-      console.error('Error calculating global progress:', error);
+    for (const subcourse of subcourses) {
+      const subcourseModules = modules[subcourse.id] || [];
+      totalModules += subcourseModules.length;
+      completedModulesCount += (completedModules[subcourse.id] || []).filter(Boolean).length;
     }
+
+    const progress = totalModules > 0 ? (completedModulesCount / totalModules) * 100 : 0;
+    setGlobalProgress(progress);
   };
 
   const fetchSubcourses = async () => {
@@ -52,6 +47,9 @@ const Subcourses = () => {
       if (!response.ok) throw new Error('Error al obtener los subcursos.');
       const data = await response.json();
       setSubcourses(data);
+
+      const fetchAllModules = data.map((subcourse) => fetchModules(subcourse.id));
+      await Promise.all(fetchAllModules);
     } catch (error) {
       console.error('Error fetching subcourses:', error);
     }
@@ -84,6 +82,26 @@ const Subcourses = () => {
       if (!response.ok) throw new Error('Error al obtener los módulos.');
       const data = await response.json();
 
+      const moduleCompletionPromises = data.map(async (module) => {
+        const completionResponse = await fetch(
+          `${API_BASE_URL}/api/estudianteModulo/check-completion/?estudiante_id=${studentId}&modulo_id=${module.id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        if (!completionResponse.ok) {
+          console.error(`Error checking completion for module ${module.id}`);
+          return false;
+        }
+        const completionData = await completionResponse.json();
+        return completionData.completado || false;
+      });
+
+      const completionStatuses = await Promise.all(moduleCompletionPromises);
+
       setModules((prev) => ({
         ...prev,
         [subcourseId]: data,
@@ -91,11 +109,15 @@ const Subcourses = () => {
 
       setCompletedModules((prev) => ({
         ...prev,
-        [subcourseId]: data.map((module) => module.completado || false),
+        [subcourseId]: completionStatuses,
       }));
 
-      setSelectedSubcourse(subcourseId);
-      setSelectedModule(data[0] || null);
+      // Auto-select the first incomplete module when loading the subcourse
+      if (!selectedSubcourse) {
+        const firstIncompleteIndex = completionStatuses.findIndex((status) => !status);
+        setSelectedSubcourse(subcourseId);
+        setSelectedModule(firstIncompleteIndex === -1 ? data[0] : data[firstIncompleteIndex]);
+      }
     } catch (error) {
       console.error('Error fetching modules:', error);
     }
@@ -116,7 +138,6 @@ const Subcourses = () => {
         }),
       });
 
-      // Actualizar estado local
       setCompletedModules((prev) => ({
         ...prev,
         [subcourseId]: prev[subcourseId].map((completed, idx) =>
@@ -124,23 +145,18 @@ const Subcourses = () => {
         ),
       }));
 
-      // Recalcular progreso global
       calculateGlobalProgress();
 
-      if (isLastModule) {
-        const currentIndex = subcourses.findIndex((sc) => sc.id === subcourseId);
-        const nextIndex = currentIndex + 1;
-        if (nextIndex < subcourses.length) {
-          const nextSub = subcourses[nextIndex];
-          if (!modules[nextSub.id]) {
-            await fetchModules(nextSub.id);
-          }
-          setSelectedSubcourse(nextSub.id);
-          setSelectedModule(modules[nextSub.id]?.[0] || null);
-        } else {
-          Swal.fire('¡Excelente!', 'Has completado todos los subcursos.', 'success');
-          navigate('/student/courses');
-        }
+      const isLastSubcourse = subcourses.findIndex((sc) => sc.id === subcourseId) === subcourses.length - 1;
+
+      if (isLastModule && isLastSubcourse) {
+        Swal.fire('¡Excelente!', 'Has completado todo el curso.', 'success');
+        navigate('/student/courses');
+      } else if (isLastModule) {
+        const nextSub = subcourses[subcourses.findIndex((sc) => sc.id === subcourseId) + 1];
+        await fetchModules(nextSub.id);
+        setSelectedSubcourse(nextSub.id);
+        setSelectedModule(modules[nextSub.id]?.[0] || null);
       } else {
         const nextModule = modules[subcourseId][index + 1];
         setSelectedModule(nextModule);
@@ -174,7 +190,7 @@ const Subcourses = () => {
           <p>{course?.descripcion}</p>
         </div>
         <div className="global-progress-container">
-          <span>Progreso global de la capacitación</span>
+          <span>Progreso del contenido del curso:</span>
           <div className="global-progress-bar">
             <div
               className="global-progress-fill"
@@ -187,16 +203,23 @@ const Subcourses = () => {
 
       <div className="course-content-container">
         <div className="course-sidebar">
-          {subcourses.map((subcourse) => {
+          {subcourses.map((subcourse, subIndex) => {
             const isSelectedSubcourse = selectedSubcourse === subcourse.id;
+            const isPreviousSubcourseComplete =
+              subIndex === 0 || (completedModules[subcourses[subIndex - 1]?.id] || []).every(Boolean);
+
             return (
-              <div key={subcourse.id} className="sidebar-subcourse">
+              <div
+                key={subcourse.id}
+                className={`sidebar-subcourse ${isPreviousSubcourseComplete ? '' : 'disabled'}`}
+              >
                 <div
                   className={`sidebar-subcourse-header ${isSelectedSubcourse ? 'active' : ''}`}
                   onClick={() => {
-                    if (!modules[subcourse.id]) {
+                    if (isPreviousSubcourseComplete && !modules[subcourse.id]) {
                       fetchModules(subcourse.id);
-                    } else {
+                    }
+                    if (isPreviousSubcourseComplete) {
                       setSelectedSubcourse(
                         isSelectedSubcourse ? null : subcourse.id
                       );
@@ -212,13 +235,18 @@ const Subcourses = () => {
                     {modules[subcourse.id].map((module, idx) => {
                       const isActiveModule = selectedModule?.id === module.id;
                       const isCompleted = completedModules[subcourse.id]?.[idx] || false;
+                      const isDisabled = idx > 0 && !completedModules[subcourse.id][idx - 1];
                       return (
                         <li
                           key={module.id}
-                          className={`sidebar-module-item ${isActiveModule ? 'selected' : ''}`}
+                          className={`sidebar-module-item ${isActiveModule ? 'selected' : ''} ${
+                            isDisabled ? 'disabled' : ''
+                          }`}
                           onClick={(e) => {
-                            e.stopPropagation();
-                            setSelectedModule(module);
+                            if (!isDisabled) {
+                              e.stopPropagation();
+                              setSelectedModule(module);
+                            }
                           }}
                         >
                           <span>{module.nombre}</span>
@@ -282,17 +310,27 @@ const Subcourses = () => {
               <button
                 className="next-button"
                 onClick={() => {
-                  const subcourseModules = modules[selectedSubcourse];
-                  const currentIndex = subcourseModules.findIndex((m) => m.id === selectedModule.id);
+                  const subcourseModules = modules[selectedSubcourse] || [];
+                  const currentIndex = subcourseModules.findIndex((m) => m.id === selectedModule?.id);
+
+                  if (currentIndex === -1) {
+                    console.error('No se encontró el índice del módulo actual.');
+                    return;
+                  }
+
                   const isLast = currentIndex === subcourseModules.length - 1;
+
                   handleNext(selectedSubcourse, selectedModule, currentIndex, isLast);
                 }}
               >
                 {(() => {
-                  const subcourseModules = modules[selectedSubcourse];
-                  const currentIndex = subcourseModules.findIndex((m) => m.id === selectedModule.id);
+                  const subcourseModules = modules[selectedSubcourse] || [];
+                  const currentIndex = subcourseModules.findIndex((m) => m.id === selectedModule?.id);
                   const isLast = currentIndex === subcourseModules.length - 1;
-                  return isLast ? 'Finalizar Subcurso' : 'Siguiente';
+                  const subcourseIndex = subcourses.findIndex((sc) => sc.id === selectedSubcourse);
+                  const isLastSubcourse = subcourseIndex === subcourses.length - 1;
+
+                  return isLast && isLastSubcourse ? 'Listo' : 'Siguiente';
                 })()}
               </button>
             </div>

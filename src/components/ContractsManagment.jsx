@@ -270,7 +270,12 @@ const ContractsManagement = () => {
               isMulti
               options={courseOptions}
               value={courseOptions.filter((opt) => formData.cursos.includes(opt.value))}
-              onChange={handleCourseSelection}
+              onChange={(selectedOptions) =>
+                setFormData({
+                  ...formData,
+                  cursos: selectedOptions.map((option) => option.value),
+                })
+              }
               placeholder="Selecciona cursos..."
               className="react-select-container"
               classNamePrefix="react-select"

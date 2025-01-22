@@ -4,7 +4,7 @@
  .hero-section {
   position: relative;
   width: 100%;
-  height: 450px;
+  height: 250px;
   overflow: hidden;
 }
 
@@ -94,26 +94,69 @@
 /************************************
  *      BARRA DE PROGRESO
  ************************************/
-.progress-bar-container {
-  background-color: #e0e0e0;
-  border-radius: 5px;
+ .progress-bar-container {
+  position: relative; /* Necesario para posicionar el texto */
+  background-color: #f1f1f1;
+  border-radius: 10px; /* Bordes redondeados */
   overflow: hidden;
-  height: 20px;
+  height: 25px; /* Altura más destacada */
   margin-bottom: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
 }
 
-.progress-bar {
+.progress-bar-s {
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
-  font-size: 0.8rem;
+  color: transparent; /* Elimina el texto dentro de la barra */
+  font-size: 0.9rem;
+  font-weight: bold;
   transition: width 0.3s ease;
+  border-radius: 10px; /* Bordes internos redondeados */
+  background-color: #007bff; /* Color de la barra */
+  
 }
 
+.progress-bar-s[data-progress="0"] {
+  color: #333; /* Cambia el color del texto si está vacío */
+}
+
+/* Texto del progreso centrado */
 .progress-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Centrado vertical y horizontal */
+  font-size: 0.9rem;
   font-weight: bold;
+  color: #000; /* Color del texto */
+  pointer-events: none; /* Evita que interfiera con clics */
+}
+
+/* Colores según progreso */
+.progress-bar-s[data-progress="0"] {
+  background-color: #e0e0e0; /* Color inicial para progreso 0 */
+}
+
+.progress-bar-s[data-progress="25"] {
+  background-color: #ffce3b;
+}
+
+.progress-bar-s[data-progress="50"] {
+  background-color: #ffba44;
+}
+
+.progress-bar-s[data-progress="75"] {
+  background-color: #6ceb8b;
+}
+
+.progress-bar-s[data-progress="80"] {
+  background-color: #6ceb8b;
+}
+
+.progress-bar-s[data-progress="100"] {
+  background-color: #28a745; /* Verde para completo */
 }
 
 /************************************
@@ -128,7 +171,7 @@
 }
 
 /* Botones con tamaño definido, un poco más grandes */
-.btn-primary,
+.btn-primary-sc,
 .btn-secondary {
   width: 80px;         /* Aumentado un poco */
   height: 35px;        /* Aumentado un poco */
@@ -145,10 +188,10 @@
   transition: background-color 0.3s ease;
 }
 
-.btn-primary {
+.btn-primary-sc {
   background-color: #007bff;
 }
-.btn-primary:hover {
+.btn-primary-sc:hover {
   background-color: #0056b3;
 }
 
@@ -217,4 +260,76 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.simulation-label {
+  display: inline-block;
+  background-color: #17a2b8;
+  color: #fff;
+  padding: 2px 8px;
+  font-size: 0.8rem;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  max-width: 10%;
+}
+
+.btn-primary-sc,
+.btn-green,
+.btn-orange {
+  width: 130px;
+  height: 40px;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary-sc {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-primary-sc:hover {
+  background-color: #0056b3;
+}
+
+.btn-green {
+  background: #28a745;
+  color: white;
+}
+
+.btn-green:hover {
+  background-color: #218838;
+}
+
+.btn-orange {
+  background: #18935e;
+  color: white;
+}
+
+.btn-orange:hover {
+  background-color: #146f46;
+}
+
+.progress-bar-container {
+  background-color: #e0e0e0;
+  border-radius: 5px;
+  overflow: hidden;
+  height: 20px;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.progress-bar {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 0.8rem;
+  transition: width 0.3s ease;
 }
