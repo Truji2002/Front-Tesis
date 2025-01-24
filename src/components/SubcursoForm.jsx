@@ -141,7 +141,7 @@ const SubcursoForm = ({ isEdit, subcurso, onSubmit, initialModulos = [] }) => {
             <img
               src={archivo_url}
               alt="Vista previa de la imagen"
-              style={{ width: '100%', maxHeight: '600px', objectFit: 'contain' }}
+              style={{ width: '100%', height: '600px', objectFit: 'contain' }}
             />
           </div>
         );
@@ -166,7 +166,7 @@ const SubcursoForm = ({ isEdit, subcurso, onSubmit, initialModulos = [] }) => {
             <img
               src={archivo_url}
               alt="Vista previa de la imagen"
-              style={{ width: '100%', maxHeight: '600px', objectFit: 'contain' }}
+              style={{ width: '100%', height: '400px', objectFit: 'contain' }}
             />
           </div>
         );
@@ -351,28 +351,32 @@ const SubcursoForm = ({ isEdit, subcurso, onSubmit, initialModulos = [] }) => {
         ))}
 
         <div className="add-modulo-button">
-          <Button
-            type="button"
-            onClick={handleAddModulo}
-            className="btn btn-primary btn-small"
-            disabled={deshabilitado}
-          >
-            + Agregar Módulo
-          </Button>
+        <Button
+          type="button"
+          onClick={handleAddModulo}
+          className=" btn-add-modulo"
+          disabled={deshabilitado}
+        >
+          + Agregar Módulo
+        </Button>
         </div>
       </div>
 
       <div className="button-group">
-        <Button type="submit" className="btn btn-primary btn-small" disabled={deshabilitado}>
-          {isEdit ? 'Guardar Cambios' : 'Crear Subcurso'}
-        </Button>
-        <Button
-          type="button"
-          onClick={() => navigate(-1)}
-          className="btn btn-primary btn-small"
-        >
-          Regresar
-        </Button>
+            <Button
+        type="submit"
+        className=" btn-guardar-cambios"
+        disabled={deshabilitado}
+      >
+        {isEdit ? 'Guardar Cambios' : 'Crear Subcurso'}
+      </Button>
+      <Button
+        type="button"
+        onClick={() => navigate(-1)}
+        className=" btn-regresar"
+      >
+        Regresar
+      </Button>
       </div>
     </form>
   );

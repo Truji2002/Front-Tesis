@@ -235,3 +235,76 @@
   margin-top: var(--spacing-large);
 }
 
+.btn-add-modulo {
+  background: #007bff; /* Azul claro */
+  color: white;
+  font-size: 16px;
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: none;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  width: 25%;
+}
+
+.btn-add-modulo:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+  box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn-add-modulo:disabled {
+  background-color: #d6d6d6;
+  color: #a8a8a8;
+  box-shadow: none;
+}
+
+/* Botón Guardar Cambios */
+.btn-guardar-cambios {
+  background: #28a745; /* Verde */
+  color: white;
+  font-size: 16px;
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: none;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  width: 25%;
+}
+
+.btn-guardar-cambios:hover {
+  background-color: #218838;
+  transform: translateY(-2px);
+  box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn-guardar-cambios:disabled {
+  background-color: #d6d6d6;
+  color: #a8a8a8;
+  box-shadow: none;
+}
+
+/* Botón Regresar */
+.btn-regresar {
+  background: var(--secondary-button-bg);
+  color: white;
+  font-size: 16px;
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: none;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  width: 25%;
+}
+
+.btn-regresar:hover {
+  background-color: var(--secondary-button-bg);
+  transform: translateY(-2px);
+  box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn-regresar:disabled {
+  background-color: #d6d6d6;
+  color: #a8a8a8;
+  box-shadow: none;
+}

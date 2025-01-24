@@ -18,22 +18,25 @@ const Subcourses = () => {
   const [selectedModule, setSelectedModule] = useState(null);
   const [globalProgress, setGlobalProgress] = useState(0);
   const [loading, setLoading] = useState(true);
-
+  
   const studentId = localStorage.getItem('id');
   const token = localStorage.getItem('accessToken');
 
-  const calculateGlobalProgress = () => {
-    let totalModules = 0;
-    let completedModulesCount = 0;
-
-    for (const subcourse of subcourses) {
-      const subcourseModules = modules[subcourse.id] || [];
+  const calculateGlobalProgress = (allModules = modules, allCompletedModules = completedModules) => {
+    let totalModules = 0; 
+    let completedModulesCount = 0; 
+  
+    Object.keys(allModules).forEach((subcourseId) => {
+      const subcourseModules = allModules[subcourseId] || [];
       totalModules += subcourseModules.length;
-      completedModulesCount += (completedModules[subcourse.id] || []).filter(Boolean).length;
-    }
-
+  
+      if (allCompletedModules[subcourseId]) {
+        completedModulesCount += allCompletedModules[subcourseId].filter(Boolean).length;
+      }
+    });
+  
     const progress = totalModules > 0 ? (completedModulesCount / totalModules) * 100 : 0;
-    setGlobalProgress(progress);
+    setGlobalProgress(parseFloat(progress.toFixed(2)));
   };
 
   const fetchSubcourses = async () => {
@@ -47,9 +50,60 @@ const Subcourses = () => {
       if (!response.ok) throw new Error('Error al obtener los subcursos.');
       const data = await response.json();
       setSubcourses(data);
+  
+      const allModules = {};
+      const allCompletedModules = {};
+      let firstIncompleteSubcourse = null;
+      let firstIncompleteModule = null;
+  
+      for (const subcourse of data) {
+        const subcourseModules = await fetchModules(subcourse.id);
+        allModules[subcourse.id] = subcourseModules;
+  
+       
+        const moduleCompletionPromises = subcourseModules.map(async (module) => {
+          const completionResponse = await fetch(
+            `${API_BASE_URL}/api/estudianteModulo/check-completion/?estudiante_id=${studentId}&modulo_id=${module.id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json',
+              },
+            }
+          );
+          if (!completionResponse.ok) {
+            console.error(`Error checking completion for module ${module.id}`);
+            return false;
+          }
+          const completionData = await completionResponse.json();
+          return completionData.completado || false;
+        });
+  
+        const completionStatuses = await Promise.all(moduleCompletionPromises);
+        allCompletedModules[subcourse.id] = completionStatuses;
+  
+        
+        if (!firstIncompleteSubcourse) {
+          const firstIncompleteIndex = completionStatuses.findIndex((status) => !status);
+          if (firstIncompleteIndex !== -1) {
+            firstIncompleteSubcourse = subcourse.id;
+            firstIncompleteModule = subcourseModules[firstIncompleteIndex];
+          }
+        }
+      }
+  
 
-      const fetchAllModules = data.map((subcourse) => fetchModules(subcourse.id));
-      await Promise.all(fetchAllModules);
+      setModules(allModules);
+      setCompletedModules(allCompletedModules);
+  
+
+      if (firstIncompleteSubcourse && firstIncompleteModule) {
+        setSelectedSubcourse(firstIncompleteSubcourse);
+        setSelectedModule(firstIncompleteModule);
+      }
+  
+      
+      calculateGlobalProgress(allModules, allCompletedModules);
     } catch (error) {
       console.error('Error fetching subcourses:', error);
     }
@@ -81,7 +135,7 @@ const Subcourses = () => {
       });
       if (!response.ok) throw new Error('Error al obtener los módulos.');
       const data = await response.json();
-
+  
       const moduleCompletionPromises = data.map(async (module) => {
         const completionResponse = await fetch(
           `${API_BASE_URL}/api/estudianteModulo/check-completion/?estudiante_id=${studentId}&modulo_id=${module.id}`,
@@ -99,29 +153,26 @@ const Subcourses = () => {
         const completionData = await completionResponse.json();
         return completionData.completado || false;
       });
-
+  
       const completionStatuses = await Promise.all(moduleCompletionPromises);
-
+  
       setModules((prev) => ({
         ...prev,
         [subcourseId]: data,
       }));
-
+  
       setCompletedModules((prev) => ({
         ...prev,
         [subcourseId]: completionStatuses,
       }));
-
-      // Auto-select the first incomplete module when loading the subcourse
-      if (!selectedSubcourse) {
-        const firstIncompleteIndex = completionStatuses.findIndex((status) => !status);
-        setSelectedSubcourse(subcourseId);
-        setSelectedModule(firstIncompleteIndex === -1 ? data[0] : data[firstIncompleteIndex]);
-      }
+  
+      return data; 
     } catch (error) {
       console.error('Error fetching modules:', error);
+      return [];
     }
   };
+  
 
   const handleNext = async (subcourseId, module, index, isLastModule) => {
     try {
@@ -170,7 +221,7 @@ const Subcourses = () => {
   useEffect(() => {
     (async () => {
       setLoading(true);
-      await fetchSubcourses();
+      await fetchSubcourses(); 
       await fetchCourseDetails();
       setLoading(false);
     })();
@@ -178,7 +229,7 @@ const Subcourses = () => {
 
   useEffect(() => {
     calculateGlobalProgress();
-  }, [modules, completedModules]);
+  }, [modules, completedModules,subcourses]);
 
   if (loading) return <p>Cargando subcursos...</p>;
 
@@ -197,16 +248,20 @@ const Subcourses = () => {
               style={{ width: `${globalProgress}%` }}
             />
           </div>
-          <span className="global-progress-percent">{globalProgress.toFixed(2)}%</span>
+          <span className="global-progress-percent">
+            {Number.isFinite(globalProgress) ? globalProgress.toFixed(2) : '0.00'}%
+          </span>
         </div>
       </div>
 
       <div className="course-content-container">
         <div className="course-sidebar">
-          {subcourses.map((subcourse, subIndex) => {
+        {subcourses.map((subcourse, subIndex) => {
             const isSelectedSubcourse = selectedSubcourse === subcourse.id;
             const isPreviousSubcourseComplete =
-              subIndex === 0 || (completedModules[subcourses[subIndex - 1]?.id] || []).every(Boolean);
+  subIndex === 0 ||
+  (subIndex > 0 && completedModules[subcourses[subIndex - 1]?.id]?.length > 0 &&
+    completedModules[subcourses[subIndex - 1]?.id].every(Boolean));
 
             return (
               <div
@@ -216,13 +271,9 @@ const Subcourses = () => {
                 <div
                   className={`sidebar-subcourse-header ${isSelectedSubcourse ? 'active' : ''}`}
                   onClick={() => {
-                    if (isPreviousSubcourseComplete && !modules[subcourse.id]) {
+                    if (isPreviousSubcourseComplete && (!modules[subcourse.id] || modules[subcourse.id].length > 0)) {
                       fetchModules(subcourse.id);
-                    }
-                    if (isPreviousSubcourseComplete) {
-                      setSelectedSubcourse(
-                        isSelectedSubcourse ? null : subcourse.id
-                      );
+                      setSelectedSubcourse(isSelectedSubcourse ? null : subcourse.id);
                     }
                   }}
                 >
@@ -235,15 +286,19 @@ const Subcourses = () => {
                     {modules[subcourse.id].map((module, idx) => {
                       const isActiveModule = selectedModule?.id === module.id;
                       const isCompleted = completedModules[subcourse.id]?.[idx] || false;
-                      const isDisabled = idx > 0 && !completedModules[subcourse.id][idx - 1];
+                      const isDisabled =
+  idx > 0
+    ? !completedModules[subcourse.id]?.[idx - 1]
+    : !isPreviousSubcourseComplete;
+
                       return (
                         <li
                           key={module.id}
                           className={`sidebar-module-item ${isActiveModule ? 'selected' : ''} ${
-                            isDisabled ? 'disabled' : ''
+                            isDisabled || !isPreviousSubcourseComplete ? 'disabled' : ''
                           }`}
                           onClick={(e) => {
-                            if (!isDisabled) {
+                            if (!isDisabled && isPreviousSubcourseComplete) {
                               e.stopPropagation();
                               setSelectedModule(module);
                             }

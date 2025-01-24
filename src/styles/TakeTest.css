@@ -105,7 +105,7 @@
   display: flex;
   flex-direction: column; /* Alineación en columna */
   gap: 8px; /* Espaciado vertical entre opciones */
-  max-width: 400px; /* Ajusta el ancho máximo según necesites */
+  max-width: 600px; /* Ajusta el ancho máximo según necesites */
   margin: 0 auto; /* Centra horizontalmente el contenedor */
   font-family: 'Inter', sans-serif; /* Fuente limpia y moderna */
 }
@@ -151,7 +151,7 @@
 .option-label input[type='radio']:checked + span:before {
   content: "✓";      /* Símbolo de check */
   position: absolute;
-  left: 10px;        /* Ajusta la posición del ícono */
+  left: 5px;        /* Ajusta la posición del ícono */
   color: #ffffff;    /* Color del check */
   font-size: 1rem;
   font-weight: bold;

@@ -67,7 +67,7 @@
   border: none;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
-
+  
   /* Nuevos estilos añadidos */
   width: 200px; /* Ancho definido */
   display: block; /* Permite centrar el botón con margin auto */
@@ -136,6 +136,7 @@
   padding: var(--button-padding-vertical) var(--button-padding-horizontal); /* Tamaño ajustado */
   font-size: var(--button-font-size); /* Tamaño reducido */
   border-radius: var(--button-border-radius);
+  font-weight: bold;
   color: white;
   border: none;
   cursor: pointer;

@@ -12,22 +12,20 @@ import {
   Legend,
 } from "chart.js";
  
-// Registrar los componentes necesarios para Chart.js
+
 ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Tooltip, Legend);
  
 const GeneralMetrics = () => {
-  const [metrics, setMetrics] = useState(null); // Estado para almacenar las métricas
-  const [finalizationData, setFinalizationData] = useState(null); // Estado para tasa de finalización
-  const [empresas, setEmpresas] = useState([]); // Lista de empresas
-  const [cursos, setCursos] = useState([]); // Lista de cursos
-  const [filters, setFilters] = useState({ empresa: "", curso: "" }); // Filtros seleccionados
-  const [loading, setLoading] = useState(true); // Estado para manejar el estado de carga
-  const [error, setError] = useState(null); // Estado para manejar errores
+  const [metrics, setMetrics] = useState(null); 
+  const [finalizationData, setFinalizationData] = useState(null); 
+  const [empresas, setEmpresas] = useState([]); 
+  const [cursos, setCursos] = useState([]); 
+  const [filters, setFilters] = useState({ empresa: "", curso: "" }); 
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null); 
  
-  // Obtener el token desde localStorage
   const token = localStorage.getItem("accessToken");
  
-  // Cargar empresas y cursos
   useEffect(() => {
     const fetchOptions = async () => {
       try {

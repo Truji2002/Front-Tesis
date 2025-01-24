@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Swal from "sweetalert2";
-import Button from "./ui/button/Button";
+import Button from "./ui/button/button";
 import Input from "./ui/input/input";
 import Label from "./ui/label/label";
 import Select from "react-select";
@@ -170,16 +170,22 @@ const ContractsManagement = () => {
   };
 
   const handleCourseSelection = async (selectedOptions) => {
-    const cursosSeleccionados = [...formData.cursos];
+    const cursosSeleccionados = [];
+  
     for (const option of selectedOptions) {
       const tienePrueba = await checkCourseHasTest(option.value);
       if (!tienePrueba) {
-        Swal.fire("Advertencia", `El curso "${option.label}" no tiene prueba asociada.`, "warning");
+        Swal.fire({
+          title: "Advertencia",
+          text: `El curso "${option.label}" no tiene una prueba asociada y no puede ser seleccionado.`,
+          icon: "warning",
+          confirmButtonText: "Aceptar",
+        });
       } else {
         cursosSeleccionados.push(option.value);
       }
     }
-
+  
     setFormData({
       ...formData,
       cursos: cursosSeleccionados,
@@ -270,12 +276,7 @@ const ContractsManagement = () => {
               isMulti
               options={courseOptions}
               value={courseOptions.filter((opt) => formData.cursos.includes(opt.value))}
-              onChange={(selectedOptions) =>
-                setFormData({
-                  ...formData,
-                  cursos: selectedOptions.map((option) => option.value),
-                })
-              }
+              onChange={handleCourseSelection}
               placeholder="Selecciona cursos..."
               className="react-select-container"
               classNamePrefix="react-select"

@@ -255,40 +255,40 @@ function InstructorMetrics() {
         </div>
       </div>
 
-      {/* SECCIÓN DE CURSOS (MAYOR/MENOR FINALIZACIÓN) */}
-      <div className="finalization-section">
-        <h2>Tasa de finalización (INSTRUCTOR)</h2>
-        {cursos_instructor.curso_mayor_finalizacion ? (
-          <div className="finalization-card">
-            <p>
-              <strong>Mayor:</strong> {cursos_instructor.curso_mayor_finalizacion.titulo} (
-              {cursos_instructor.curso_mayor_finalizacion.tasa_finalizacion}%)
-            </p>
-            <p>
-              <strong>Menor:</strong> {cursos_instructor.curso_menor_finalizacion.titulo} (
-              {cursos_instructor.curso_menor_finalizacion.tasa_finalizacion}%)
-            </p>
-          </div>
-        ) : (
-          <p>No hay datos de finalización para este instructor</p>
-        )}
+              {/* SECCIÓN DE CURSOS (MAYOR/MENOR FINALIZACIÓN) */}
+        <div className="finalization-section">
+          <h2>Tasa de finalización (INSTRUCTOR)</h2>
+          {cursos_instructor.curso_mayor_finalizacion ? (
+            <div className="finalization-card">
+              <p>
+                <strong>Mayor:</strong> {cursos_instructor.curso_mayor_finalizacion?.titulo || 'Sin título'} (
+                {cursos_instructor.curso_mayor_finalizacion?.tasa_finalizacion || 0}%)
+              </p>
+              <p>
+                <strong>Menor:</strong> {cursos_instructor.curso_menor_finalizacion?.titulo || 'Sin título'} (
+                {cursos_instructor.curso_menor_finalizacion?.tasa_finalizacion || 0}%)
+              </p>
+            </div>
+          ) : (
+            <p>No hay datos de finalización para este instructor</p>
+          )}
 
-        <h2>Tasa de finalización (EMPRESA)</h2>
-        {cursos_empresa.curso_mayor_finalizacion ? (
-          <div className="finalization-card">
-            <p>
-              <strong>Mayor:</strong> {cursos_empresa.curso_mayor_finalizacion.titulo} (
-              {cursos_empresa.curso_mayor_finalizacion.tasa_finalizacion}%)
-            </p>
-            <p>
-              <strong>Menor:</strong> {cursos_empresa.curso_menor_finalizacion.titulo} (
-              {cursos_empresa.curso_menor_finalizacion.tasa_finalizacion}%)
-            </p>
-          </div>
-        ) : (
-          <p>No hay datos de finalización para la empresa</p>
-        )}
-      </div>
+          <h2>Tasa de finalización (EMPRESA)</h2>
+          {cursos_empresa.curso_mayor_finalizacion ? (
+            <div className="finalization-card">
+              <p>
+                <strong>Mayor:</strong> {cursos_empresa.curso_mayor_finalizacion?.titulo || 'Sin título'} (
+                {cursos_empresa.curso_mayor_finalizacion?.tasa_finalizacion || 0}%)
+              </p>
+              <p>
+                <strong>Menor:</strong> {cursos_empresa.curso_menor_finalizacion?.titulo || 'Sin título'} (
+                {cursos_empresa.curso_menor_finalizacion?.tasa_finalizacion || 0}%)
+              </p>
+            </div>
+          ) : (
+            <p>No hay datos de finalización para la empresa</p>
+          )}
+        </div>
     </div>
   );
 }

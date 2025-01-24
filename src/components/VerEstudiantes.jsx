@@ -98,7 +98,9 @@ const VerEstudiantes = () => {
         throw new Error('Error al obtener las pruebas de estudiantes.');
       }
       const data = await response.json();
+      console.log(data)
       setPruebas(data);
+      
     } catch (error) {
       showAlert('Error', 'No se pudo cargar la información de las pruebas.', 'error');
       console.error(error);
@@ -216,10 +218,11 @@ const VerEstudiantes = () => {
           // Buscar si tiene pruebas aprobadas (ajusta si deseas filtrar por curso o no)
           const pruebaAprobada = pruebas.some(
             (pr) =>
-              pr.estudiante === est.id &&
-              pr.curso === contrato.curso_id && // si la prueba está asociada al curso
+              String(pr.estudiante) === String(est.id) && // Convierte ambos a string para comparar
+              String(pr.curso) === String(contrato.curso_id) && // Convierte ambos a string para comparar
               pr.estaAprobado
           );
+          
  
           // Lógica para extraer datos del progreso
           const fechaInicio = contrato.fechaInicioCapacitacion || 'N/A';

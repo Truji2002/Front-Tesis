@@ -91,7 +91,15 @@
    
 }
 
-.volver-button:hover {
+.volver-button-v {
+   
+    width: 200px;
+    color: white; /* Color del texto */
+    background: var(--secondary-button-bg); /* Fondo del botón */
+   
+}
+
+.volver-button-v:hover {
     background-color: var(--secondary-button-hover-bg); /* Fondo más oscuro al pasar el cursor */
     transform: translateY(-2px); /* Efecto de elevación */
 }
