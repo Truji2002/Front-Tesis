@@ -1,7 +1,7 @@
 // src/components/ui/button/Button.jsx
 import React from 'react';
 import PropTypes from 'prop-types';
-import './Button.css';
+import './button.css';
 
 const Button = ({ children, onClick, type = 'button', className = '', disabled = false }) => (
   <button
