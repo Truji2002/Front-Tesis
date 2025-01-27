@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { showAlert } from './alerts';
-import Button from './ui/button/Button';
+import Button from './ui/button/button';
 import '../styles/VerInstructores.css';
 import Swal from 'sweetalert2';
 

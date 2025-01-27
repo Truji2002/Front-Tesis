@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/VerEstudiantes.css';
-import Button from './ui/button/Button';
+import Button from './ui/button/button';
 import { showAlert } from './alerts';
  
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -98,7 +98,7 @@ const VerEstudiantes = () => {
         throw new Error('Error al obtener las pruebas de estudiantes.');
       }
       const data = await response.json();
-      console.log(data)
+      
       setPruebas(data);
       
     } catch (error) {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { showAlert } from './alerts'; // Asegúrate de tener esta función implementada
-import Button from './ui/button/Button';
+import Button from './ui/button/button';
 import '../styles/TakeTest.css';
 import Swal from 'sweetalert2'; // Asegúrate de importar SweetAlert2
 

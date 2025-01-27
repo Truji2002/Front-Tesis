@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { showAlert } from './alerts';
-import Button from './ui/button/Button';
+import Button from './ui/button/button';
 import '../styles/ListaCursos.css';
 
 const ListaCursos = () => {
@@ -23,7 +23,7 @@ const ListaCursos = () => {
       });
       if (!response.ok) throw new Error('Error al obtener los cursos.');
       const data = await response.json();
-      console.log('Cursos obtenidos:', data); // Log para depuración
+      
       setCursos(data);
       setLoading(false);
     } catch (error) {
@@ -79,7 +79,7 @@ const ListaCursos = () => {
       <div className="cursos-grid">
         {cursos.length > 0 ? (
           cursos.map((curso) => {
-            console.log(`Curso: ${curso.titulo}, has_prueba: ${curso.has_prueba}, prueba_id: ${curso.prueba_id}`); // Log para depuración
+            
             return (
               <div key={curso.id} className="curso-card">
                 {/* Imagen del curso */}

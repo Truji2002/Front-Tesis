@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Button from './ui/button/Button';
+import Button from './ui/button/button';
 import Input from './ui/input/input';
 import Label from './ui/label/label';
 import { showAlert } from './alerts';

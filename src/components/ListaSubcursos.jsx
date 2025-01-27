@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import Button from './ui/button/Button';
+import Button from './ui/button/button';
 import Swal from 'sweetalert2';
 import '../styles/ListaSubcursos.css';
 

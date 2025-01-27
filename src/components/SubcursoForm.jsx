@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Button from './ui/button/Button';
+import Button from './ui/button/button';
 import Input from './ui/input/input';
 import Label from './ui/label/label';
 import Swal from 'sweetalert2';

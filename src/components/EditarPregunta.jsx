@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import Button from './ui/button/Button';
+import Button from './ui/button/button';
 import Label from './ui/label/label';
 import { showAlert } from './alerts';
 import '../styles/EditarPregunta.css'; // Asegúrate de que este archivo exista

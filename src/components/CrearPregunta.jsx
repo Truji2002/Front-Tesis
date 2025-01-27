@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import Button from './ui/button/Button';
+import Button from './ui/button/button';
 import { showAlert } from './alerts';
 import '../styles/CrearPregunta.css';
 import Swal from 'sweetalert2';

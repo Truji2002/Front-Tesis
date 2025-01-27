@@ -9,7 +9,7 @@ const PreguntasPrueba = () => {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    console.log("pruebaId:", pruebaId); // Depuración
+    
     fetchPreguntas();
   }, [pruebaId]);
 

@@ -17,7 +17,7 @@ const AdministrarPreguntas = () => {
   const token = localStorage.getItem("accessToken");
 
   useEffect(() => {
-    console.log("pruebaId:", pruebaId); // Depuración
+    
     fetchPreguntas();
   }, [pruebaId]);
 
@@ -40,7 +40,7 @@ const AdministrarPreguntas = () => {
       }
 
       const data = await response.json();
-      console.log("Preguntas recibidas:", data); // Depuración
+      
       setPreguntas(data);
     } catch (err) {
       setError(err.message);
